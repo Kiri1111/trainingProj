@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import './App.css';
+import './App.module.css';
 import {TaskType, Todolist} from "./todolist";
+import s from "./App.module.css"
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 
@@ -28,7 +29,7 @@ export function App() {
     }
 
     return (
-        <div>
+        <div className={s.todolist}>
             <Todolist
                 titleTodo={'What to learn'}
                 tasks={tasksForTodolist}
