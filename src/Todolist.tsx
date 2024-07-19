@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValueType} from "./App";
 import {Button} from "./Button";
+import s from "./Todolist.module.css"
 
 export type TaskType = {
     id: string
@@ -16,11 +17,7 @@ type TodolistPropsType = {
     addTaskCallBack: (newTitle: string) => void
 }
 export const Todolist = (props: TodolistPropsType) => {
-
-    // const {} = props
-
     const [newTaskTitle, setNewTaskTitle] = useState('')
-
     const addTaskHandler = () => {
         props.addTaskCallBack(newTaskTitle)
         setNewTaskTitle('')
@@ -39,9 +36,9 @@ export const Todolist = (props: TodolistPropsType) => {
     const changeCompletedFilter = () => props.changeFilterStatusCallBack('completed')
 
     return (
-        <div>
+        <div className={s.todolist}>
             <h3>{props.titleTodo}</h3>
-            <div>
+            <div className={s.addTaskBlock}>
                 <input onKeyUp={onKeyUpHandler} value={newTaskTitle} onChange={setNewTaskTitleHandler}/>
                 <Button title={'+'} callBack={addTaskHandler}/>
             </div>
@@ -51,16 +48,21 @@ export const Todolist = (props: TodolistPropsType) => {
                         const deleteTaskHandler = () => {
                             props.deleteTaskCallBack(t.id)
                         }
-                        return <li key={t.id}>
-                            <input type={"checkbox"} checked={t.isDone}/>
-                            <span>{t.title}</span>
-                            <Button title={'X'} callBack={deleteTaskHandler}/>
+                        return <li style={{listStyleType: "none"}}
+                                   key={t.id}>
+                            <div className={s.title}>
+                                <input type={"checkbox"} checked={t.isDone}/>
+                                <span className={s.title}>{t.title}</span>
+                                <Button title={'X'} callBack={deleteTaskHandler}/>
+                            </div>
                         </li>
                     })}
                 </ul>
-                <Button title={'ALL'} callBack={changeAllFilter}/>
-                <Button title={'ACTIVE'} callBack={changeActiveFilter}/>
-                <Button title={'COMPLETED'} callBack={changeCompletedFilter}/>
+                <div className={s.filterButtons}>
+                    <Button title={'ALL'} callBack={changeAllFilter}/>
+                    <Button title={'ACTIVE'} callBack={changeActiveFilter}/>
+                    <Button title={'COMPLETED'} callBack={changeCompletedFilter}/>
+                </div>
             </div>
         </div>
     );
