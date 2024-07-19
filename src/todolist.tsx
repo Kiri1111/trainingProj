@@ -25,18 +25,15 @@ export const Todolist = (props: TodolistPropsType) => {
         props.addTaskCallBack(newTaskTitle)
         setNewTaskTitle('')
     }
-
     const setNewTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
     }
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.charCode === 13) {
+    const onKeyUpHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
             props.addTaskCallBack(newTaskTitle)
             setNewTaskTitle('')
         }
     }
-
     const changeAllFilter = () => props.changeFilterStatusCallBack('all')
     const changeActiveFilter = () => props.changeFilterStatusCallBack('active')
     const changeCompletedFilter = () => props.changeFilterStatusCallBack('completed')
@@ -45,7 +42,7 @@ export const Todolist = (props: TodolistPropsType) => {
         <div>
             <h3>{props.titleTodo}</h3>
             <div>
-                <input onKeyPress={onKeyPressHandler} value={newTaskTitle} onChange={setNewTaskTitleHandler}/>
+                <input onKeyUp={onKeyUpHandler} value={newTaskTitle} onChange={setNewTaskTitleHandler}/>
                 <Button title={'+'} callBack={addTaskHandler}/>
             </div>
             <div>
