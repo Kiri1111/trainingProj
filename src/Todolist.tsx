@@ -15,11 +15,14 @@ type TodolistPropsType = {
     deleteTaskCallBack: (id: string) => void
     changeFilterStatusCallBack: (value: FilterValueType) => void
     addTaskCallBack: (newTitle: string) => void
+    changeTaskStatus: (idTask: string, status: boolean) => void
 }
 export const Todolist = (props: TodolistPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const addTaskHandler = () => {
-        props.addTaskCallBack(newTaskTitle)
+        if (newTaskTitle.trim() !== '') {
+            props.addTaskCallBack(newTaskTitle.trim())
+        }
         setNewTaskTitle('')
     }
     const setNewTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +30,7 @@ export const Todolist = (props: TodolistPropsType) => {
     }
     const onKeyUpHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            props.addTaskCallBack(newTaskTitle)
+            props.addTaskCallBack(newTaskTitle.trim())
             setNewTaskTitle('')
         }
     }
@@ -45,13 +48,14 @@ export const Todolist = (props: TodolistPropsType) => {
             <div>
                 <ul>
                     {props.tasks.map((t) => {
-                        const deleteTaskHandler = () => {
-                            props.deleteTaskCallBack(t.id)
-                        }
+                        const deleteTaskHandler = () => props.deleteTaskCallBack(t.id)
+
+                        const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked)
+
                         return <li style={{listStyleType: "none"}}
                                    key={t.id}>
                             <div className={s.title}>
-                                <input type={"checkbox"} checked={t.isDone}/>
+                                <input type={"checkbox"} onChange={changeStatusHandler} checked={t.isDone}/>
                                 <span className={s.title}>{t.title}</span>
                                 <Button title={'X'} callBack={deleteTaskHandler}/>
                             </div>
