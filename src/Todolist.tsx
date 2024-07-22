@@ -19,20 +19,26 @@ type TodolistPropsType = {
 }
 export const Todolist = (props: TodolistPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('')
+    const [error, setError] = useState<null | string>(null)
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== '') {
             props.addTaskCallBack(newTaskTitle.trim())
+        } else {
+            setError('Title is required')
         }
         setNewTaskTitle('')
     }
     const setNewTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setError(null)
         setNewTaskTitle(e.currentTarget.value)
     }
     const onKeyUpHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && newTaskTitle.trim() !== '') {
             props.addTaskCallBack(newTaskTitle.trim())
             setNewTaskTitle('')
         }
+        if (e.key === 'Enter' && newTaskTitle.trim() === '')
+            setError('Title is required')
     }
     const changeAllFilter = () => props.changeFilterStatusCallBack('all')
     const changeActiveFilter = () => props.changeFilterStatusCallBack('active')
@@ -42,9 +48,11 @@ export const Todolist = (props: TodolistPropsType) => {
         <div className={s.todolist}>
             <h3>{props.titleTodo}</h3>
             <div className={s.addTaskBlock}>
-                <input onKeyUp={onKeyUpHandler} value={newTaskTitle} onChange={setNewTaskTitleHandler}/>
+                <input className={error ? s.errorInput : ''} onKeyUp={onKeyUpHandler} value={newTaskTitle}
+                       onChange={setNewTaskTitleHandler}/>
                 <Button title={'+'} callBack={addTaskHandler}/>
             </div>
+            {error && <div className={s.errorText}>{error}</div>}
             <div>
                 <ul>
                     {props.tasks.map((t) => {

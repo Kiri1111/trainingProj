@@ -31,3 +31,11 @@
 .title {
     /*color: yellow;*/
 }
+
+.errorText {
+    color: red;
+}
+
+.errorInput {
+    border: red 2px solid
+}
