@@ -36,6 +36,7 @@ export function App() {
         <div>
             <Todolist
                 titleTodo={'What to learn'}
+                filterValue={filterValue}
                 tasks={tasksForTodolist}
                 deleteTaskCallBack={deleteTask}
                 changeFilterStatusCallBack={changeFilterStatus}

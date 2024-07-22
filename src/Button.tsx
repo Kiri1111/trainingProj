@@ -1,14 +1,18 @@
 import React from 'react';
+import s from './Button.module.css'
 
 type ButtonProps = {
     title: string
     callBack: (data?: any) => void
+    className?: string
 }
-export const Button = ({callBack, title}: ButtonProps) => {
+export const Button = ({callBack, title, className}: ButtonProps) => {
     const onClickHandler = () => callBack()
+    const buttonClass = className !== undefined ? s.activeButton : ''
     return (
         <div>
-            <button onClick={onClickHandler}>{title}</button>
+            <button className={buttonClass} onClick={onClickHandler}>{title}</button>
+
         </div>
     );
 };

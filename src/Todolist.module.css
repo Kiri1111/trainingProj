@@ -39,3 +39,9 @@
 .errorInput {
     border: red 2px solid
 }
+
+.completedTask {
+    opacity: 50%;
+    list-style-type: none;
+}
+

@@ -10,6 +10,7 @@ export type TaskType = {
 }
 
 type TodolistPropsType = {
+    filterValue: FilterValueType
     titleTodo: string
     tasks: TaskType[]
     deleteTaskCallBack: (id: string) => void
@@ -57,10 +58,9 @@ export const Todolist = (props: TodolistPropsType) => {
                 <ul>
                     {props.tasks.map((t) => {
                         const deleteTaskHandler = () => props.deleteTaskCallBack(t.id)
-
                         const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked)
 
-                        return <li style={{listStyleType: "none"}}
+                        return <li className={t.isDone ? s.completedTask : ''}
                                    key={t.id}>
                             <div className={s.title}>
                                 <input type={"checkbox"} onChange={changeStatusHandler} checked={t.isDone}/>
@@ -71,9 +71,13 @@ export const Todolist = (props: TodolistPropsType) => {
                     })}
                 </ul>
                 <div className={s.filterButtons}>
-                    <Button title={'ALL'} callBack={changeAllFilter}/>
-                    <Button title={'ACTIVE'} callBack={changeActiveFilter}/>
-                    <Button title={'COMPLETED'} callBack={changeCompletedFilter}/>
+                    <Button className={props.filterValue === 'all' ? 'active-button' : undefined} title={'ALL'}
+                            callBack={changeAllFilter}/>
+                    <Button className={props.filterValue === "active" ? 'active-button' : undefined} title={'ACTIVE'}
+                            callBack={changeActiveFilter}/>
+                    <Button className={props.filterValue === "completed" ? 'active-button' : undefined}
+                            title={'COMPLETED'}
+                            callBack={changeCompletedFilter}/>
                 </div>
             </div>
         </div>
