@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.module.css';
 import {Task, Todolist} from "./Todolist";
 import {v1} from "uuid";
+import {AddItemForm} from "./AddItemForm";
 
 export type FilterValue = 'all' | 'active' | 'completed'
 export type TodolistType = {
@@ -59,9 +60,21 @@ export function App() {
         delete tasks[idTodolist]
         setTasks({...tasks})
     }
+    const addTodolist = (newTodolistTitle: string) => {
+        const idTodolist = v1()
+        setTodolists([{id: idTodolist, title: newTodolistTitle, filter: 'all'}, ...todolists])
+        setTasks({...tasks, [idTodolist]: []})
+    }
+    const changeTitleTodolist = (editTitle: string, idTodolist: string) => {
+        setTodolists(todolists.map(tl => tl.id === idTodolist ? {...tl, title: editTitle} : tl))
+    }
+    const changeTaskTitle = (editTitle: string, idTodolist: string, idTask: string) => {
+        setTasks({...tasks, [idTodolist]: tasks[idTodolist].map(t => t.id === idTask ? {...t, title: editTitle} : t)})
+    }
 
     return (
         <div>
+            <AddItemForm addItemCallBack={addTodolist}/>
             {todolists.map(tl => {
                 let tasksForTodolist = tasks[tl.id]
                 if (tl.filter === 'completed') {
@@ -70,19 +83,22 @@ export function App() {
                 if (tl.filter === 'active') {
                     tasksForTodolist = tasksForTodolist.filter(t => !t.isDone)
                 }
-                return <Todolist
-                    idTodolist={tl.id}
-                    key={tl.id}
-                    titleTodo={tl.title}
-                    filterValue={tl.filter}
-                    tasks={tasksForTodolist}
-                    deleteTaskCallBack={deleteTask}
-                    changeFilterStatusCallBack={changeFilterStatus}
-                    addTaskCallBack={addTask}
-                    changeTaskStatus={changeTaskStatus}
-                    deleteTodolist={deleteTodolist}
-                />
-
+                return <>
+                    <Todolist
+                        idTodolist={tl.id}
+                        key={tl.id}
+                        titleTodo={tl.title}
+                        filterValue={tl.filter}
+                        tasks={tasksForTodolist}
+                        deleteTaskCallBack={deleteTask}
+                        changeFilterStatusCallBack={changeFilterStatus}
+                        addTaskCallBack={addTask}
+                        changeTaskStatus={changeTaskStatus}
+                        deleteTodolist={deleteTodolist}
+                        editTodolistTitle={changeTitleTodolist}
+                        changeTaskTitle={changeTaskTitle}
+                    />
+                </>
 
             })}
 
