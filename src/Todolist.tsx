@@ -1,63 +1,42 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {FilterValueType} from "./App";
+import {FilterValue} from "./App";
 import {Button} from "./Button";
 import s from "./Todolist.module.css"
+import {AddItemForm} from "./AddItemForm";
 
-export type TaskType = {
+export type Task = {
     id: string
     title: string
     isDone: boolean
 }
 
-type TodolistPropsType = {
+type TodolistProps = {
     idTodolist: string
-    filterValue: FilterValueType
+    filterValue: FilterValue
     titleTodo: string
-    tasks: TaskType[]
+    tasks: Task[]
     deleteTaskCallBack: (id: string, idTodolist: string) => void
-    changeFilterStatusCallBack: (value: FilterValueType, idTodolist: string) => void
+    changeFilterStatusCallBack: (value: FilterValue, idTodolist: string) => void
     addTaskCallBack: (newTitle: string, idTodolist: string) => void
     changeTaskStatus: (idTask: string, status: boolean, idTodolist: string) => void
     deleteTodolist: (idTodolist: string) => void
 }
-export const Todolist = (props: TodolistPropsType) => {
-    const [newTaskTitle, setNewTaskTitle] = useState('')
-    const [error, setError] = useState<null | string>(null)
-    const addTaskHandler = () => {
-        if (newTaskTitle.trim() !== '') {
-            props.addTaskCallBack(newTaskTitle.trim(), props.idTodolist)
-        } else {
-            setError('Title is required')
-        }
-        setNewTaskTitle('')
-    }
-    const setNewTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setError(null)
-        setNewTaskTitle(e.currentTarget.value)
-    }
-    const onKeyUpHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && newTaskTitle.trim() !== '') {
-            props.addTaskCallBack(newTaskTitle.trim(), props.idTodolist)
-            setNewTaskTitle('')
-        }
-        if (e.key === 'Enter' && newTaskTitle.trim() === '')
-            setError('Title is required')
-    }
+export const Todolist = (props: TodolistProps) => {
     const changeAllFilter = () => props.changeFilterStatusCallBack('all', props.idTodolist)
     const changeActiveFilter = () => props.changeFilterStatusCallBack('active', props.idTodolist)
     const changeCompletedFilter = () => props.changeFilterStatusCallBack('completed', props.idTodolist)
     const deleteTodolistHandler = () => props.deleteTodolist(props.idTodolist)
 
+    const addTaskCallBack = (newTaskTitle: string) => props.addTaskCallBack(newTaskTitle, props.idTodolist)
+
     return (
         <div className={s.todolist}>
-            <h3>{props.titleTodo}</h3>
-            <button onClick={deleteTodolistHandler}>X</button>
-            <div className={s.addTaskBlock}>
-                <input className={error ? s.errorInput : ''} onKeyUp={onKeyUpHandler} value={newTaskTitle}
-                       onChange={setNewTaskTitleHandler}/>
-                <Button title={'+'} callBack={addTaskHandler}/>
+            
+            <div className={s.titleTask}>
+                <h3>{props.titleTodo}</h3>
+                <button onClick={deleteTodolistHandler}>X</button>
             </div>
-            {error && <div className={s.errorText}>{error}</div>}
+            <AddItemForm addItemCallBack={addTaskCallBack}/>
             <div>
                 <ul>
                     {props.tasks.map((t) => {
@@ -66,9 +45,9 @@ export const Todolist = (props: TodolistPropsType) => {
 
                         return <li className={t.isDone ? s.completedTask : ''}
                                    key={t.id}>
-                            <div className={s.title}>
+                            <div className={s.titleTask}>
                                 <input type={"checkbox"} onChange={changeStatusHandler} checked={t.isDone}/>
-                                <span className={s.title}>{t.title}</span>
+                                <span className={s.titleTask}>{t.title}</span>
                                 <Button title={'X'} callBack={deleteTaskHandler}/>
                             </div>
                         </li>

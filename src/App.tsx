@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
 import './App.module.css';
-import {Todolist} from "./Todolist";
+import {Task, Todolist} from "./Todolist";
 import {v1} from "uuid";
 
-export type FilterValueType = 'all' | 'active' | 'completed'
+export type FilterValue = 'all' | 'active' | 'completed'
 export type TodolistType = {
     id: string
     title: string
-    filter: FilterValueType
+    filter: FilterValue
+}
+export type TasksState = {
+    [key: string]: Task[]
+
 }
 
 export function App() {
@@ -15,7 +19,7 @@ export function App() {
     const idTodolist1 = v1()
     const idTodolist2 = v1()
 
-    const [tasks, setTasks] = useState({
+    const [tasks, setTasks] = useState<TasksState>({
             [idTodolist1]: [
                 {id: v1(), title: 'HTML', isDone: true},
                 {id: v1(), title: 'HTML', isDone: true},
@@ -33,7 +37,7 @@ export function App() {
 
     const [todolists, setTodolists] = useState<TodolistType[]>([
         {id: idTodolist1, title: 'First', filter: 'all'},
-        {id: idTodolist2, title: 'Second', filter: 'active'},
+        {id: idTodolist2, title: 'Second', filter: 'all'},
     ])
 
     const addTask = (title: string, idTodolist: string) => setTasks({
@@ -44,7 +48,7 @@ export function App() {
         ...tasks,
         [idTodolist]: tasks[idTodolist].filter(t => t.id !== idTask)
     })
-    const changeFilterStatus = (value: FilterValueType, idTodolist: string) => {
+    const changeFilterStatus = (value: FilterValue, idTodolist: string) => {
         setTodolists(todolists.map(tl => (tl.id === idTodolist ? {...tl, filter: value} : tl)))
     }
     const changeTaskStatus = (idTask: string, status: boolean, idTodolist: string) => {
