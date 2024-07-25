@@ -1,4 +1,4 @@
-.todolist {
+/* .todolist {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -37,12 +37,17 @@
     border: red 2px solid
 }
 
-.completedTask {
-    opacity: 50%;
-    list-style-type: none;
-}
 
-.titleTodo {
+
+
+ */
+
+ .titleTodo {
     display: flex;
+    align-items: center;
 }
 
+ /* .completedTask { */
+    /* opacity: 50%; */
+    /* list-style-type: none; */
+/* } */

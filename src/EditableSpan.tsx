@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useState } from "react"
-import s from "./Todolist.module.css"
 import TextField from "@mui/material/TextField/TextField"
 
 type EditableSpanProps = {
@@ -11,7 +10,8 @@ export const EditableSpan = ({ callBack, title }: EditableSpanProps) => {
   const [editTitle, setEditTitle] = useState(title)
 
   const onDoubleClickHandler = () => setEditMode(true)
-  const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setEditTitle(e.currentTarget.value)
+  const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setEditTitle(e.currentTarget.value)
   const onBlurInputHandler = () => {
     setEditMode(false)
     callBack(editTitle)
@@ -29,9 +29,7 @@ export const EditableSpan = ({ callBack, title }: EditableSpanProps) => {
           variant="standard"
         />
       ) : (
-        <span className={s.titleTask} onDoubleClick={onDoubleClickHandler}>
-          {title}
-        </span>
+        <span onDoubleClick={onDoubleClickHandler}>{title}</span>
       )}
     </div>
   )

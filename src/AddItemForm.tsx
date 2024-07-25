@@ -34,7 +34,7 @@ export const AddItemForm = ({ addItemCallBack }: AddItemFormProps) => {
 
   return (
     <div>
-      <div className={s.addTaskBlock}>
+      <div>
         <TextField
           value={newItemTitle}
           onKeyUp={onKeyUpHandler}
@@ -47,6 +47,7 @@ export const AddItemForm = ({ addItemCallBack }: AddItemFormProps) => {
         />
 
         <Button
+          sx={{ ml: "10px" }}
           color="inherit"
           variant={"contained"}
           endIcon={<SendIcon />}

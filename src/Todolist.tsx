@@ -10,6 +10,7 @@ import ButtonGroup from "@mui/material/ButtonGroup"
 import Checkbox from "@mui/material/Checkbox"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
+import Box from "@mui/material/Box"
 
 export type Task = {
   id: string
@@ -52,16 +53,17 @@ export const Todolist = (props: TodolistProps) => {
     props.editTodolistTitle(newTodolistTitle, props.idTodolist)
 
   return (
-    <div className={s.todolist}>
-      <div className={s.titleTask}>
-        {/*<h3>{props.titleTodo}</h3>*/}
+    <div>
+      <div className={s.titleTodo}>
         <h3>
           <EditableSpan
             title={props.titleTodo}
             callBack={changeTitleTodolist}
           />
         </h3>
-        <button onClick={deleteTodolistHandler}>X</button>
+        <IconButton size="small" onClick={deleteTodolistHandler}>
+          <DeleteIcon />
+        </IconButton>
       </div>
       <AddItemForm addItemCallBack={addTaskCallBack} />
       <div>
@@ -80,34 +82,45 @@ export const Todolist = (props: TodolistProps) => {
 
             return (
               <ListItem
+                sx={{
+                  p: 0,
+                  justifyContent: "space-between",
+                  opacity: t.isDone ? 0.5 : 1,
+                }}
                 disableGutters
                 disablePadding
-                className={t.isDone ? s.completedTask : ""}
                 key={t.id}
               >
-                <div className={s.titleTask}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   <Checkbox
                     color="success"
                     checked={t.isDone}
                     onChange={changeStatusHandler}
                   />
-
                   <EditableSpan title={t.title} callBack={changeTaskTitle} />
-
-                  <IconButton size="small" onClick={deleteTaskHandler}>
-                    <DeleteIcon />
-                  </IconButton>
-                </div>
+                </Box>
+                <IconButton size="small" onClick={deleteTaskHandler}>
+                  <DeleteIcon />
+                </IconButton>
               </ListItem>
             )
           })}
         </List>
-        <div className={s.filterButtons}>
-          <ButtonGroup
-            color="inherit"
-            size="large"
-            aria-label="Basic button group"
-          >
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ButtonGroup color="inherit" size="large">
             <Button
               onClick={changeAllFilter}
               variant={props.filterValue === "all" ? "contained" : "text"}
@@ -127,7 +140,7 @@ export const Todolist = (props: TodolistProps) => {
               Completed
             </Button>
           </ButtonGroup>
-        </div>
+        </Box>
       </div>
     </div>
   )
