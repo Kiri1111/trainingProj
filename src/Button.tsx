@@ -6,7 +6,7 @@ type ButtonProps = {
     callBack: (data?: any) => void
     className?: string
 }
-export const Button = ({callBack, title, className}: ButtonProps) => {
+export const ButtonCustom = ({callBack, title, className}: ButtonProps) => {
     const onClickHandler = () => callBack()
     const buttonClass = className !== undefined ? s.activeButton : ''
     return (

@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValue} from "./App";
-import {Button} from "./Button";
+import {ButtonCustom} from "./Button";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -56,19 +56,20 @@ export const Todolist = (props: TodolistProps) => {
                             <div className={s.titleTask}>
                                 <input type={"checkbox"} onChange={changeStatusHandler} checked={t.isDone}/>
                                 <EditableSpan title={t.title} callBack={changeTaskTitle}/>
-                                <Button title={'X'} callBack={deleteTaskHandler}/>
+                                <ButtonCustom title={'X'} callBack={deleteTaskHandler}/>
                             </div>
                         </li>
                     })}
                 </ul>
                 <div className={s.filterButtons}>
-                    <Button className={props.filterValue === 'all' ? 'active-button' : undefined} title={'ALL'}
-                            callBack={changeAllFilter}/>
-                    <Button className={props.filterValue === "active" ? 'active-button' : undefined} title={'ACTIVE'}
-                            callBack={changeActiveFilter}/>
-                    <Button className={props.filterValue === "completed" ? 'active-button' : undefined}
-                            title={'COMPLETED'}
-                            callBack={changeCompletedFilter}/>
+                    <ButtonCustom className={props.filterValue === 'all' ? 'active-button' : undefined} title={'ALL'}
+                                  callBack={changeAllFilter}/>
+                    <ButtonCustom className={props.filterValue === "active" ? 'active-button' : undefined}
+                                  title={'ACTIVE'}
+                                  callBack={changeActiveFilter}/>
+                    <ButtonCustom className={props.filterValue === "completed" ? 'active-button' : undefined}
+                                  title={'COMPLETED'}
+                                  callBack={changeCompletedFilter}/>
                 </div>
             </div>
         </div>

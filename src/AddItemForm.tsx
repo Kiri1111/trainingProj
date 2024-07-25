@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import s from "./Todolist.module.css";
-import {Button} from "./Button";
+import Button from "@mui/material/Button";
 
 type AddItemFormProps = {
     addItemCallBack: (newTitle: string) => void
@@ -37,10 +37,10 @@ export const AddItemForm = ({addItemCallBack}: AddItemFormProps) => {
 
     return (
         <div>
-            <div className={s.addTaskBlock}>
+                              <div className={s.addTaskBlock}>
                 <input className={error ? s.errorInput : ''} onKeyUp={onKeyUpHandler} value={newItemTitle}
                        onChange={setNewTaskTitleHandler}/>
-                <Button title={'+'} callBack={addTaskHandler}/>
+                <Button variant={"contained"}  onClick={addTaskHandler}>ADD</Button>
             </div>
             {error && <div className={s.errorText}>{error}</div>}
         </div>
