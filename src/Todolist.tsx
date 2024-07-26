@@ -11,6 +11,7 @@ import Checkbox from "@mui/material/Checkbox"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import Box from "@mui/material/Box"
+import { filterButtonsContainerSx } from "./todolist.style"
 
 export type Task = {
   id: string
@@ -92,11 +93,7 @@ export const Todolist = (props: TodolistProps) => {
                 key={t.id}
               >
                 <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                  sx={filterButtonsContainerSx}
                 >
                   <Checkbox
                     color="success"
@@ -112,6 +109,7 @@ export const Todolist = (props: TodolistProps) => {
             )
           })}
         </List>
+
         <Box
           sx={{
             width: "100%",

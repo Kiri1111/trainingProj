@@ -111,7 +111,11 @@ export function App() {
 
   return (
     <div>
-      <AppBar sx={{ mb: "30px" }} position="static">
+      <AppBar
+        color="success"
+        sx={{ opacity: "0.8", mb: "30px" }}
+        position="static"
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -144,7 +148,7 @@ export function App() {
             }
             return (
               <Grid>
-                <Paper sx={{ p: "0 20px 20px 20px" }}>
+                <Paper elevation={6} sx={{ p: "0 20px 20px 20px" }}>
                   <Todolist
                     idTodolist={tl.id}
                     key={tl.id}
