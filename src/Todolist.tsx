@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import Box from "@mui/material/Box"
-import { filterButtonsContainerSx } from "./todolist.style"
+import { filterButtonsContainerSx, getListItemSx } from "./todolist.style"
 
 export type Task = {
   id: string
@@ -83,18 +83,12 @@ export const Todolist = (props: TodolistProps) => {
 
             return (
               <ListItem
-                sx={{
-                  p: 0,
-                  justifyContent: "space-between",
-                  opacity: t.isDone ? 0.5 : 1,
-                }}
+                sx={getListItemSx(t.isDone)}
                 disableGutters
                 disablePadding
                 key={t.id}
               >
-                <Box
-                  sx={filterButtonsContainerSx}
-                >
+                <Box sx={filterButtonsContainerSx}>
                   <Checkbox
                     color="success"
                     checked={t.isDone}

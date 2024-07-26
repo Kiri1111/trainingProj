@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu"
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Unstable_Grid2"
 import Paper from "@mui/material/Paper"
+import { MenuButton } from "./MenuButtons.style"
 
 export type FilterValue = "all" | "active" | "completed"
 export type TodolistType = {
@@ -127,9 +128,11 @@ export function App() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Todolist
           </Typography>
-          <Button color="inherit">Login</Button>
+          <MenuButton >Login</MenuButton>
+          <MenuButton >Logout</MenuButton>
+          <MenuButton >Faq</MenuButton>
         </Toolbar>
       </AppBar>
       <Container fixed>
