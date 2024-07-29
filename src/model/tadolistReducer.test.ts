@@ -1,5 +1,11 @@
 import { v1 } from "uuid"
-import { todolistReducer } from "./todolistReducer"
+import {
+  addTodolist,
+  changeTodolistFilter,
+  changeTodolistTitle,
+  removeTodolist,
+  todolistReducer,
+} from "./todolistReducer"
 import { TodolistType } from "../App"
 
 test("correct todolist should be delete", () => {
@@ -11,12 +17,7 @@ test("correct todolist should be delete", () => {
     { id: idTodolist2, title: "Second", filter: "all" },
   ]
 
-  const action = {
-    type: "REMOVE_TODOLIST",
-    payload: { idTodolist1 },
-  }
-
-  const endState = todolistReducer(startState, action)
+  const endState = todolistReducer(startState, removeTodolist(idTodolist1))
 
   expect(endState[0].id === idTodolist2)
 })
@@ -30,14 +31,9 @@ test("correct todolist should be added", () => {
     { id: idTodolist2, title: "Second", filter: "all" },
   ]
 
-  const action = {
-    type: "ADD_TODOLIST",
-    payload: { title: "New Todolist" },
-  }
+  const endState = todolistReducer(startState, addTodolist("NewTittttle"))
 
-  const endState = todolistReducer(startState, action)
-
-  expect(endState[2].title).toBe(action.payload.title)
+  expect(endState[2].title).toBe("NewTittttle")
   expect(endState.length).toBe(3)
 })
 
@@ -50,14 +46,12 @@ test("correct todolist should change its name", () => {
     { id: idTodolist2, title: "Second", filter: "all" },
   ]
 
-  const action = {
-    type: "CHANGE_TODOLIST_TITLE",
-    payload: { newTitle: "New Title", id: idTodolist1 },
-  }
+  const endState = todolistReducer(
+    startState,
+    changeTodolistTitle("My new title", idTodolist1)
+  )
 
-  const endState = todolistReducer(startState, action)
-
-  expect(endState[0].title).toBe(action.payload.newTitle)
+  expect(endState[0].title).toBe("My new title")
   expect(endState[1].title).toBe("Second")
 })
 
@@ -70,13 +64,11 @@ test("correct todolist should change its filter status", () => {
     { id: idTodolist2, title: "Second", filter: "all" },
   ]
 
-  const action = {
-    type: "CHANGE_TODOLIST_FILTER",
-    payload: { newFilterStatus: "active", id: idTodolist1 },
-  }
+  const endState = todolistReducer(
+    startState,
+    changeTodolistFilter("completed", idTodolist1)
+  )
 
-  const endState = todolistReducer(startState, action)
-
-  expect(endState[0].filter).toBe(action.payload.newFilterStatus)
+  expect(endState[0].filter).toBe("completed")
   expect(endState[1].filter).toBe("all")
 })
