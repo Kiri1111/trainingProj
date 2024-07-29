@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useState } from "react"
 import s from "./Todolist.module.css"
 import Button from "@mui/material/Button"
 import SendIcon from "@mui/icons-material/Send"
-import TextField from "@mui/material/TextField/TextField"
+import TextField from "@mui/material/TextField"
 
 type AddItemFormProps = {
   addItemCallBack: (newTitle: string) => void
@@ -41,18 +41,17 @@ export const AddItemForm = ({ addItemCallBack }: AddItemFormProps) => {
           onChange={setNewTaskTitleHandler}
           error={!!error}
           helperText={error}
-          size="small"
-          label="Enter text"
-          variant="outlined"
+          size='small'
+          label='Enter text'
+          variant='outlined'
         />
 
         <Button
           sx={{ ml: "10px" }}
-          color="inherit"
+          color='inherit'
           variant={"contained"}
           endIcon={<SendIcon />}
-          onClick={addTaskHandler}
-        >
+          onClick={addTaskHandler}>
           ADD
         </Button>
       </div>
