@@ -62,7 +62,7 @@ export const Todolist = (props: TodolistProps) => {
             callBack={changeTitleTodolist}
           />
         </h3>
-        <IconButton size="small" onClick={deleteTodolistHandler}>
+        <IconButton size='small' onClick={deleteTodolistHandler}>
           <DeleteIcon />
         </IconButton>
       </div>
@@ -86,17 +86,16 @@ export const Todolist = (props: TodolistProps) => {
                 sx={getListItemSx(t.isDone)}
                 disableGutters
                 disablePadding
-                key={t.id}
-              >
+                key={t.id}>
                 <Box sx={filterButtonsContainerSx}>
                   <Checkbox
-                    color="success"
+                    color='success'
                     checked={t.isDone}
                     onChange={changeStatusHandler}
                   />
                   <EditableSpan title={t.title} callBack={changeTaskTitle} />
                 </Box>
-                <IconButton size="small" onClick={deleteTaskHandler}>
+                <IconButton size='small' onClick={deleteTaskHandler}>
                   <DeleteIcon />
                 </IconButton>
               </ListItem>
@@ -110,25 +109,23 @@ export const Todolist = (props: TodolistProps) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
-          <ButtonGroup color="inherit" size="large">
+          }}>
+          <ButtonGroup color='inherit' size='large'>
             <Button
               onClick={changeAllFilter}
-              variant={props.filterValue === "all" ? "contained" : "text"}
-            >
+              variant={props.filterValue === "all" ? "contained" : "text"}>
               All
             </Button>
             <Button
               onClick={changeActiveFilter}
-              variant={props.filterValue === "active" ? "contained" : "text"}
-            >
+              variant={props.filterValue === "active" ? "contained" : "text"}>
               Active
             </Button>
             <Button
               onClick={changeCompletedFilter}
-              variant={props.filterValue === "completed" ? "contained" : "text"}
-            >
+              variant={
+                props.filterValue === "completed" ? "contained" : "text"
+              }>
               Completed
             </Button>
           </ButtonGroup>

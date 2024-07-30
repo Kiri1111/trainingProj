@@ -24,7 +24,7 @@ const initialState: TodolistType[] = [
 export const todolistReducer = (
   state: TodolistType[] = initialState,
   action: ActionsTypes
-): any => {
+): TodolistType[] => {
   switch (action.type) {
     case "ADD_TODOLIST": {
       return [
