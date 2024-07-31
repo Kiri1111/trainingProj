@@ -1,28 +1,78 @@
 import { v1 } from "uuid"
 import { TasksState } from "../App"
+import { Todolist } from "../Todolist"
 
-export const tasksReducer = (state: any, action: any): any => {
+type AddTask = ReturnType<typeof addTask>
+type DeleteTask = ReturnType<typeof deleteTask>
+type ChangeTaskTitle = ReturnType<typeof changeTaskTitle>
+type ChangeTaskStatus = ReturnType<typeof changeTaskStatus>
+
+type ActionsTaskReducer =
+  | AddTask
+  | DeleteTask
+  | ChangeTaskTitle
+  | ChangeTaskStatus
+
+export const tasksReducer = (
+  state: TasksState,
+  action: ActionsTaskReducer
+): TasksState => {
   switch (action.type) {
-      case "ADD_TASK": {
-          const copyState = { ...state }
-          copyState[action.idTodolist],[{ id: v1(), title:action.title, isDone: false }, ...copyState[action.idTodolist]]
+    case "ADD_TASK": {
+      const copyState = { ...state }
+      const tasks = copyState[action.payload.idTodolist]
+      const newTask = { id: v1(), title: action.payload.title, isDone: false }
+      const newTasks = [newTask, ...tasks]
+      copyState[action.payload.idTodolist] = newTasks
       return copyState
     }
     case "DELETE_TASK": {
-      return state
+      const copyState = { ...state }
+      const filteredTasks = copyState[action.payload.idTodolist].filter(
+        (t) => t.id !== action.payload.idTask
+      )
+      copyState[action.payload.idTodolist] = filteredTasks
+      return copyState
     }
     case "CHANGE_TASK_TITLE": {
-      return state
+      // const copyState = { ...state }
+      //  copyState[action.payload.idTodolist].map(t=>t.id===action.payload.idTask?{...t,title:action.payload.newTitle}:t)
+      // return copyState
+      return {
+        ...state,
+        [action.payload.idTodolist]: state[action.payload.idTodolist].map((t) =>
+          t.id === action.payload.idTask
+            ? { ...t, title: action.payload.newTitle }
+            : t
+        ),
+      }
+
+      // const copyState = { ...state }
+      // const tasks = copyState[action.payload.idTodolist]
+      // const task = tasks.find((t) => t.id === action.payload.idTask)
+      // if (task) {
+      // task.title = action.payload.newTitle
+      // }
+      // return copyState
     }
     case "CHANGE_TASK_STATUS": {
-      return state
+      return {
+        ...state,
+        [action.payload.idTodolist]: state[action.payload.idTodolist].map((t) =>
+          t.id === action.payload.idTask
+            ? { ...t, isDone: action.payload.newStatus }
+            : t
+        ),
+      }
     }
+    default:
+      throw new Error("case not found")
   }
 }
 
-export const addTask = (title: string,idTodolist:string) => ({
+export const addTask = (title: string, idTodolist: string) => ({
   type: "ADD_TASK" as const,
-  payload: { title,idTodolist },
+  payload: { title, idTodolist },
 })
 export const deleteTask = (idTask: string, idTodolist: string) => ({
   type: "DELETE_TASK" as const,

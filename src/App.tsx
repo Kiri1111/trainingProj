@@ -27,7 +27,26 @@ export type TasksState = {
 }
 type ThemeMode = "dark" | "light"
 
+// const titleCar = "101010101-101010-101001-101101"
+
 export function App() {
+  // const obj = {
+  //   name: "Ali",
+  //   age: 23,
+  //   [titleCar]: [
+  //     { brand: "bmw", volume: 3 },
+  //     { brand: "audi", volume: 2 },
+  //     { brand: "mini", volume: 1 },
+  //   ],
+  // }
+
+  // const copy = obj[titleCar].filter((el) => el.volume === 3)
+
+  // console.log(copy)
+  // console.log(copy === obj[titleCar])
+
+  // console.log([1, 2, 3, 4, 5])
+
   const idTodolist1 = v1()
   const idTodolist2 = v1()
 
@@ -166,11 +185,10 @@ export function App() {
                 tasksForTodolist = tasksForTodolist.filter((t) => !t.isDone)
               }
               return (
-                <Grid>
+                <Grid key={tl.id}>
                   <Paper elevation={6} sx={{ p: "0 20px 20px 20px" }}>
                     <Todolist
                       idTodolist={tl.id}
-                      key={tl.id}
                       titleTodo={tl.title}
                       filterValue={tl.filter}
                       tasks={tasksForTodolist}
