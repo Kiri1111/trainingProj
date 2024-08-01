@@ -1,6 +1,7 @@
 import { v1 } from "uuid"
 import { TasksState } from "../App"
 import { Todolist } from "../Todolist"
+import { AddTodolistType, RemoveTodolistType } from "./todolistReducer"
 
 type AddTask = ReturnType<typeof addTask>
 type DeleteTask = ReturnType<typeof deleteTask>
@@ -12,6 +13,8 @@ type ActionsTaskReducer =
   | DeleteTask
   | ChangeTaskTitle
   | ChangeTaskStatus
+  | AddTodolistType
+  | RemoveTodolistType
 
 export const tasksReducer = (
   state: TasksState,
@@ -65,6 +68,13 @@ export const tasksReducer = (
         ),
       }
     }
+    case "ADD_TODOLIST": {
+      return { ...state, [action.payload.idTodolist]: [] }
+    } 
+    case "REMOVE_TODOLIST": {
+      delete state[action.payload.id]
+      return { ...state }
+      }
     default:
       throw new Error("case not found")
   }

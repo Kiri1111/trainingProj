@@ -53,6 +53,8 @@ test("correct task tittle should be changed", () => {
 })
 
 test("correct task status should be changed", () => {
+
+
   const endState = tasksReducer(
     startState,
     changeTaskStatus(false, "1", idTodolist1)
