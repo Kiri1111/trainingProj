@@ -1,12 +1,13 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useState } from 'react'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import TextField from '@mui/material/TextField'
+import React from 'react'
 
 type AddItemFormProps = {
   addItemCallBack: (newTitle: string) => void
 }
-export const AddItemForm = ({ addItemCallBack }: AddItemFormProps) => {
+export const AddItemForm = React.memo(({ addItemCallBack }: AddItemFormProps) => {
   const [newItemTitle, setNewItemTitle] = useState('')
   const [error, setError] = useState<null | string>(null)
 
@@ -26,10 +27,12 @@ export const AddItemForm = ({ addItemCallBack }: AddItemFormProps) => {
     setNewItemTitle('')
   }
   const setNewTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setError(null)
+    if (error !== null) {
+      setError(null)
+    }
     setNewItemTitle(e.currentTarget.value)
   }
-
+  console.log('ADD ITEM FORM')
   return (
     <div>
       <div>
@@ -56,4 +59,4 @@ export const AddItemForm = ({ addItemCallBack }: AddItemFormProps) => {
       </div>
     </div>
   )
-}
+})

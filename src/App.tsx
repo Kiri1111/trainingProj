@@ -89,7 +89,7 @@ export function App() {
               <MenuIcon />
             </IconButton>
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-              Todolist
+              Todolists
             </Typography>
             <MenuButton>Login</MenuButton>
             <MenuButton>Logout</MenuButton>
