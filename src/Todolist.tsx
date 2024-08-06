@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { FilterValue } from './App'
 import s from './Todolist.module.css'
 import { AddItemForm } from './AddItemForm'
@@ -38,8 +38,10 @@ export const Todolist = (props: TodolistProps) => {
   const changeCompletedFilter = () =>
     props.changeFilterStatusCallBack('completed', props.idTodolist)
   const deleteTodolistHandler = () => props.deleteTodolist(props.idTodolist)
-  const addTaskCallBack = (newTaskTitle: string) =>
-    props.addTaskCallBack(newTaskTitle, props.idTodolist)
+  const addTaskCallBack = useCallback(
+    (newTaskTitle: string) => props.addTaskCallBack(newTaskTitle, props.idTodolist),
+    []
+  )
   const changeTitleTodolist = (newTodolistTitle: string) =>
     props.editTodolistTitle(newTodolistTitle, props.idTodolist)
 
