@@ -1,140 +1,87 @@
-import React, { useState } from "react"
-import "./App.module.css"
-import { Task, Todolist } from "./Todolist"
-import { v1 } from "uuid"
-import { AddItemForm } from "./AddItemForm"
-import AppBar from "@mui/material/AppBar"
-import Toolbar from "@mui/material/Toolbar/"
-import IconButton from "@mui/material/IconButton"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
-import MenuIcon from "@mui/icons-material/Menu"
-import Container from "@mui/material/Container"
-import Grid from "@mui/material/Unstable_Grid2"
-import Paper from "@mui/material/Paper"
-import { MenuButton } from "./MenuButtons.style"
-import { ThemeProvider, createTheme } from "@mui/material/styles"
-import CustomizedSwitches from "./Switch"
+import React, { useState } from "react";
+import "./App.module.css";
+import { Task, Todolist } from "./Todolist";
+import { v1 } from "uuid";
+import { AddItemForm } from "./AddItemForm";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar/";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Unstable_Grid2";
+import Paper from "@mui/material/Paper";
+import { MenuButton } from "./MenuButtons.style";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CustomizedSwitches from "./Switch";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./state/store";
+import {
+  addNewTask,
+  changeTaskStatusAction,
+  changeTaskTitleAction,
+  deleteTaskAction,
+} from "./model/tasksReducer";
+import {
+  addTodolistAction,
+  changeTodolistFilter,
+  changeTodolistTitle,
+  removeTodolist,
+} from "./model/todolistReducer";
 
-export type FilterValue = "all" | "active" | "completed"
+export type FilterValue = "all" | "active" | "completed";
 export type TodolistType = {
-  id: string
-  title: string
-  filter: FilterValue
-}
+  id: string;
+  title: string;
+  filter: FilterValue;
+};
 export type TasksState = {
-  [key: string]: Task[]
-}
-type ThemeMode = "dark" | "light"
-
-// const titleCar = "101010101-101010-101001-101101"
+  [key: string]: Task[];
+};
+type ThemeMode = "dark" | "light";
 
 export function App() {
-  // const obj = {
-  //   name: "Ali",
-  //   age: 23,
-  //   [titleCar]: [
-  //     { brand: "bmw", volume: 3 },
-  //     { brand: "audi", volume: 2 },
-  //     { brand: "mini", volume: 1 },
-  //   ],
-  // }
+  const tasks = useSelector<RootState, TasksState>((state) => state.tasks);
+  const todolists = useSelector<RootState, TodolistType[]>(
+    (state) => state.todolists
+  );
+  const dispatch = useDispatch();
 
-  // const copy = obj[titleCar].filter((el) => el.volume === 3)
-
-  // console.log(copy)
-  // console.log(copy === obj[titleCar])
-
-  // console.log([1, 2, 3, 4, 5])
-
-  const idTodolist1 = v1()
-  const idTodolist2 = v1()
-
-  const [tasks, setTasks] = useState<TasksState>({
-    [idTodolist1]: [
-      { id: v1(), title: "HTML", isDone: true },
-      { id: v1(), title: "HTML", isDone: true },
-      { id: v1(), title: "HTML", isDone: false },
-      { id: v1(), title: "HTML", isDone: true },
-      { id: v1(), title: "HTML", isDone: false },
-    ],
-    [idTodolist2]: [
-      { id: v1(), title: "HTML", isDone: true },
-      { id: v1(), title: "HTML", isDone: true },
-      { id: v1(), title: "HTML", isDone: false },
-    ],
-  })
-
-  const [todolists, setTodolists] = useState<TodolistType[]>([
-    { id: idTodolist1, title: "First", filter: "all" },
-    { id: idTodolist2, title: "Second", filter: "all" },
-  ])
-
-  const [themeMode, setThemeMode] = useState<ThemeMode>("light")
+  const [themeMode, setThemeMode] = useState<ThemeMode>("light");
 
   const addTask = (title: string, idTodolist: string) =>
-    setTasks({
-      ...tasks,
-      [idTodolist]: [{ id: v1(), title, isDone: false }, ...tasks[idTodolist]],
-    })
-  const deleteTask = (idTask: string, idTodolist: string) =>
-    setTasks({
-      ...tasks,
-      [idTodolist]: tasks[idTodolist].filter((t) => t.id !== idTask),
-    })
-  const changeFilterStatus = (value: FilterValue, idTodolist: string) => {
-    setTodolists(
-      todolists.map((tl) =>
-        tl.id === idTodolist ? { ...tl, filter: value } : tl
-      )
-    )
-  }
+    dispatch(addNewTask(title, idTodolist));
+
+  const deleteTask = (idTask: string, idTodolist: string) => {
+    dispatch(deleteTaskAction(idTask, idTodolist));
+  };
   const changeTaskStatus = (
     idTask: string,
     status: boolean,
     idTodolist: string
   ) => {
-    setTasks({
-      ...tasks,
-      [idTodolist]: tasks[idTodolist].map((t) =>
-        t.id === idTask ? { ...t, isDone: status } : t
-      ),
-    })
-  }
+    dispatch(changeTaskStatusAction(status, idTask, idTodolist));
+  };
   const deleteTodolist = (idTodolist: string) => {
-    setTodolists(todolists.filter((tl) => tl.id !== idTodolist))
-    delete tasks[idTodolist]
-    setTasks({ ...tasks })
-  }
+    dispatch(removeTodolist(idTodolist));
+  };
   const addTodolist = (newTodolistTitle: string) => {
-    const idTodolist = v1()
-    setTodolists([
-      { id: idTodolist, title: newTodolistTitle, filter: "all" },
-      ...todolists,
-    ])
-    setTasks({ ...tasks, [idTodolist]: [] })
-  }
+    const idTodolist = v1();
+    dispatch(addTodolistAction(newTodolistTitle, idTodolist));
+  };
   const changeTitleTodolist = (editTitle: string, idTodolist: string) => {
-    setTodolists(
-      todolists.map((tl) =>
-        tl.id === idTodolist ? { ...tl, title: editTitle } : tl
-      )
-    )
-  }
+    dispatch(changeTodolistTitle(editTitle, idTodolist));
+  };
   const changeTaskTitle = (
     editTitle: string,
     idTodolist: string,
     idTask: string
   ) => {
-    setTasks({
-      ...tasks,
-      [idTodolist]: tasks[idTodolist].map((t) =>
-        t.id === idTask ? { ...t, title: editTitle } : t
-      ),
-    })
-  }
+    dispatch(changeTaskTitleAction(editTitle, idTask, idTodolist));
+  };
   const changeModeHandler = () =>
-    setThemeMode(themeMode === "light" ? "dark" : "light")
+    setThemeMode(themeMode === "light" ? "dark" : "light");
 
   const theme = createTheme({
     palette: {
@@ -143,25 +90,27 @@ export function App() {
         main: "#ffffff",
       },
     },
-  })
+  });
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <AppBar
-          color='success'
+          color="success"
           sx={{ opacity: "0.8", mb: "30px" }}
-          position='static'>
+          position="static"
+        >
           <Toolbar>
             <IconButton
-              size='large'
-              edge='start'
-              color='inherit'
-              aria-label='menu'
-              sx={{ mr: 2 }}>
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
               <MenuIcon />
             </IconButton>
-            <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Todolist
             </Typography>
             <MenuButton>Login</MenuButton>
@@ -177,13 +126,18 @@ export function App() {
 
           <Grid container spacing={4}>
             {todolists.map((tl) => {
-              let tasksForTodolist = tasks[tl.id]
+              let tasksForTodolist = tasks[tl.id];
               if (tl.filter === "completed") {
-                tasksForTodolist = tasksForTodolist.filter((t) => t.isDone)
+                tasksForTodolist = tasksForTodolist.filter((t) => t.isDone);
               }
               if (tl.filter === "active") {
-                tasksForTodolist = tasksForTodolist.filter((t) => !t.isDone)
+                tasksForTodolist = tasksForTodolist.filter((t) => !t.isDone);
               }
+              const changeFilterStatus = (
+                value: FilterValue,
+                idTodolist: string
+              ) => dispatch(changeTodolistFilter(value, idTodolist));
+
               return (
                 <Grid key={tl.id}>
                   <Paper elevation={6} sx={{ p: "0 20px 20px 20px" }}>
@@ -202,11 +156,11 @@ export function App() {
                     />
                   </Paper>
                 </Grid>
-              )
+              );
             })}
           </Grid>
         </Container>
       </ThemeProvider>
     </div>
-  )
+  );
 }
