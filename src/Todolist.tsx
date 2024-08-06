@@ -32,7 +32,7 @@ type TodolistProps = {
   editTodolistTitle: (editTitle: string, idTodolist: string) => void
   changeTaskTitle: (editTitle: string, idTodolist: string, idTask: string) => void
 }
-export const Todolist = (props: TodolistProps) => {
+export const Todolist = React.memo((props: TodolistProps) => {
   const changeAllFilter = () => props.changeFilterStatusCallBack('all', props.idTodolist)
   const changeActiveFilter = () => props.changeFilterStatusCallBack('active', props.idTodolist)
   const changeCompletedFilter = () =>
@@ -44,7 +44,7 @@ export const Todolist = (props: TodolistProps) => {
   )
   const changeTitleTodolist = (newTodolistTitle: string) =>
     props.editTodolistTitle(newTodolistTitle, props.idTodolist)
-
+  console.log('TODOLIST')
   return (
     <div>
       <div className={s.titleTodo}>
@@ -111,4 +111,4 @@ export const Todolist = (props: TodolistProps) => {
       </div>
     </div>
   )
-}
+})

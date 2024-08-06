@@ -32,7 +32,6 @@ export const AddItemForm = React.memo(({ addItemCallBack }: AddItemFormProps) =>
     }
     setNewItemTitle(e.currentTarget.value)
   }
-  console.log('ADD ITEM FORM')
   return (
     <div>
       <div>
