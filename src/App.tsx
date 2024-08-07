@@ -105,12 +105,12 @@ export function App() {
           <Grid container spacing={4}>
             {todolists.map((tl) => {
               let tasksForTodolist = tasks[tl.id]
-              if (tl.filter === 'completed') {
-                tasksForTodolist = tasksForTodolist.filter((t) => t.isDone)
-              }
-              if (tl.filter === 'active') {
-                tasksForTodolist = tasksForTodolist.filter((t) => !t.isDone)
-              }
+              // if (tl.filter === 'completed') {
+              //   tasksForTodolist = tasksForTodolist.filter((t) => t.isDone)
+              // }
+              // if (tl.filter === 'active') {
+              //   tasksForTodolist = tasksForTodolist.filter((t) => !t.isDone)
+              // }
               const changeFilterStatus = (value: FilterValue, idTodolist: string) =>
                 dispatch(changeTodolistFilter(value, idTodolist))
 

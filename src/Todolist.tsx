@@ -44,7 +44,16 @@ export const Todolist = React.memo((props: TodolistProps) => {
   )
   const changeTitleTodolist = (newTodolistTitle: string) =>
     props.editTodolistTitle(newTodolistTitle, props.idTodolist)
-  console.log('TODOLIST')
+
+  let tasksForTodolist = props.tasks
+
+  if (props.filterValue === 'completed') {
+    tasksForTodolist = props.tasks.filter((t) => t.isDone)
+  }
+  if (props.filterValue === 'active') {
+    tasksForTodolist = props.tasks.filter((t) => !t.isDone)
+  }
+
   return (
     <div>
       <div className={s.titleTodo}>
@@ -58,7 +67,7 @@ export const Todolist = React.memo((props: TodolistProps) => {
       <AddItemForm addItemCallBack={addTaskCallBack} />
       <div>
         <List>
-          {props.tasks.map((t) => {
+          {tasksForTodolist.map((t) => {
             const deleteTaskHandler = () => props.deleteTaskCallBack(t.id, props.idTodolist)
             const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
               props.changeTaskStatus(t.id, e.currentTarget.checked, props.idTodolist)
