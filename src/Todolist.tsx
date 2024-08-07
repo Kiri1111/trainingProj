@@ -12,6 +12,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Box from '@mui/material/Box'
 import { filterButtonsContainerSx, getListItemSx } from './todolist.style'
+import { TaskView } from './Task'
 
 export type Task = {
   id: string
@@ -68,22 +69,16 @@ export const Todolist = React.memo((props: TodolistProps) => {
       <div>
         <List>
           {tasksForTodolist.map((t) => {
-            const deleteTaskHandler = () => props.deleteTaskCallBack(t.id, props.idTodolist)
-            const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-              props.changeTaskStatus(t.id, e.currentTarget.checked, props.idTodolist)
-            const changeTaskTitle = (newTitleTask: string) =>
-              props.changeTaskTitle(newTitleTask, props.idTodolist, t.id)
-
             return (
-              <ListItem sx={getListItemSx(t.isDone)} disableGutters disablePadding key={t.id}>
-                <Box sx={filterButtonsContainerSx}>
-                  <Checkbox color='success' checked={t.isDone} onChange={changeStatusHandler} />
-                  <EditableSpan title={t.title} callBack={changeTaskTitle} />
-                </Box>
-                <IconButton size='small' onClick={deleteTaskHandler}>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItem>
+              <TaskView
+                deleteTaskCallBack={props.deleteTaskCallBack}
+                changeTaskTitle={props.changeTaskTitle}
+                changeTaskStatus={props.changeTaskStatus}
+                idTask={t.id}
+                key={t.id}
+                task={t}
+                idTodolist={props.idTodolist}
+              />
             )
           })}
         </List>
