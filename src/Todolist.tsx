@@ -7,11 +7,8 @@ import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
-import Checkbox from '@mui/material/Checkbox'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
 import Box from '@mui/material/Box'
-import { filterButtonsContainerSx, getListItemSx } from './todolist.style'
 import { TaskView } from './Task'
 
 export type Task = {
@@ -35,14 +32,19 @@ type TodolistProps = {
 }
 export const Todolist = React.memo((props: TodolistProps) => {
   const changeAllFilter = () => props.changeFilterStatusCallBack('all', props.idTodolist)
+
   const changeActiveFilter = () => props.changeFilterStatusCallBack('active', props.idTodolist)
+
   const changeCompletedFilter = () =>
     props.changeFilterStatusCallBack('completed', props.idTodolist)
+
   const deleteTodolistHandler = () => props.deleteTodolist(props.idTodolist)
+
   const addTaskCallBack = useCallback(
     (newTaskTitle: string) => props.addTaskCallBack(newTaskTitle, props.idTodolist),
     []
   )
+
   const changeTitleTodolist = (newTodolistTitle: string) =>
     props.editTodolistTitle(newTodolistTitle, props.idTodolist)
 
