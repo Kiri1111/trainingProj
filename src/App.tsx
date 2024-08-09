@@ -16,19 +16,7 @@ import { MenuButton } from './MenuButtons.style'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CustomizedSwitches from './Switch'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from './state/store'
-import {
-  addNewTask,
-  changeTaskStatusAction,
-  changeTaskTitleAction,
-  deleteTaskAction,
-} from './model/tasksReducer'
-import {
-  addTodolistAction,
-  changeTodolistFilter,
-  changeTodolistTitle,
-  removeTodolist,
-} from './model/todolistReducer'
+import { changeTodolistFilter, setTodolists } from './model/todolistReducer'
 import { todolistApi } from './api/todolistApi'
 
 export type FilterValue = 'all' | 'active' | 'completed'

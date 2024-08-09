@@ -5,12 +5,14 @@ export type AddTodolistType = ReturnType<typeof addTodolistAction>
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
 type ChangeTodolistTitle = ReturnType<typeof changeTodolistTitle>
 type ChangeTodolistFilter = ReturnType<typeof changeTodolistFilter>
+type setTodolists = ReturnType<typeof setTodolists>
 
 type ActionsTypes =
   | AddTodolistType
   | RemoveTodolistType
   | ChangeTodolistTitle
   | ChangeTodolistFilter
+  | setTodolists
 
 export const idTodolist1 = v1()
 export const idTodolist2 = v1()
@@ -48,6 +50,9 @@ export const todolistReducer = (
         tl.id === action.payload.id ? { ...tl, filter: action.payload.newFilterStatus } : tl
       )
     }
+    case 'SET_TODOLIST': {
+      return state
+    }
     default:
       return state
   }
@@ -68,4 +73,9 @@ export const changeTodolistTitle = (newTitle: string, id: string) => ({
 export const changeTodolistFilter = (newFilterStatus: FilterValue, id: string) => ({
   type: 'CHANGE_TODOLIST_FILTER' as const,
   payload: { newFilterStatus, id },
+})
+
+export const setTodolists = (todolists: TodolistType[]) => ({
+  type: 'SET_TODOLIST' as const,
+  payload: { todolists },
 })
