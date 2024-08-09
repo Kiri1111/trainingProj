@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.module.css'
 import { Task, Todolist } from './Todolist'
 import { useAppLogic } from './useAppLogic'
@@ -29,6 +29,7 @@ import {
   changeTodolistTitle,
   removeTodolist,
 } from './model/todolistReducer'
+import { todolistApi } from './api/todolistApi'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 export type TodolistType = {
@@ -42,6 +43,10 @@ export type TasksState = {
 type ThemeMode = 'dark' | 'light'
 
 export function App() {
+  useEffect(() => {
+    todolistApi.getTodolists().then((res) => console.log(res))
+  }, [])
+
   const dispatch = useDispatch()
 
   const {
