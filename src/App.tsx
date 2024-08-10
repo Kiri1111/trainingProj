@@ -17,7 +17,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CustomizedSwitches from './Switch'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeTodolistFilter, setTodolists } from './model/todolistReducer'
-import { todolistApi } from './api/todolistApi'
+import { todolistsApi } from './api/todolistsApi'
+import { tasksApi } from './api/tasksApi'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 export type TodolistType = {
@@ -32,7 +33,9 @@ type ThemeMode = 'dark' | 'light'
 
 export function App() {
   useEffect(() => {
-    todolistApi.getTodolists().then((res) => console.log(res))
+    tasksApi
+      .deleteTask('470fe321-3024-4e8c-a100-f2bc95575a9f', '5b57a2d9-904d-45e9-8d66-c5c3e1ffdd67')
+      .then((res) => console.log(res))
   }, [])
 
   const dispatch = useDispatch()
