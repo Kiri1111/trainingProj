@@ -23,17 +23,32 @@ export const tasksApi = {
   },
 }
 
-type TaskType = {
-  id: number
+export enum TaskStatuses {
+  New = 0,
+  InProgress = 1,
+  Completed = 2,
+  Draft = 3,
+}
+
+export enum TaskPriority {
+  Low = 0,
+  Middle = 1,
+  Hi = 2,
+  Urgently = 3,
+  Later = 4,
+}
+
+export type TaskType = {
+  id: string
   title: string
   description: null
   todoListId: string
   order: number
-  status: number
-  priority: number
+  status: TaskStatuses
+  priority: TaskPriority
   startDate: null
   deadline: null
-  addedDate: Date
+  addedDate: string
 }
 
 type ResponseTaskType = {

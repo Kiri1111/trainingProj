@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import './App.module.css'
-import { Task, Todolist } from './Todolist'
 import { useAppLogic } from './useAppLogic'
 import { v1 } from 'uuid'
 import { AddItemForm } from './AddItemForm'
@@ -18,25 +17,22 @@ import CustomizedSwitches from './Switch'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeTodolistFilter, setTodolists } from './model/todolistReducer'
 import { todolistsApi } from './api/todolistsApi'
-import { tasksApi } from './api/tasksApi'
+import { tasksApi, TaskType } from './api/tasksApi'
+import { Todolist } from './Todolist'
 
 export type FilterValue = 'all' | 'active' | 'completed'
-export type TodolistType = {
-  id: string
-  title: string
-  filter: FilterValue
-}
+
 export type TasksState = {
-  [key: string]: Task[]
+  [key: string]: TaskType[]
 }
 type ThemeMode = 'dark' | 'light'
 
 export function App() {
-  useEffect(() => {
-    tasksApi
-      .deleteTask('470fe321-3024-4e8c-a100-f2bc95575a9f', '5b57a2d9-904d-45e9-8d66-c5c3e1ffdd67')
-      .then((res) => console.log(res))
-  }, [])
+  //   useEffect(() => {
+  //     tasksApi
+  //       .deleteTask('470fe321-3024-4e8c-a100-f2bc95575a9f', '5b57a2d9-904d-45e9-8d66-c5c3e1ffdd67')
+  //       .then((res) => console.log(res))
+  //   }, [])
 
   const dispatch = useDispatch()
 

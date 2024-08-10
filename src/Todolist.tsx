@@ -10,22 +10,17 @@ import ButtonGroup from '@mui/material/ButtonGroup'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 import { TaskView } from './Task'
-
-export type Task = {
-  id: string
-  title: string
-  isDone: boolean
-}
+import { TaskStatuses, TaskType } from './api/tasksApi'
 
 type TodolistProps = {
   idTodolist: string
   filterValue: FilterValue
   titleTodo: string
-  tasks: Task[]
+  tasks: TaskType[]
   deleteTaskCallBack: (id: string, idTodolist: string) => void
   changeFilterStatusCallBack: (value: FilterValue, idTodolist: string) => void
   addTaskCallBack: (newTitle: string, idTodolist: string) => void
-  changeTaskStatus: (idTask: string, status: boolean, idTodolist: string) => void
+  changeTaskStatus: (idTask: string, status: TaskStatuses, idTodolist: string) => void
   deleteTodolist: (idTodolist: string) => void
   editTodolistTitle: (editTitle: string, idTodolist: string) => void
   changeTaskTitle: (editTitle: string, idTodolist: string, idTask: string) => void
@@ -51,10 +46,10 @@ export const Todolist = React.memo((props: TodolistProps) => {
   let tasksForTodolist = props.tasks
 
   if (props.filterValue === 'completed') {
-    tasksForTodolist = props.tasks.filter((t) => t.isDone)
+    tasksForTodolist = props.tasks.filter((t) => t.status)
   }
   if (props.filterValue === 'active') {
-    tasksForTodolist = props.tasks.filter((t) => !t.isDone)
+    tasksForTodolist = props.tasks.filter((t) => !t.status)
   }
 
   return (

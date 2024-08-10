@@ -6,15 +6,15 @@ import Checkbox from '@mui/material/Checkbox'
 import { EditableSpan } from './EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { Task } from './Todolist'
+import { TaskStatuses, TaskType } from './api/tasksApi'
 
 type TaskProps = {
   deleteTaskCallBack: (idTask: string, idTodolist: string) => void
-  changeTaskStatus: (idTask: string, checked: boolean, idTodolist: string) => void
+  changeTaskStatus: (idTask: string, checked: TaskStatuses, idTodolist: string) => void
   changeTaskTitle: (title: string, idTodolist: string, idTask: string) => void
   idTodolist: string
   idTask: string
-  task: Task
+  task: TaskType
 }
 
 export const TaskView = ({
@@ -26,15 +26,29 @@ export const TaskView = ({
   task,
 }: TaskProps) => {
   const deleteTaskHandler = () => deleteTaskCallBack(idTask, idTodolist)
-  const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    changeTaskStatus(idTask, e.currentTarget.checked, idTodolist)
+  const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    let value = TaskStatuses.InProgress
+    if (e.currentTarget.checked) {
+      value = TaskStatuses.Completed
+    }
+    changeTaskStatus(idTask, value, idTodolist)
+  }
   const changeTaskTitleHandler = (newTitleTask: string) =>
     changeTaskTitle(newTitleTask, idTodolist, idTask)
 
   return (
-    <ListItem sx={getListItemSx(task.isDone)} disableGutters disablePadding key={task.id}>
+    <ListItem
+      sx={getListItemSx(task.status === TaskStatuses.Completed)}
+      disableGutters
+      disablePadding
+      key={task.id}
+    >
       <Box sx={filterButtonsContainerSx}>
-        <Checkbox color='success' checked={task.isDone} onChange={changeStatusHandler} />
+        <Checkbox
+          color='success'
+          checked={task.status === TaskStatuses.Completed}
+          onChange={changeStatusHandler}
+        />
         <EditableSpan title={task.title} callBack={changeTaskTitleHandler} />
       </Box>
       <IconButton size='small' onClick={deleteTaskHandler}>
