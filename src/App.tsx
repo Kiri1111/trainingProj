@@ -13,12 +13,11 @@ import Paper from '@mui/material/Paper'
 import { MenuButton } from './MenuButtons.style'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CustomizedSwitches from './Switch'
-import { useDispatch, useSelector } from 'react-redux'
 import { changeTodolistFilter, getTodolists, setTodolists } from './model/todolistReducer'
-import { todolistsApi } from './api/todolistsApi'
-import { tasksApi, TaskType } from './api/tasksApi'
+import { TaskType } from './api/tasksApi'
 import { Todolist } from './Todolist'
 import { useAppDispatch } from './state/store'
+import s from './Todolist.module.css'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 
@@ -89,7 +88,7 @@ export function App() {
 
               return (
                 <Grid key={tl.id}>
-                  <Paper elevation={6} sx={{ p: '0 20px 20px 20px' }}>
+                  <Paper elevation={6} sx={{ backgroundColor: '#d3d3d3', p: '0 20px 20px 20px' }}>
                     <Todolist
                       idTodolist={tl.id}
                       titleTodo={tl.title}
