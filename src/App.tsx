@@ -14,10 +14,11 @@ import { MenuButton } from './MenuButtons.style'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CustomizedSwitches from './Switch'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeTodolistFilter, setTodolists } from './model/todolistReducer'
+import { changeTodolistFilter, getTodolists, setTodolists } from './model/todolistReducer'
 import { todolistsApi } from './api/todolistsApi'
 import { tasksApi, TaskType } from './api/tasksApi'
 import { Todolist } from './Todolist'
+import { useAppDispatch } from './state/store'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 
@@ -27,13 +28,11 @@ export type TasksState = {
 type ThemeMode = 'dark' | 'light'
 
 export function App() {
-  //   useEffect(() => {
-  //     tasksApi
-  //       .deleteTask('470fe321-3024-4e8c-a100-f2bc95575a9f', '5b57a2d9-904d-45e9-8d66-c5c3e1ffdd67')
-  //       .then((res) => console.log(res))
-  //   }, [])
+  const dispatch = useAppDispatch()
 
-  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getTodolists())
+  }, [])
 
   const {
     addTask,

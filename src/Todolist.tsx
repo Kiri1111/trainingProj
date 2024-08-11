@@ -65,7 +65,7 @@ export const Todolist = React.memo((props: TodolistProps) => {
       <AddItemForm addItemCallBack={addTaskCallBack} />
       <div>
         <List>
-          {tasksForTodolist.map((t) => {
+          {tasksForTodolist?.map((t) => {
             return (
               <TaskView
                 deleteTaskCallBack={props.deleteTaskCallBack}

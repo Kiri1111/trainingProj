@@ -1,6 +1,7 @@
 import { v1 } from 'uuid'
 import { FilterValue } from '../App'
-import { TodolistType } from '../api/todolistsApi'
+import { todolistsApi, TodolistType } from '../api/todolistsApi'
+import { Dispatch } from 'redux'
 
 export type AddTodolistType = ReturnType<typeof addTodolistAction>
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
@@ -20,10 +21,7 @@ export type TodolistDomainType = TodolistType & { filter: FilterValue }
 export const idTodolist1 = v1()
 export const idTodolist2 = v1()
 
-const initialState: TodolistDomainType[] = [
-  { id: idTodolist1, title: 'First', filter: 'all', addedDate: '', order: 0 },
-  { id: idTodolist2, title: 'Second', filter: 'all', addedDate: '', order: 0 },
-]
+const initialState: TodolistDomainType[] = []
 
 export const todolistReducer = (
   state: TodolistDomainType[] = initialState,
@@ -84,3 +82,7 @@ export const setTodolists = (todolists: TodolistType[]) => ({
   type: 'SET_TODOLISTS' as const,
   payload: { todolists },
 })
+
+export const getTodolists = () => (dispatch: Dispatch) => {
+  todolistsApi.getTodolists().then((res) => dispatch(setTodolists(res.data)))
+}
