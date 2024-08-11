@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.module.css'
 import { useAppLogic } from './useAppLogic'
-import { v1 } from 'uuid'
 import { AddItemForm } from './AddItemForm'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar/'

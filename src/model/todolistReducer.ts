@@ -55,8 +55,8 @@ export const todolistReducer = (
         tl.id === action.payload.id ? { ...tl, filter: action.payload.newFilterStatus } : tl
       )
     }
-    case 'SET_TODOLIST': {
-      return state
+    case 'SET_TODOLISTS': {
+      return action.payload.todolists.map((t) => ({ ...t, filter: 'all' }))
     }
     default:
       return state
@@ -81,6 +81,6 @@ export const changeTodolistFilter = (newFilterStatus: FilterValue, id: string) =
 })
 
 export const setTodolists = (todolists: TodolistType[]) => ({
-  type: 'SET_TODOLIST' as const,
+  type: 'SET_TODOLISTS' as const,
   payload: { todolists },
 })
