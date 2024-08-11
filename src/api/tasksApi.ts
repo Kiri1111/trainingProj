@@ -10,7 +10,7 @@ const instance = axios.create({
 
 export const tasksApi = {
   getTasks(idTodolist: string) {
-    return instance.get<AxiosResponse<ResponseTaskType>>(`todo-lists/${idTodolist}/tasks`)
+    return instance.get<ResponseTaskType>(`todo-lists/${idTodolist}/tasks`)
   },
   createTask(idTodolist: string, title: string) {
     return instance.post(`todo-lists/${idTodolist}/tasks`, { title })

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FilterValue } from './App'
 import s from './Todolist.module.css'
 import { AddItemForm } from './AddItemForm'
@@ -11,6 +11,8 @@ import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 import { TaskView } from './Task'
 import { TaskStatuses, TaskType } from './api/tasksApi'
+import { useAppDispatch } from './state/store'
+import { getTasks } from './model/tasksReducer'
 
 type TodolistProps = {
   idTodolist: string
@@ -26,6 +28,12 @@ type TodolistProps = {
   changeTaskTitle: (editTitle: string, idTodolist: string, idTask: string) => void
 }
 export const Todolist = React.memo((props: TodolistProps) => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getTasks(props.idTodolist))
+  }, [])
+
   const changeAllFilter = () => props.changeFilterStatusCallBack('all', props.idTodolist)
 
   const changeActiveFilter = () => props.changeFilterStatusCallBack('active', props.idTodolist)

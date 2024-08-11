@@ -2,12 +2,15 @@ import { v1 } from 'uuid'
 import { TasksState } from '../App'
 import { Todolist } from '../Todolist'
 import { AddTodolistType, idTodolist1, idTodolist2, RemoveTodolistType } from './todolistReducer'
-import { TaskPriority, TaskStatuses, TaskType } from '../api/tasksApi'
+import { TaskPriority, tasksApi, TaskStatuses, TaskType } from '../api/tasksApi'
+import { Dispatch } from 'redux'
+import { log } from 'console'
 
 type AddTask = ReturnType<typeof addNewTask>
 type DeleteTask = ReturnType<typeof deleteTaskAction>
 type ChangeTaskTitle = ReturnType<typeof changeTaskTitleAction>
 type ChangeTaskStatus = ReturnType<typeof changeTaskStatusAction>
+type SetTasks = ReturnType<typeof setTasks>
 
 type ActionsTaskReducer =
   | AddTask
@@ -16,48 +19,49 @@ type ActionsTaskReducer =
   | ChangeTaskStatus
   | AddTodolistType
   | RemoveTodolistType
+  | SetTasks
 
 const initialState: TasksState = {
-  [idTodolist1]: [
-    {
-      id: v1(),
-      title: 'HTML',
-      status: TaskStatuses.Completed,
-      addedDate: '',
-      deadline: null,
-      description: null,
-      order: 0,
-      priority: TaskPriority.Later,
-      startDate: null,
-      todoListId: idTodolist1,
-    },
-    {
-      id: v1(),
-      title: 'HTML',
-      status: TaskStatuses.Completed,
-      addedDate: '',
-      deadline: null,
-      description: null,
-      order: 0,
-      priority: TaskPriority.Later,
-      startDate: null,
-      todoListId: idTodolist1,
-    },
-  ],
-  [idTodolist2]: [
-    {
-      id: v1(),
-      title: 'HTML',
-      status: TaskStatuses.Completed,
-      addedDate: '',
-      deadline: null,
-      description: null,
-      order: 0,
-      priority: TaskPriority.Later,
-      startDate: null,
-      todoListId: idTodolist2,
-    },
-  ],
+  // [idTodolist1]: [
+  //   {
+  //     id: v1(),
+  //     title: 'HTML',
+  //     status: TaskStatuses.Completed,
+  //     addedDate: '',
+  //     deadline: null,
+  //     description: null,
+  //     order: 0,
+  //     priority: TaskPriority.Later,
+  //     startDate: null,
+  //     todoListId: idTodolist1,
+  //   },
+  //   {
+  //     id: v1(),
+  //     title: 'HTML',
+  //     status: TaskStatuses.Completed,
+  //     addedDate: '',
+  //     deadline: null,
+  //     description: null,
+  //     order: 0,
+  //     priority: TaskPriority.Later,
+  //     startDate: null,
+  //     todoListId: idTodolist1,
+  //   },
+  // ],
+  // [idTodolist2]: [
+  //   {
+  //     id: v1(),
+  //     title: 'HTML',
+  //     status: TaskStatuses.Completed,
+  //     addedDate: '',
+  //     deadline: null,
+  //     description: null,
+  //     order: 0,
+  //     priority: TaskPriority.Later,
+  //     startDate: null,
+  //     todoListId: idTodolist2,
+  //   },
+  // ],
 }
 
 export const tasksReducer = (
@@ -65,6 +69,9 @@ export const tasksReducer = (
   action: ActionsTaskReducer
 ): TasksState => {
   switch (action.type) {
+    case 'SET_TASKS': {
+      return { ...state, [action.payload.idTodolist]: action.payload.tasks }
+    }
     case 'ADD_TASK': {
       const copyState = { ...state }
       const tasks = copyState[action.payload.idTodolist]
@@ -151,3 +158,12 @@ export const changeTaskStatusAction = (
   type: 'CHANGE_TASK_STATUS' as const,
   payload: { newStatus, idTask, idTodolist },
 })
+
+export const setTasks = (tasks: any, idTodolist: string) => ({
+  type: 'SET_TASKS' as const,
+  payload: { tasks, idTodolist },
+})
+
+export const getTasks = (idTodolist: string) => (dispatch: Dispatch) => {
+  tasksApi.getTasks(idTodolist).then((res) => dispatch(setTasks(res.data.items, idTodolist)))
+}
