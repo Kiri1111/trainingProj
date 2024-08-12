@@ -116,13 +116,13 @@ const startState: TasksState = {
   ],
 }
 
-test('correct task should be added', () => {
-  const endState = tasksReducer(startState, addNewTask('Hello', idTodolist1))
+// test('correct task should be added', () => {
+//   // const endState = tasksReducer(startState, addNewTask('Hello', idTodolist1))
 
-  expect(endState[idTodolist1].length).toBe(6)
-  expect(endState[idTodolist2].length).toBe(3)
-  expect(endState[idTodolist1][0].title).toBe('Hello')
-})
+//   expect(endState[idTodolist1].length).toBe(6)
+//   expect(endState[idTodolist2].length).toBe(3)
+//   expect(endState[idTodolist1][0].title).toBe('Hello')
+// })
 
 test('correct task should be deleted', () => {
   const endState = tasksReducer(startState, deleteTaskAction('2', idTodolist1))

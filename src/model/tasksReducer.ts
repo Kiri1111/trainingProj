@@ -73,23 +73,29 @@ export const tasksReducer = (
       return { ...state, [action.payload.idTodolist]: action.payload.tasks }
     }
     case 'ADD_TASK': {
-      const copyState = { ...state }
-      const tasks = copyState[action.payload.idTodolist]
-      const newTask = {
-        id: v1(),
-        title: action.payload.title,
-        description: null,
-        todoListId: action.payload.idTodolist,
-        order: 0,
-        status: TaskStatuses.New,
-        priority: TaskPriority.Low,
-        startDate: null,
-        deadline: null,
-        addedDate: '',
+      // const copyState = { ...state }
+      // const tasks = copyState[action.payload.idTodolist]
+      // const newTask = {
+      //   id: v1(),
+      //   title: action.payload.title,
+      //   description: null,
+      //   todoListId: action.payload.idTodolist,
+      //   order: 0,
+      //   status: TaskStatuses.New,
+      //   priority: TaskPriority.Low,
+      //   startDate: null,
+      //   deadline: null,
+      //   addedDate: '',
+      // }
+      // const newTasks = [newTask, ...tasks]
+      // copyState[action.payload.idTodolist] = newTasks
+      return {
+        ...state,
+        [action.payload.task.todoListId]: [
+          action.payload.task,
+          ...state[action.payload.task.todoListId],
+        ],
       }
-      const newTasks = [newTask, ...tasks]
-      copyState[action.payload.idTodolist] = newTasks
-      return copyState
     }
     case 'DELETE_TASK': {
       const copyState = { ...state }
@@ -138,9 +144,9 @@ export const tasksReducer = (
   }
 }
 
-export const addNewTask = (title: string, idTodolist: string) => ({
+export const addNewTask = (task: TaskType) => ({
   type: 'ADD_TASK' as const,
-  payload: { title, idTodolist },
+  payload: { task },
 })
 export const deleteTaskAction = (idTask: string, idTodolist: string) => ({
   type: 'DELETE_TASK' as const,
@@ -166,4 +172,14 @@ export const setTasks = (tasks: any, idTodolist: string) => ({
 
 export const getTasks = (idTodolist: string) => (dispatch: Dispatch) => {
   tasksApi.getTasks(idTodolist).then((res) => dispatch(setTasks(res.data.items, idTodolist)))
+}
+export const removeTask = (idTodolist: string, idTask: string) => (dispatch: Dispatch) => {
+  tasksApi
+    .deleteTask(idTodolist, idTask)
+    .then(() => dispatch(deleteTaskAction(idTask, idTodolist)))
+    .catch((e) => console.log(e))
+}
+
+export const createNewTask = (idTodolist: string, title: string) => (dispatch: Dispatch) => {
+  tasksApi.createTask(idTodolist, title).then((res) => dispatch(addNewTask(res.data.data.item)))
 }

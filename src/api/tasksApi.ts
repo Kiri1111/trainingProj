@@ -16,10 +16,10 @@ export const tasksApi = {
     return instance.post(`todo-lists/${idTodolist}/tasks`, { title })
   },
   updateTask(idTodolist: string, idTask: string, newTitle: string) {
-    return instance.put(`todo-lists/${idTodolist}/tasks/${idTask}`, { newTitle })
+    return instance.put<ResponseTaskType>(`todo-lists/${idTodolist}/tasks/${idTask}`, { newTitle })
   },
   deleteTask(idTodolist: string, idTask: string) {
-    return instance.delete<AxiosResponse<ResponseTasksDoingType>>(
+    return instance.delete<AxiosResponse<ResponseTasksDelType>>(
       `todo-lists/${idTodolist}/tasks/${idTask}`
     )
   },
@@ -59,7 +59,7 @@ type ResponseTaskType = {
   error: null
 }
 
-type ResponseTasksDoingType = {
+type ResponseTasksDelType = {
   data: {}
   messages: string[]
   fieldsErrors: string[]
