@@ -10,16 +10,20 @@ const instance = axios.create({
 
 export const tasksApi = {
   getTasks(idTodolist: string) {
-    return instance.get<ResponseTaskType>(`todo-lists/${idTodolist}/tasks`)
+    return instance.get<ResponseGetTaskType>(`todo-lists/${idTodolist}/tasks`)
   },
   createTask(idTodolist: string, title: string) {
-    return instance.post(`todo-lists/${idTodolist}/tasks`, { title })
+    return instance.post<ResponseTaskType<{ item: TaskType }>>(`todo-lists/${idTodolist}/tasks`, {
+      title,
+    })
   },
   updateTask(idTodolist: string, idTask: string, newTitle: string) {
-    return instance.put<ResponseTaskType>(`todo-lists/${idTodolist}/tasks/${idTask}`, { newTitle })
+    return instance.put<ResponseGetTaskType>(`todo-lists/${idTodolist}/tasks/${idTask}`, {
+      newTitle,
+    })
   },
   deleteTask(idTodolist: string, idTask: string) {
-    return instance.delete<AxiosResponse<ResponseTasksDelType>>(
+    return instance.delete<AxiosResponse<ResponseTaskType>>(
       `todo-lists/${idTodolist}/tasks/${idTask}`
     )
   },
@@ -53,14 +57,14 @@ export type TaskType = {
   addedDate: string
 }
 
-type ResponseTaskType = {
+type ResponseGetTaskType = {
   items: TaskType[]
   totalCount: number
   error: null
 }
 
-type ResponseTasksDelType = {
-  data: {}
+type ResponseTaskType<T = {}> = {
+  data: T
   messages: string[]
   fieldsErrors: string[]
   resultCode: number
