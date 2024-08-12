@@ -17,10 +17,8 @@ export const tasksApi = {
       title,
     })
   },
-  updateTask(idTodolist: string, idTask: string, newTitle: string) {
-    return instance.put<ResponseGetTaskType>(`todo-lists/${idTodolist}/tasks/${idTask}`, {
-      newTitle,
-    })
+  updateTask(idTodolist: string, idTask: string, task: TaskForUpdateType) {
+    return instance.put<ResponseGetTaskType>(`todo-lists/${idTodolist}/tasks/${idTask}`, task)
   },
   deleteTask(idTodolist: string, idTask: string) {
     return instance.delete<AxiosResponse<ResponseTaskType>>(
@@ -68,4 +66,13 @@ type ResponseTaskType<T = {}> = {
   messages: string[]
   fieldsErrors: string[]
   resultCode: number
+}
+
+export type TaskForUpdateType = {
+  title: string
+  description: null
+  priority: TaskPriority
+  startDate: any
+  deadline: any
+  status: TaskStatuses
 }

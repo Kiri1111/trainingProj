@@ -6,6 +6,7 @@ import {
   changeTaskTitleAction,
   createNewTask,
   removeTask,
+  updateTaskStatus,
 } from './model/tasksReducer'
 import {
   addTodolistAction,
@@ -30,7 +31,7 @@ export const useAppLogic = () => {
   }
 
   const changeTaskStatus = (idTask: string, status: TaskStatuses, idTodolist: string) => {
-    dispatch(changeTaskStatusAction(status, idTask, idTodolist))
+    dispatch(updateTaskStatus(idTask, idTodolist, status))
   }
 
   const deleteTodolist = (idTodolist: string) => {
