@@ -13,11 +13,10 @@ import Paper from '@mui/material/Paper'
 import { MenuButton } from './MenuButtons.style'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CustomizedSwitches from './Switch'
-import { changeTodolistFilter, getTodolists, setTodolists } from './model/todolistReducer'
+import { changeTodolistFilter, getTodolistsThunk, setTodolists } from './model/todolistReducer'
 import { TaskType } from './api/tasksApi'
 import { Todolist } from './Todolist'
 import { useAppDispatch } from './state/store'
-import s from './Todolist.module.css'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 
@@ -30,7 +29,7 @@ export function App() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getTodolists())
+    dispatch(getTodolistsThunk())
   }, [])
 
   const {

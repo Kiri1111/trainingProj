@@ -8,10 +8,9 @@ import {
 } from './model/tasksReducer'
 import {
   addTodolistThunk,
-  changeTodolistTitle,
   deleteTodolistThunk,
-  removeTodolist,
   TodolistDomainType,
+  updateTodolistThunk,
 } from './model/todolistReducer'
 import { TasksState } from './App'
 import { TaskStatuses } from './api/tasksApi'
@@ -41,7 +40,7 @@ export const useAppLogic = () => {
   }
 
   const changeTitleTodolist = (editTitle: string, idTodolist: string) => {
-    dispatch(changeTodolistTitle(editTitle, idTodolist))
+    dispatch(updateTodolistThunk(idTodolist, editTitle))
   }
 
   const changeTaskTitle = (editTitle: string, idTodolist: string, idTask: string) => {
