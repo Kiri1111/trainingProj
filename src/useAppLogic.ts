@@ -1,20 +1,18 @@
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from './state/store'
 import {
-  addNewTask,
-  changeTaskStatusAction,
   changeTaskTitleAction,
   createNewTask,
   removeTask,
   updateTaskStatus,
 } from './model/tasksReducer'
 import {
-  addTodolistAction,
+  addTodolistThunk,
   changeTodolistTitle,
+  deleteTodolistThunk,
   removeTodolist,
   TodolistDomainType,
 } from './model/todolistReducer'
-import { v1 } from 'uuid'
 import { TasksState } from './App'
 import { TaskStatuses } from './api/tasksApi'
 
@@ -35,12 +33,11 @@ export const useAppLogic = () => {
   }
 
   const deleteTodolist = (idTodolist: string) => {
-    dispatch(removeTodolist(idTodolist))
+    dispatch(deleteTodolistThunk(idTodolist))
   }
 
   const addTodolist = (newTodolistTitle: string) => {
-    const idTodolist = v1()
-    dispatch(addTodolistAction(newTodolistTitle, idTodolist))
+    dispatch(addTodolistThunk(newTodolistTitle))
   }
 
   const changeTitleTodolist = (editTitle: string, idTodolist: string) => {

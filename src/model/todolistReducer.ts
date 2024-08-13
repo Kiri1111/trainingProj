@@ -2,6 +2,7 @@ import { v1 } from 'uuid'
 import { FilterValue } from '../App'
 import { todolistsApi, TodolistType } from '../api/todolistsApi'
 import { Dispatch } from 'redux'
+import { RootState } from '../state/store'
 
 export type AddTodolistType = ReturnType<typeof addTodolistAction>
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
@@ -85,4 +86,15 @@ export const setTodolists = (todolists: TodolistType[]) => ({
 
 export const getTodolists = () => (dispatch: Dispatch) => {
   todolistsApi.getTodolists().then((res) => dispatch(setTodolists(res.data)))
+}
+
+export const addTodolistThunk =
+  (title: string) => (dispatch: Dispatch, getState: () => RootState) => {
+    todolistsApi
+      .createTodolist(title)
+      .then((res) => dispatch(addTodolistAction(res.data.data.item.title, res.data.data.item.id)))
+  }
+
+export const deleteTodolistThunk = (idTodolist: string) => (dispatch: Dispatch) => {
+  todolistsApi.deleteTodolist(idTodolist).then((res) => dispatch(removeTodolist(idTodolist)))
 }

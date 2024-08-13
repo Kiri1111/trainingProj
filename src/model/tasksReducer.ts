@@ -192,8 +192,6 @@ export const updateTaskStatus =
     const task = rootState.tasks[idTodolist].find((t) => t.id === idTask)
 
     if (task) {
-      console.log(task.title)
-
       const taskForApi: TaskForUpdateType = {
         title: task.title,
         description: task.description,

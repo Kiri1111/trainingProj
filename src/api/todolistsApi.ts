@@ -19,10 +19,7 @@ export const todolistsApi = {
     return instance.put<AxiosResponse<ResponseTodolistType>>(`todo-lists/${idTodolist}`, { title })
   },
   createTodolist(title: string) {
-    return instance.post<AxiosResponse<ResponseTodolistType<{ item: TodolistType }>>>(
-      'todo-lists',
-      { title }
-    )
+    return instance.post<ResponseTodolistType<{ item: TodolistType }>>('todo-lists', { title })
   },
 }
 
