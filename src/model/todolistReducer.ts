@@ -4,6 +4,7 @@ import { todolistsApi, TodolistType } from '../api/todolistsApi'
 import { Dispatch } from 'redux'
 import { RootState } from '../state/store'
 import { title } from 'process'
+import { changeAppStatus } from './appReducer'
 
 export type AddTodolistType = ReturnType<typeof addTodolistAction>
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
@@ -86,22 +87,34 @@ export const setTodolists = (todolists: TodolistType[]) => ({
 })
 
 export const getTodolistsThunk = () => (dispatch: Dispatch) => {
-  todolistsApi.getTodolists().then((res) => dispatch(setTodolists(res.data)))
+  dispatch(changeAppStatus('loading'))
+  todolistsApi.getTodolists().then((res) => {
+    dispatch(setTodolists(res.data))
+    dispatch(changeAppStatus('succes'))
+  })
 }
 
 export const addTodolistThunk =
   (title: string) => (dispatch: Dispatch, getState: () => RootState) => {
-    todolistsApi
-      .createTodolist(title)
-      .then((res) => dispatch(addTodolistAction(res.data.data.item.title, res.data.data.item.id)))
+    dispatch(changeAppStatus('loading'))
+    todolistsApi.createTodolist(title).then((res) => {
+      dispatch(addTodolistAction(res.data.data.item.title, res.data.data.item.id))
+      dispatch(changeAppStatus('succes'))
+    })
   }
 
 export const deleteTodolistThunk = (idTodolist: string) => (dispatch: Dispatch) => {
-  todolistsApi.deleteTodolist(idTodolist).then((res) => dispatch(removeTodolist(idTodolist)))
+  dispatch(changeAppStatus('loading'))
+  todolistsApi.deleteTodolist(idTodolist).then((res) => {
+    dispatch(removeTodolist(idTodolist))
+    dispatch(changeAppStatus('succes'))
+  })
 }
 export const updateTodolistThunk =
   (idTodolist: string, newTitle: string) => (dispatch: Dispatch) => {
-    todolistsApi
-      .updateTodolist(idTodolist, newTitle)
-      .then((res) => dispatch(changeTodolistTitle(newTitle, idTodolist)))
+    dispatch(changeAppStatus('loading'))
+    todolistsApi.updateTodolist(idTodolist, newTitle).then((res) => {
+      dispatch(changeTodolistTitle(newTitle, idTodolist))
+      dispatch(changeAppStatus('succes'))
+    })
   }

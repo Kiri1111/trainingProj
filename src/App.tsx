@@ -17,7 +17,9 @@ import CustomizedSwitches from './Switch'
 import { changeTodolistFilter, getTodolistsThunk, setTodolists } from './model/todolistReducer'
 import { TaskType } from './api/tasksApi'
 import { Todolist } from './Todolist'
-import { useAppDispatch } from './state/store'
+import { RootState, useAppDispatch } from './state/store'
+import { useSelector } from 'react-redux'
+import { ReguestStatusType } from './model/appReducer'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 
@@ -29,10 +31,11 @@ type ThemeMode = 'dark' | 'light'
 export function App() {
   const dispatch = useAppDispatch()
 
-  // useEffect(() => {
-  //   console.log('efect')
-  //   dispatch(getTodolistsThunk())
-  // }, [])
+  const appStatus = useSelector<RootState, ReguestStatusType>((state) => state.app.status)
+
+  useEffect(() => {
+    dispatch(getTodolistsThunk())
+  }, [])
 
   const {
     addTask,
@@ -75,7 +78,7 @@ export function App() {
             <MenuButton>Faq</MenuButton>
             <CustomizedSwitches onChange={changeModeHandler} />
           </Toolbar>
-          <LinearProgress color='success' />
+          {appStatus === 'loading' && <LinearProgress color='success' />}
         </AppBar>
 
         <Container fixed>
