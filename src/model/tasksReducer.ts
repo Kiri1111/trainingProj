@@ -6,6 +6,7 @@ import { TaskForUpdateType, TaskPriority, tasksApi, TaskStatuses, TaskType } fro
 import { Dispatch } from 'redux'
 import { log } from 'console'
 import { RootState } from '../state/store'
+import { changeAppStatus } from './appReducer'
 
 type AddTask = ReturnType<typeof addNewTask>
 type DeleteTask = ReturnType<typeof deleteTaskAction>
@@ -172,17 +173,27 @@ export const setTasks = (tasks: any, idTodolist: string) => ({
 })
 
 export const getTasks = (idTodolist: string) => (dispatch: Dispatch) => {
-  tasksApi.getTasks(idTodolist).then((res) => dispatch(setTasks(res.data.items, idTodolist)))
+  dispatch(changeAppStatus('loading'))
+  tasksApi.getTasks(idTodolist).then((res) => {
+    dispatch(setTasks(res.data.items, idTodolist))
+    dispatch(changeAppStatus('succes'))
+  })
 }
 export const removeTask = (idTodolist: string, idTask: string) => (dispatch: Dispatch) => {
+  dispatch(changeAppStatus('loading'))
   tasksApi
     .deleteTask(idTodolist, idTask)
     .then(() => dispatch(deleteTaskAction(idTask, idTodolist)))
     .catch((e) => console.log(e))
+  dispatch(changeAppStatus('succes'))
 }
 
 export const createNewTask = (idTodolist: string, title: string) => (dispatch: Dispatch) => {
-  tasksApi.createTask(idTodolist, title).then((res) => dispatch(addNewTask(res.data.data.item)))
+  dispatch(changeAppStatus('loading'))
+  tasksApi.createTask(idTodolist, title).then((res) => {
+    dispatch(addNewTask(res.data.data.item))
+    dispatch(changeAppStatus('succes'))
+  })
 }
 
 export const updateTaskStatus =
@@ -200,8 +211,10 @@ export const updateTaskStatus =
         deadline: task.deadline,
         status,
       }
-      tasksApi
-        .updateTask(idTodolist, idTask, taskForApi)
-        .then((res) => dispatch(changeTaskStatusAction(status, idTask, idTodolist)))
+      dispatch(changeAppStatus('loading'))
+      tasksApi.updateTask(idTodolist, idTask, taskForApi).then((res) => {
+        dispatch(changeTaskStatusAction(status, idTask, idTodolist))
+        dispatch(changeAppStatus('succes'))
+      })
     }
   }
