@@ -78,7 +78,12 @@ export function App() {
             <MenuButton>Faq</MenuButton>
             <CustomizedSwitches onChange={changeModeHandler} />
           </Toolbar>
-          {appStatus === 'loading' && <LinearProgress color='success' />}
+          {appStatus === 'loading' && (
+            <LinearProgress
+              style={{ position: 'absolute', top: '62px', width: '100%' }}
+              color='success'
+            />
+          )}
         </AppBar>
 
         <Container fixed>
