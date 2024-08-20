@@ -9,11 +9,13 @@ import {
 import {
   addTodolistThunk,
   deleteTodolistThunk,
+  getTodolistsThunk,
   TodolistDomainType,
   updateTodolistThunk,
 } from './model/todolistReducer'
 import { TasksState } from './App'
 import { TaskStatuses } from './api/tasksApi'
+import { useEffect } from 'react'
 
 export const useAppLogic = () => {
   const tasks = useSelector<RootState, TasksState>((state) => state.tasks)
@@ -46,6 +48,10 @@ export const useAppLogic = () => {
   const changeTaskTitle = (editTitle: string, idTodolist: string, idTask: string) => {
     dispatch(changeTaskTitleAction(editTitle, idTask, idTodolist))
   }
+
+  useEffect(() => {
+    dispatch(getTodolistsThunk())
+  }, [])
 
   return {
     tasks,

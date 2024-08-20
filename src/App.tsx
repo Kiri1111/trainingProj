@@ -4,6 +4,7 @@ import { useAppLogic } from './useAppLogic'
 import { AddItemForm } from './AddItemForm'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar/'
+import LinearProgress from '@mui/material/LinearProgress'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -28,9 +29,10 @@ type ThemeMode = 'dark' | 'light'
 export function App() {
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(getTodolistsThunk())
-  }, [])
+  // useEffect(() => {
+  //   console.log('efect')
+  //   dispatch(getTodolistsThunk())
+  // }, [])
 
   const {
     addTask,
@@ -73,7 +75,9 @@ export function App() {
             <MenuButton>Faq</MenuButton>
             <CustomizedSwitches onChange={changeModeHandler} />
           </Toolbar>
+          <LinearProgress color='success' />
         </AppBar>
+
         <Container fixed>
           <Grid sx={{ mb: '30px' }} container>
             <AddItemForm addItemCallBack={addTodolist} />
