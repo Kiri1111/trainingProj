@@ -1,19 +1,15 @@
-import * as React from 'react'
-import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar'
-import { useState } from 'react'
-
-interface State {
-  open: boolean
-}
+import Snackbar from '@mui/material/Snackbar'
+import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from '../state/store'
+import { ErrorMessageType, setAppError } from '../model/appReducer'
 
 export function ErrorSnackbar() {
-  const [open, setOpen] = useState(true)
+  const error = useSelector<RootState, ErrorMessageType>((state) => state.app.error)
+  const dispatch = useAppDispatch()
 
   const handleClose = () => {
-    setOpen(false)
+    dispatch(setAppError(null))
   }
 
   return (
@@ -24,11 +20,11 @@ export function ErrorSnackbar() {
             background: 'red',
           },
         }}
-        autoHideDuration={40000}
+        autoHideDuration={4000}
         anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-        open={open}
+        open={error !== null}
         onClose={handleClose}
-        message='I love snacks'
+        message={error}
       />
     </Box>
   )
