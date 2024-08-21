@@ -59,6 +59,7 @@ type ResponseGetTaskType = {
   items: TaskType[]
   totalCount: number
   error: null
+  resultCode: number
 }
 
 type ResponseTaskType<T = {}> = {

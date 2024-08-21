@@ -4,7 +4,7 @@ import { todolistsApi, TodolistType } from '../api/todolistsApi'
 import { Dispatch } from 'redux'
 import { RootState } from '../state/store'
 import { title } from 'process'
-import { changeAppStatus } from './appReducer'
+import { changeAppStatus, setAppError } from './appReducer'
 
 export type AddTodolistType = ReturnType<typeof addTodolistAction>
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
@@ -88,33 +88,50 @@ export const setTodolists = (todolists: TodolistType[]) => ({
 
 export const getTodolistsThunk = () => (dispatch: Dispatch) => {
   dispatch(changeAppStatus('loading'))
-  todolistsApi.getTodolists().then((res) => {
-    dispatch(setTodolists(res.data))
-    dispatch(changeAppStatus('succes'))
-  })
+  todolistsApi
+    .getTodolists()
+    .then((res) => {
+      dispatch(setTodolists(res.data))
+      dispatch(changeAppStatus('succes'))
+    })
+    .catch((e) => dispatch(setAppError(e.toString())))
+    .finally(() => dispatch(changeAppStatus('succes')))
 }
 
 export const addTodolistThunk =
   (title: string) => (dispatch: Dispatch, getState: () => RootState) => {
     dispatch(changeAppStatus('loading'))
-    todolistsApi.createTodolist(title).then((res) => {
-      dispatch(addTodolistAction(res.data.data.item.title, res.data.data.item.id))
-      dispatch(changeAppStatus('succes'))
-    })
+    todolistsApi
+      .createTodolist(title)
+      .then((res) => {
+        if (res.data.resultCode === 0) {
+          dispatch(addTodolistAction(res.data.data.item.title, res.data.data.item.id))
+        }
+        dispatch(setAppError(res.data.messages[0]))
+      })
+      .catch((e) => dispatch(setAppError(e.toString())))
+      .finally(() => dispatch(changeAppStatus('succes')))
   }
 
 export const deleteTodolistThunk = (idTodolist: string) => (dispatch: Dispatch) => {
   dispatch(changeAppStatus('loading'))
-  todolistsApi.deleteTodolist(idTodolist).then((res) => {
-    dispatch(removeTodolist(idTodolist))
-    dispatch(changeAppStatus('succes'))
-  })
+  todolistsApi
+    .deleteTodolist(idTodolist)
+    .then((res) => {
+      dispatch(removeTodolist(idTodolist))
+    })
+    .catch((e) => dispatch(setAppError(e.toString())))
+    .finally(() => dispatch(changeAppStatus('succes')))
 }
 export const updateTodolistThunk =
   (idTodolist: string, newTitle: string) => (dispatch: Dispatch) => {
     dispatch(changeAppStatus('loading'))
-    todolistsApi.updateTodolist(idTodolist, newTitle).then((res) => {
-      dispatch(changeTodolistTitle(newTitle, idTodolist))
-      dispatch(changeAppStatus('succes'))
-    })
+    todolistsApi
+      .updateTodolist(idTodolist, newTitle)
+      .then((res) => {
+        dispatch(changeTodolistTitle(newTitle, idTodolist))
+        dispatch(changeAppStatus('succes'))
+      })
+      .catch((e) => dispatch(setAppError(e.toString())))
+      .finally(() => dispatch(changeAppStatus('succes')))
   }
