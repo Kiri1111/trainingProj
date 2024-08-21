@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.module.css'
 import { useAppLogic } from './useAppLogic'
-import { AddItemForm } from './AddItemForm'
+import { AddItemForm } from './components/AddItemForm'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar/'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -20,6 +20,7 @@ import { Todolist } from './Todolist'
 import { RootState, useAppDispatch } from './state/store'
 import { useSelector } from 'react-redux'
 import { ReguestStatusType } from './model/appReducer'
+import { ErrorSnackbar } from './components/errorSnackbar'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 
@@ -119,6 +120,7 @@ export function App() {
             })}
           </Grid>
         </Container>
+        <ErrorSnackbar />
       </ThemeProvider>
     </div>
   )
