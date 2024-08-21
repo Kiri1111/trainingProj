@@ -199,8 +199,9 @@ export const createNewTask = (idTodolist: string, title: string) => (dispatch: D
     .then((res) => {
       if (res.data.resultCode === 0) {
         dispatch(addNewTask(res.data.data.item))
+      } else {
+        dispatch(setAppError(res.data.messages[0]))
       }
-      dispatch(setAppError(res.data.messages[0]))
     })
     .catch((e) => dispatch(setAppError(e.toString())))
     .finally(() => dispatch(changeAppStatus('succes')))

@@ -106,8 +106,9 @@ export const addTodolistThunk =
       .then((res) => {
         if (res.data.resultCode === 0) {
           dispatch(addTodolistAction(res.data.data.item.title, res.data.data.item.id))
+        } else {
+          dispatch(setAppError(res.data.messages[0]))
         }
-        dispatch(setAppError(res.data.messages[0]))
       })
       .catch((e) => dispatch(setAppError(e.toString())))
       .finally(() => dispatch(changeAppStatus('succes')))
