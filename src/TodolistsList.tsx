@@ -6,6 +6,7 @@ import { changeTodolistFilter } from './model/todolistReducer'
 import { Todolist } from './Todolist'
 import { useAppDispatch } from './state/store'
 import { FilterValue } from './App'
+import { Link, useParams } from 'react-router-dom'
 
 type TodolistsListPropsType = {}
 
@@ -28,6 +29,9 @@ export const TodolistsList = ({}: TodolistsListPropsType) => {
     <>
       <Grid sx={{ mb: '30px' }} container>
         <AddItemForm addItemCallBack={addTodolist} />
+        <Link style={{ padding: '17px' }} to={'/login'}>
+          Go to login page
+        </Link>
       </Grid>
 
       <Grid container spacing={4}>

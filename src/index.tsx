@@ -16,6 +16,10 @@ const router = createBrowserRouter([
     errorElement: <Navigate to={'/404'} />,
     children: [
       {
+        index: true,
+        element: <Navigate to={'/todolists'} />,
+      },
+      {
         path: '/login',
         element: <Login />,
       },
