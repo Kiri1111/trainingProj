@@ -5,12 +5,33 @@ import reportWebVitals from './reportWebVitals'
 import { App } from './App'
 import { Provider } from 'react-redux'
 import { store } from './state/store'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Login } from './features/login/Login'
+import { Outlet } from 'react-router-dom'
+import { Todolist } from './Todolist'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/todolists',
+        element: <App />,
+      },
+    ],
+  },
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Provider store={store}>
-    <App />
+    {/* <App /> */}
+    <RouterProvider router={router} />
   </Provider>
 )
 

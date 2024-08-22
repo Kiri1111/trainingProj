@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import './App.module.css'
-import { useAppLogic } from './useAppLogic'
-import { AddItemForm } from './components/AddItemForm'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar/'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -9,18 +7,17 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
-import Grid from '@mui/material/Unstable_Grid2'
-import Paper from '@mui/material/Paper'
 import { MenuButton } from './MenuButtons.style'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CustomizedSwitches from './Switch'
-import { changeTodolistFilter, getTodolistsThunk, setTodolists } from './model/todolistReducer'
+import { getTodolistsThunk } from './model/todolistReducer'
 import { TaskType } from './api/tasksApi'
-import { Todolist } from './Todolist'
 import { RootState, useAppDispatch } from './state/store'
 import { useSelector } from 'react-redux'
 import { ReguestStatusType } from './model/appReducer'
 import { ErrorSnackbar } from './components/errorSnackbar'
+import { Outlet } from 'react-router-dom'
+import { TodolistsList } from './TodolistsList'
 
 export type FilterValue = 'all' | 'active' | 'completed'
 
@@ -38,17 +35,17 @@ export function App() {
     dispatch(getTodolistsThunk())
   }, [])
 
-  const {
-    addTask,
-    addTodolist,
-    changeTaskStatus,
-    changeTaskTitle,
-    changeTitleTodolist,
-    deleteTask,
-    deleteTodolist,
-    tasks,
-    todolists,
-  } = useAppLogic()
+  // const {
+  //   addTask,
+  //   addTodolist,
+  //   changeTaskStatus,
+  //   changeTaskTitle,
+  //   changeTitleTodolist,
+  //   deleteTask,
+  //   deleteTodolist,
+  //   tasks,
+  //   todolists,
+  // } = useAppLogic()
 
   const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
@@ -88,7 +85,8 @@ export function App() {
         </AppBar>
 
         <Container fixed>
-          <Grid sx={{ mb: '30px' }} container>
+          <TodolistsList />
+          {/* <Grid sx={{ mb: '30px' }} container>
             <AddItemForm addItemCallBack={addTodolist} />
           </Grid>
 
@@ -118,7 +116,7 @@ export function App() {
                 </Grid>
               )
             })}
-          </Grid>
+          </Grid> */}
         </Container>
         <ErrorSnackbar />
       </ThemeProvider>
