@@ -5,15 +5,15 @@ import reportWebVitals from './reportWebVitals'
 import { App } from './App'
 import { Provider } from 'react-redux'
 import { store } from './state/store'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Login } from './features/login/Login'
-import { Outlet } from 'react-router-dom'
-import { Todolist } from './Todolist'
+import { TodolistsList } from './TodolistsList'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <Navigate to={'/404'} />,
     children: [
       {
         path: '/login',
@@ -21,16 +21,19 @@ const router = createBrowserRouter([
       },
       {
         path: '/todolists',
-        element: <App />,
+        element: <TodolistsList />,
       },
     ],
+  },
+  {
+    path: '/404',
+    element: <h1>Error 404, page not found!</h1>,
   },
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Provider store={store}>
-    {/* <App /> */}
     <RouterProvider router={router} />
   </Provider>
 )

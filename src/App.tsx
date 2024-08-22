@@ -35,18 +35,6 @@ export function App() {
     dispatch(getTodolistsThunk())
   }, [])
 
-  // const {
-  //   addTask,
-  //   addTodolist,
-  //   changeTaskStatus,
-  //   changeTaskTitle,
-  //   changeTitleTodolist,
-  //   deleteTask,
-  //   deleteTodolist,
-  //   tasks,
-  //   todolists,
-  // } = useAppLogic()
-
   const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
   const changeModeHandler = () => setThemeMode(themeMode === 'light' ? 'dark' : 'light')
@@ -85,38 +73,7 @@ export function App() {
         </AppBar>
 
         <Container fixed>
-          <TodolistsList />
-          {/* <Grid sx={{ mb: '30px' }} container>
-            <AddItemForm addItemCallBack={addTodolist} />
-          </Grid>
-
-          <Grid container spacing={4}>
-            {todolists.map((tl) => {
-              let tasksForTodolist = tasks[tl.id]
-              const changeFilterStatus = (value: FilterValue, idTodolist: string) =>
-                dispatch(changeTodolistFilter(value, idTodolist))
-
-              return (
-                <Grid key={tl.id}>
-                  <Paper elevation={6} sx={{ backgroundColor: '#d3d3d3', p: '0 20px 20px 20px' }}>
-                    <Todolist
-                      idTodolist={tl.id}
-                      titleTodo={tl.title}
-                      filterValue={tl.filter}
-                      tasks={tasksForTodolist}
-                      deleteTaskCallBack={deleteTask}
-                      changeFilterStatusCallBack={changeFilterStatus}
-                      addTaskCallBack={addTask}
-                      changeTaskStatus={changeTaskStatus}
-                      deleteTodolist={deleteTodolist}
-                      editTodolistTitle={changeTitleTodolist}
-                      changeTaskTitle={changeTaskTitle}
-                    />
-                  </Paper>
-                </Grid>
-              )
-            })}
-          </Grid> */}
+          <Outlet />
         </Container>
         <ErrorSnackbar />
       </ThemeProvider>
