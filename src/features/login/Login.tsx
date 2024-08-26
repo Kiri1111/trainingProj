@@ -31,10 +31,18 @@ export const Login = () => {
       ) {
         errors.email = "Invalid email address"
       }
+      if (values.password.length < 6) {
+        errors.password = "Password must be 6 characters min"
+      } else if (!values.password) {
+        errors.password = "Required"
+      }
+
       return errors
     },
+
     onSubmit: (values) => {
       alert(JSON.stringify(values))
+      formik.resetForm()
     },
   })
 
@@ -58,12 +66,17 @@ export const Login = () => {
             </FormLabel>
             <FormGroup>
               <TextField
+                onBlur={formik.handleBlur}
                 name='email'
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 label='Email'
                 margin='normal'
               />
+              {formik.touched.email && formik.errors.email ? (
+                <div>{formik.errors.email}</div>
+              ) : null}
+
               <TextField
                 name='password'
                 onChange={formik.handleChange}
@@ -72,7 +85,9 @@ export const Login = () => {
                 label='Password'
                 margin='normal'
               />
-              {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+              {formik.touched.password && formik.errors.password ? (
+                <div>{formik.errors.password}</div>
+              ) : null}
               <FormControlLabel
                 name='rememberMe'
                 onChange={formik.handleChange}
@@ -80,6 +95,7 @@ export const Login = () => {
                 label={"Remember me"}
                 control={<Checkbox />}
               />
+
               <Button type={"submit"} variant={"contained"} color={"success"}>
                 Login
               </Button>
