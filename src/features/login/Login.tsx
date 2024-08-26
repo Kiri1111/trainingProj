@@ -9,12 +9,29 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import { useFormik } from "formik"
 
+type FormikError = {
+  email?: string
+  password?: string
+  rememberMe?: boolean
+}
+
 export const Login = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
       rememberMe: false,
+    },
+    validate: (values) => {
+      const errors: FormikError = {}
+      if (!values.email) {
+        errors.email = "Required"
+      } else if (
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+      ) {
+        errors.email = "Invalid email address"
+      }
+      return errors
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values))
@@ -55,6 +72,7 @@ export const Login = () => {
                 label='Password'
                 margin='normal'
               />
+              {formik.errors.email ? <div>{formik.errors.email}</div> : null}
               <FormControlLabel
                 name='rememberMe'
                 onChange={formik.handleChange}
