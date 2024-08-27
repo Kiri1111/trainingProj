@@ -11,8 +11,9 @@ import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 import { TaskView } from './Task'
 import { TaskStatuses, TaskType } from './api/tasksApi'
-import { useAppDispatch } from './state/store'
+import { RootState, useAppDispatch } from './state/store'
 import { getTasks } from './model/tasksReducer'
+import { useSelector } from 'react-redux'
 
 type TodolistProps = {
   idTodolist: string
@@ -28,9 +29,17 @@ type TodolistProps = {
   changeTaskTitle: (editTitle: string, idTodolist: string, idTask: string) => void
 }
 export const Todolist = React.memo((props: TodolistProps) => {
+
   const dispatch = useAppDispatch()
 
+  const isLoggedIn = useSelector<RootState, boolean>(
+    (state) => state.auth.isLoggedIn
+  )
+
   useEffect(() => {
+    if (!isLoggedIn) {
+  return
+}
     dispatch(getTasks(props.idTodolist))
   }, [])
 

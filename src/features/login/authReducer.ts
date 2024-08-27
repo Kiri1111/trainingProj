@@ -7,7 +7,7 @@ const initialState = {
 }
 
 type InitialStateType = typeof initialState
-type SetIsLoggedInActionType = ReturnType<typeof setIsLoggetIn>
+type SetIsLoggedInActionType = ReturnType<typeof setIsLoggedIn>
 type ActionsType = SetIsLoggedInActionType
 
 export const authReducer = (
@@ -15,7 +15,7 @@ export const authReducer = (
   actions: ActionsType
 ): InitialStateType => {
   switch (actions.type) {
-    case "SET_IS_LOGGET_IN":
+    case "SET_IS_LOGGED_IN":
       return {
         ...state,
         isLoggedIn: actions.payload.value,
@@ -25,8 +25,8 @@ export const authReducer = (
   }
 }
 
-export const setIsLoggetIn = (value: boolean) => ({
-  type: "SET_IS_LOGGET_IN" as const,
+export const setIsLoggedIn = (value: boolean) => ({
+  type: "SET_IS_LOGGED_IN" as const,
   payload: { value },
 })
 
@@ -36,7 +36,7 @@ export const login = (data: AuthDataType) => (dispatch: Dispatch) => {
     .login(data)
     .then((res) => {
       if (res.data.resultCode === 0) {
-        dispatch(setIsLoggetIn(true))
+        dispatch(setIsLoggedIn(true))
       } else {
         dispatch(setAppError(res.data.messages[0]))
       }
