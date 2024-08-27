@@ -23,7 +23,7 @@ export type AuthDataType = {
 
 type LoginResponseType = {
   resultCode: number
-  messages: []
+  messages: string[]
   data: {
     userId: number
   }
