@@ -1,25 +1,25 @@
-import { useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from './state/store'
+import { useSelector } from "react-redux"
+import { RootState, useAppDispatch } from "./state/store"
 import {
   changeTaskTitleAction,
   createNewTask,
   removeTask,
   updateTaskStatus,
-} from './model/tasksReducer'
+} from "./model/tasksReducer"
 import {
   addTodolistThunk,
   deleteTodolistThunk,
-  getTodolistsThunk,
   TodolistDomainType,
   updateTodolistThunk,
-} from './model/todolistReducer'
-import { TasksState } from './App'
-import { TaskStatuses } from './api/tasksApi'
-import { useEffect } from 'react'
+} from "./model/todolistReducer"
+import { TasksState } from "./App"
+import { TaskStatuses } from "./api/tasksApi"
 
 export const useAppLogic = () => {
   const tasks = useSelector<RootState, TasksState>((state) => state.tasks)
-  const todolists = useSelector<RootState, TodolistDomainType[]>((state) => state.todolists)
+  const todolists = useSelector<RootState, TodolistDomainType[]>(
+    (state) => state.todolists
+  )
   const dispatch = useAppDispatch()
 
   const addTask = (title: string, idTodolist: string): any =>
@@ -29,7 +29,11 @@ export const useAppLogic = () => {
     dispatch(removeTask(idTodolist, idTask))
   }
 
-  const changeTaskStatus = (idTask: string, status: TaskStatuses, idTodolist: string) => {
+  const changeTaskStatus = (
+    idTask: string,
+    status: TaskStatuses,
+    idTodolist: string
+  ) => {
     dispatch(updateTaskStatus(idTask, idTodolist, status))
   }
 
@@ -45,7 +49,11 @@ export const useAppLogic = () => {
     dispatch(updateTodolistThunk(idTodolist, editTitle))
   }
 
-  const changeTaskTitle = (editTitle: string, idTodolist: string, idTask: string) => {
+  const changeTaskTitle = (
+    editTitle: string,
+    idTodolist: string,
+    idTask: string
+  ) => {
     dispatch(changeTaskTitleAction(editTitle, idTask, idTodolist))
   }
 

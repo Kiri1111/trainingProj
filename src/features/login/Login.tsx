@@ -8,6 +8,10 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import { useFormik } from "formik"
+import { useAppDispatch } from "../../state/store"
+import { changeAppStatus } from "../../model/appReducer"
+import { AuthDataType } from "../../api/authApi"
+import { login } from "./authReducer"
 
 type FormikError = {
   email?: string
@@ -16,6 +20,8 @@ type FormikError = {
 }
 
 export const Login = () => {
+  const dispatch = useAppDispatch()
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -40,8 +46,8 @@ export const Login = () => {
       return errors
     },
 
-    onSubmit: (values) => {
-      alert(JSON.stringify(values))
+    onSubmit: (values: AuthDataType) => {
+      dispatch(login(values))
       formik.resetForm()
     },
   })
