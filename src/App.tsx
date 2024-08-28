@@ -17,7 +17,10 @@ import { useSelector } from "react-redux"
 import { ReguestStatusType } from "./model/appReducer"
 import { ErrorSnackbar } from "./components/errorSnackbar"
 import { TodolistsList } from "./TodolistsList"
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
+import { initializedApp } from "./features/login/authReducer"
+import { Link } from "react-router-dom"
+import { CircularProgress } from "@mui/material"
 
 export type FilterValue = "all" | "active" | "completed"
 
@@ -32,6 +35,13 @@ export function App() {
   const appStatus = useSelector<RootState, ReguestStatusType>(
     (state) => state.app.status
   )
+  const isInitialized = useSelector<RootState, boolean>(
+    (state) => state.auth.isInitialized
+  )
+
+  useEffect(() => {
+    dispatch(initializedApp())
+  }, [])
 
   useEffect(() => {
     dispatch(getTodolistsThunk())
@@ -50,6 +60,20 @@ export function App() {
       },
     },
   })
+
+  if (!isInitialized) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: "30%",
+          textAlign: "center",
+          width: "100%",
+        }}>
+        <CircularProgress />
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -70,7 +94,6 @@ export function App() {
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
               Todolists
             </Typography>
-            <MenuButton>Login</MenuButton>
             <MenuButton>Logout</MenuButton>
             <MenuButton>Faq</MenuButton>
             <CustomizedSwitches onChange={changeModeHandler} />

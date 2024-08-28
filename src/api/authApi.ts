@@ -10,8 +10,10 @@ const instance = axios.create({
 
 export const authApi = {
   login(authData: AuthDataType) {
-    console.log(authData)
     return instance.post<LoginResponseType>("auth/login", authData)
+  },
+  me() {
+    return instance.get<MeResponseType>("auth/me")
   },
 }
 
@@ -28,4 +30,10 @@ type LoginResponseType = {
   data: {
     userId: number
   }
+}
+type MeResponseType = {
+  data: { id: number; login: string; email: string }
+  fieldsErrors: string[]
+  messages: string[]
+  resultCode: number
 }
