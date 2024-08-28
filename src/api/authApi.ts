@@ -12,6 +12,9 @@ export const authApi = {
   login(authData: AuthDataType) {
     return instance.post<LoginResponseType>("auth/login", authData)
   },
+  logout() {
+    return instance.delete("auth/login")
+  },
   me() {
     return instance.get<MeResponseType>("auth/me")
   },

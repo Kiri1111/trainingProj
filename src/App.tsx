@@ -18,7 +18,7 @@ import { ReguestStatusType } from "./model/appReducer"
 import { ErrorSnackbar } from "./components/errorSnackbar"
 import { TodolistsList } from "./TodolistsList"
 import { Navigate, Outlet } from "react-router-dom"
-import { initializedApp } from "./features/login/authReducer"
+import { initializedApp, logout } from "./features/login/authReducer"
 import { Link } from "react-router-dom"
 import { CircularProgress } from "@mui/material"
 
@@ -37,6 +37,9 @@ export function App() {
   )
   const isInitialized = useSelector<RootState, boolean>(
     (state) => state.auth.isInitialized
+  )
+  const isLoggedIn = useSelector<RootState, boolean>(
+    (state) => state.auth.isLoggedIn
   )
 
   useEffect(() => {
@@ -75,6 +78,8 @@ export function App() {
     )
   }
 
+  const logoutHandler = () => dispatch(logout())
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -94,7 +99,9 @@ export function App() {
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
               Todolists
             </Typography>
-            <MenuButton>Logout</MenuButton>
+            {isLoggedIn ? (
+              <MenuButton onClick={logoutHandler}>Logout</MenuButton>
+            ) : null}
             <MenuButton>Faq</MenuButton>
             <CustomizedSwitches onChange={changeModeHandler} />
           </Toolbar>

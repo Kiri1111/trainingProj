@@ -76,3 +76,21 @@ export const initializedApp = () => (dispatch: Dispatch) => {
       dispatch(changeAppStatus("succes"))
     })
 }
+
+export const logout = () => (dispatch: Dispatch) => {
+  dispatch(changeAppStatus("loading"))
+  authApi
+    .logout()
+    .then((res) => {
+      if (res.data.resultCode === 0) {
+        dispatch(setIsLoggedIn(false))
+      } else {
+        dispatch(setAppError(res.data.messages[0]))
+      }
+    })
+    .catch((e) => dispatch(setAppError(e.toString())))
+    .finally(() => {
+      // dispatch(setIsInitialized(true))
+      dispatch(changeAppStatus("succes"))
+    })
+}
