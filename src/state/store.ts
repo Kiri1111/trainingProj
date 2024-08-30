@@ -8,7 +8,7 @@ import { tasksReducer } from "../model/tasksReducer"
 import { todolistReducer } from "../model/todolistReducer"
 import thunkMiddleware, { ThunkDispatch } from "redux-thunk"
 import { useDispatch } from "react-redux"
-import { appReducer } from "../model/appReducer"
+import { appReducer } from "../model/appReducerReactRedux"
 import { authReducer } from "../features/login/authReducerReactRedux"
 import { configureStore } from "@reduxjs/toolkit"
 

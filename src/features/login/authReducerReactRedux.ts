@@ -1,6 +1,6 @@
 import { Dispatch } from "redux"
 import { AuthDataType, authApi } from "../../api/authApi"
-import { changeAppStatus, setAppError } from "../../model/appReducer"
+import { changeAppStatus, setAppError } from "../../model/appReducerReactRedux"
 
 const initialState = {
   isLoggedIn: false,

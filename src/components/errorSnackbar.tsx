@@ -1,11 +1,13 @@
-import Box from '@mui/material/Box'
-import Snackbar from '@mui/material/Snackbar'
-import { useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from '../state/store'
-import { ErrorMessageType, setAppError } from '../model/appReducer'
+import Box from "@mui/material/Box"
+import Snackbar from "@mui/material/Snackbar"
+import { useSelector } from "react-redux"
+import { RootState, useAppDispatch } from "../state/store"
+import { ErrorMessageType, setAppError } from "../model/appReducerReactRedux"
 
 export function ErrorSnackbar() {
-  const error = useSelector<RootState, ErrorMessageType>((state) => state.app.error)
+  const error = useSelector<RootState, ErrorMessageType>(
+    (state) => state.app.error
+  )
   const dispatch = useAppDispatch()
 
   const handleClose = () => {
@@ -17,11 +19,11 @@ export function ErrorSnackbar() {
       <Snackbar
         ContentProps={{
           sx: {
-            background: 'red',
+            background: "red",
           },
         }}
         autoHideDuration={4000}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
         open={error !== null}
         onClose={handleClose}
         message={error}
