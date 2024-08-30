@@ -11,7 +11,7 @@ import { useFormik } from "formik"
 import { RootState, useAppDispatch } from "../../state/store"
 import { changeAppStatus } from "../../model/appReducer"
 import { AuthDataType } from "../../api/authApi"
-import { login } from "./authReducer"
+import { login } from "./authReducerReactRedux"
 import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
 
@@ -58,7 +58,7 @@ export const Login = () => {
   })
 
   if (isLoggedIn) {
-    return <Navigate to={'/'}/>
+    return <Navigate to={"/"} />
   }
 
   return (

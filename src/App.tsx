@@ -17,7 +17,7 @@ import { useSelector } from "react-redux"
 import { ReguestStatusType } from "./model/appReducer"
 import { ErrorSnackbar } from "./components/errorSnackbar"
 import { Outlet } from "react-router-dom"
-import { initializedApp, logout } from "./features/login/authReducer"
+import { initializedApp, logout } from "./features/login/authReducerReactRedux"
 import CircularProgress from "@mui/material/CircularProgress"
 
 export type FilterValue = "all" | "active" | "completed"
@@ -43,8 +43,6 @@ export function App() {
   useEffect(() => {
     dispatch(initializedApp())
   }, [])
-
-  
 
   const [themeMode, setThemeMode] = useState<ThemeMode>("light")
 
