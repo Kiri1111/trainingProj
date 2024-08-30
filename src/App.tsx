@@ -16,11 +16,9 @@ import { RootState, useAppDispatch } from "./state/store"
 import { useSelector } from "react-redux"
 import { ReguestStatusType } from "./model/appReducer"
 import { ErrorSnackbar } from "./components/errorSnackbar"
-import { TodolistsList } from "./TodolistsList"
-import { Navigate, Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import { initializedApp, logout } from "./features/login/authReducer"
-import { Link } from "react-router-dom"
-import { CircularProgress } from "@mui/material"
+import CircularProgress from "@mui/material/CircularProgress"
 
 export type FilterValue = "all" | "active" | "completed"
 
@@ -46,9 +44,7 @@ export function App() {
     dispatch(initializedApp())
   }, [])
 
-  useEffect(() => {
-    dispatch(getTodolistsThunk())
-  }, [])
+  
 
   const [themeMode, setThemeMode] = useState<ThemeMode>("light")
 
@@ -73,7 +69,7 @@ export function App() {
           textAlign: "center",
           width: "100%",
         }}>
-        <CircularProgress />
+        <CircularProgress color='success' size={100} />
       </div>
     )
   }

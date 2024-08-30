@@ -18,6 +18,10 @@ export const TodolistsList = ({}: TodolistsListPropsType) => {
     (state) => state.auth.isLoggedIn
   )
 
+  useEffect(() => {
+    dispatch(getTodolistsThunk())
+  }, [])
+
   const {
     addTask,
     addTodolist,
@@ -51,9 +55,7 @@ export const TodolistsList = ({}: TodolistsListPropsType) => {
 
           return (
             <Grid key={tl.id}>
-              <Paper
-                elevation={6}
-                sx={{ backgroundColor: "#d3d3d3", p: "0 20px 20px 20px" }}>
+              <Paper elevation={6} sx={{ p: "0 20px 20px 20px" }}>
                 <Todolist
                   idTodolist={tl.id}
                   titleTodo={tl.title}
