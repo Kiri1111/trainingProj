@@ -1,21 +1,12 @@
-import { v1 } from "uuid"
 import { TasksState } from "../App"
-import { Todolist } from "../Todolist"
-import {
-  AddTodolistType,
-  idTodolist1,
-  idTodolist2,
-  RemoveTodolistType,
-} from "./todolistReducer"
+import { AddTodolistType, RemoveTodolistType } from "./todolistReducer"
 import {
   TaskForUpdateType,
-  TaskPriority,
   tasksApi,
   TaskStatuses,
   TaskType,
 } from "../api/tasksApi"
 import { Dispatch } from "redux"
-import { log } from "console"
 import { RootState } from "../state/store"
 import { changeAppStatus, setAppError } from "./appReducerReactRedux"
 

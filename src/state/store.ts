@@ -1,16 +1,11 @@
-import {
-  applyMiddleware,
-  combineReducers,
-  legacy_createStore,
-  UnknownAction,
-} from "redux"
+import { combineReducers, UnknownAction } from "redux"
 import { tasksReducer } from "../model/tasksReducer"
 import { todolistReducer } from "../model/todolistReducer"
-import thunkMiddleware, { ThunkDispatch } from "redux-thunk"
+import { ThunkDispatch } from "redux-thunk"
 import { useDispatch } from "react-redux"
-import { appReducer } from "../model/appReducerReactRedux"
 import { authReducer } from "../features/login/authReducerReactRedux"
 import { configureStore } from "@reduxjs/toolkit"
+import { appReducer } from "../model/appReducerRTK"
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
