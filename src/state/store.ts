@@ -3,9 +3,9 @@ import { tasksReducer } from "../model/tasksReducer"
 import { todolistReducer } from "../model/todolistReducer"
 import { ThunkDispatch } from "redux-thunk"
 import { useDispatch } from "react-redux"
-import { authReducer } from "../features/login/authReducerReactRedux"
 import { configureStore } from "@reduxjs/toolkit"
 import { appReducer } from "../model/appReducerRTK"
+import { authReducer } from "../features/login/authReducerRTK"
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,

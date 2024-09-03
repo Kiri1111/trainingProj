@@ -10,15 +10,15 @@ import Container from "@mui/material/Container"
 import { MenuButton } from "./MenuButtons.style"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import CustomizedSwitches from "./Switch"
-import { getTodolistsThunk } from "./model/todolistReducer"
 import { TaskType } from "./api/tasksApi"
 import { RootState, useAppDispatch } from "./state/store"
 import { useSelector } from "react-redux"
 import { ReguestStatusType } from "./model/appReducerReactRedux"
 import { ErrorSnackbar } from "./components/errorSnackbar"
 import { Outlet } from "react-router-dom"
-import { initializedApp, logout } from "./features/login/authReducerReactRedux"
+import { logout } from "./features/login/authReducerReactRedux"
 import CircularProgress from "@mui/material/CircularProgress"
+import { authThunks } from "./features/login/authReducerRTK"
 
 export type FilterValue = "all" | "active" | "completed"
 
@@ -41,7 +41,7 @@ export function App() {
   )
 
   useEffect(() => {
-    dispatch(initializedApp())
+    dispatch(authThunks.initializedApp())
   }, [])
 
   const [themeMode, setThemeMode] = useState<ThemeMode>("light")
