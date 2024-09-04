@@ -11,9 +11,9 @@ import { useFormik } from "formik"
 import { RootState, useAppDispatch } from "../../state/store"
 import { changeAppStatus } from "../../model/appReducerReactRedux"
 import { AuthDataType } from "../../api/authApi"
-import { login } from "./authReducerReactRedux"
 import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
+import { authThunks } from "./authReducerRTK"
 
 type FormikError = {
   email?: string
@@ -52,7 +52,7 @@ export const Login = () => {
     },
 
     onSubmit: (values: AuthDataType) => {
-      dispatch(login(values))
+      dispatch(authThunks.login(values))
       formik.resetForm()
     },
   })

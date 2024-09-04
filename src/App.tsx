@@ -16,7 +16,6 @@ import { useSelector } from "react-redux"
 import { ReguestStatusType } from "./model/appReducerReactRedux"
 import { ErrorSnackbar } from "./components/errorSnackbar"
 import { Outlet } from "react-router-dom"
-import { logout } from "./features/login/authReducerReactRedux"
 import CircularProgress from "@mui/material/CircularProgress"
 import { authThunks } from "./features/login/authReducerRTK"
 
@@ -72,7 +71,7 @@ export function App() {
     )
   }
 
-  const logoutHandler = () => dispatch(logout())
+  const logoutHandler = () => dispatch(authThunks.logout())
 
   return (
     <div>
