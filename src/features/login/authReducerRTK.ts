@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { authApi } from "../../api/authApi"
 import { appActions } from "../../model/appReducerRTK"
+import { error } from "console"
 
 const initialState = {
   isLoggedIn: false,
@@ -19,7 +20,6 @@ const initializedApp = createAsyncThunk(
     const res = await authApi.me()
     const errorMessage = res.data.messages[0]
     dispatch(appActions.changeAppStatus({ status: "succes" }))
-
     return { res, errorMessage }
     //  authApi
     //     .me()
@@ -57,11 +57,12 @@ const slice = createSlice({
     // },
   },
   extraReducers: (builder) => {
-    builder.addCase(initializedApp.fulfilled, (state, action) => {
-      // if (action.payload.res.data.resultCode === 0) {
-      // state.isLoggedIn === true
-      // state.isInitialized === true
-      // }
+    builder
+      .addCase(initializedApp.fulfilled, (state, action) => {
+      state.isLoggedIn = true
+      state.isInitialized = true
+      })
+      .addCase(initializedApp.rejected, (error, thunkApi) => {
     })
   },
 })
