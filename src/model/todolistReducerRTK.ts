@@ -25,7 +25,7 @@ const slice = createSlice({
       state.unshift({ ...action.payload.todolist, filter: "all" })
     },
     changeTodolistTitle: (
-      state,
+      state:InitialStateType,
       action: PayloadAction<{ idTodolist: string; title: string }>
     ) => {
       const todo = state.find((t) => t.id === action.payload.idTodolist)
