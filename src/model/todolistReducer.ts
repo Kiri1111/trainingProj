@@ -3,8 +3,7 @@ import { FilterValue } from "../App"
 import { todolistsApi, TodolistType } from "../api/todolistsApi"
 import { Dispatch } from "redux"
 import { RootState } from "../state/store"
-import { title } from "process"
-import { changeAppStatus, setAppError } from "./appReducerReactRedux"
+import { appActions } from "./appReducerRTK"
 
 export type AddTodolistType = ReturnType<typeof addTodolistAction>
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
@@ -94,20 +93,20 @@ export const setTodolists = (todolists: TodolistType[]) => ({
 })
 
 export const getTodolistsThunk = () => (dispatch: Dispatch) => {
-  dispatch(changeAppStatus("loading"))
+  dispatch(appActions.changeAppStatus({ status: "loading" }))
   todolistsApi
     .getTodolists()
     .then((res) => {
       dispatch(setTodolists(res.data))
-      dispatch(changeAppStatus("succes"))
+      dispatch(appActions.changeAppStatus({ status: "succes" }))
     })
-    .catch((e) => dispatch(setAppError(e.toString())))
-    .finally(() => dispatch(changeAppStatus("succes")))
+    .catch((e) => dispatch(appActions.setAppError({ error: e.toString() })))
+    .finally(() => dispatch(appActions.changeAppStatus({ status: "succes" })))
 }
 
 export const addTodolistThunk =
   (title: string) => (dispatch: Dispatch, getState: () => RootState) => {
-    dispatch(changeAppStatus("loading"))
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
     todolistsApi
       .createTodolist(title)
       .then((res) => {
@@ -116,33 +115,33 @@ export const addTodolistThunk =
             addTodolistAction(res.data.data.item.title, res.data.data.item.id)
           )
         } else {
-          dispatch(setAppError(res.data.messages[0]))
+          dispatch(appActions.setAppError({ error: res.data.messages[0] }))
         }
       })
-      .catch((e) => dispatch(setAppError(e.toString())))
-      .finally(() => dispatch(changeAppStatus("succes")))
+      .catch((e) => dispatch(appActions.setAppError({ error: e.toString() })))
+      .finally(() => dispatch(appActions.changeAppStatus({ status: "succes" })))
   }
 
 export const deleteTodolistThunk =
   (idTodolist: string) => (dispatch: Dispatch) => {
-    dispatch(changeAppStatus("loading"))
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
     todolistsApi
       .deleteTodolist(idTodolist)
       .then((res) => {
         dispatch(removeTodolist(idTodolist))
       })
-      .catch((e) => dispatch(setAppError(e.toString())))
-      .finally(() => dispatch(changeAppStatus("succes")))
+      .catch((e) => dispatch(appActions.setAppError({ error: e.toString() })))
+      .finally(() => dispatch(appActions.changeAppStatus({ status: "succes" })))
   }
 export const updateTodolistThunk =
   (idTodolist: string, newTitle: string) => (dispatch: Dispatch) => {
-    dispatch(changeAppStatus("loading"))
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
     todolistsApi
       .updateTodolist(idTodolist, newTitle)
       .then((res) => {
         dispatch(changeTodolistTitle(newTitle, idTodolist))
-        dispatch(changeAppStatus("succes"))
+        dispatch(appActions.changeAppStatus({ status: "succes" }))
       })
-      .catch((e) => dispatch(setAppError(e.toString())))
-      .finally(() => dispatch(changeAppStatus("succes")))
+      .catch((e) => dispatch(appActions.setAppError({ error: e.toString() })))
+      .finally(() => dispatch(appActions.changeAppStatus({ status: "succes" })))
   }

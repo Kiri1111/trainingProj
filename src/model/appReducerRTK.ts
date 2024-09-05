@@ -8,6 +8,7 @@ const initialState = {
   error: null as ErrorMessageType,
 }
 
+
 type InitialStateType = typeof initialState
 
 const slice = createSlice({

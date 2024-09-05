@@ -1,14 +1,13 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { AuthDataType, authApi } from "../../api/authApi"
 import { appActions } from "../../model/appReducerRTK"
-import { act } from "@testing-library/react"
+
+export type ErrorMessageType = string | null
 
 const initialState = {
   isLoggedIn: false,
-  isInitialized: true,
+  isInitialized: false,
 }
-
-type InitialStateType = typeof initialState
 
 //thunks
 
@@ -40,20 +39,6 @@ const initializedApp = createAsyncThunk(
     const errorMessage = res.data.messages[0]
     dispatch(appActions.changeAppStatus({ status: "succes" }))
     return { res, errorMessage }
-    //  authApi
-    //     .me()
-    //     .then((res) => {
-    //       if (res.data.resultCode === 0) {
-    //         dispatch(authActions.setIsloggedIn({ isLoggedIn: true }))
-    //       } else {
-    //         dispatch(appActions.setAppError({ error: res.data.messages[0] }))
-    //       }
-    //     })
-    //     .catch((e) => dispatch(appActions.setAppError({ error: e.toString() })))
-    //     .finally(() => {
-    //       dispatch(authActions.setIsInitialized({ isInitialized: true }))
-    //       dispatch(appActions.changeAppStatus({ status: "succes" }))
-    //     })
   }
 )
 
@@ -61,27 +46,14 @@ const slice = createSlice({
   name: "auth",
   initialState,
 
-  reducers: {
-    setIsloggedIn: (
-      state: InitialStateType,
-      action: PayloadAction<{ isLoggedIn: boolean }>
-    ) => {
-      state.isLoggedIn = action.payload.isLoggedIn
-    },
-    // setIsInitialized: (
-    //   state: InitialStateType,
-    //   action: PayloadAction<{ isInitialized: boolean }>
-    // ) => {
-    //   state.isInitialized = action.payload.isInitialized
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(initializedApp.fulfilled, (state, action) => {
-        if (action.payload.res.data.resultCode === 0) {
-          state.isLoggedIn = true
-          state.isInitialized = true
-        }
+        // if (action.payload.res.data.resultCode === 0) {
+        state.isLoggedIn = true
+        state.isInitialized = true
+        // }
       })
       .addCase(initializedApp.rejected, (error, thunkApi) => {})
       .addCase(login.fulfilled, (state, action) => {
@@ -98,7 +70,5 @@ const slice = createSlice({
 })
 
 export const authReducer = slice.reducer
-
-export const authActions = slice.actions
 
 export const authThunks = { initializedApp, login, logout }

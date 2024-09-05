@@ -13,11 +13,11 @@ import CustomizedSwitches from "./Switch"
 import { TaskType } from "./api/tasksApi"
 import { RootState, useAppDispatch } from "./state/store"
 import { useSelector } from "react-redux"
-import { ReguestStatusType } from "./model/appReducerReactRedux"
 import { ErrorSnackbar } from "./components/errorSnackbar"
 import { Outlet } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress"
 import { authThunks } from "./features/login/authReducerRTK"
+import { ReguestStatusType } from "./model/appReducerRTK"
 
 export type FilterValue = "all" | "active" | "completed"
 

@@ -57,10 +57,6 @@ export const useAppLogic = () => {
     dispatch(changeTaskTitleAction(editTitle, idTask, idTodolist))
   }
 
-  // useEffect(() => {
-  //   dispatch(getTodolistsThunk())
-  // }, [])
-
   return {
     tasks,
     todolists,

@@ -2,7 +2,7 @@ import Box from "@mui/material/Box"
 import Snackbar from "@mui/material/Snackbar"
 import { useSelector } from "react-redux"
 import { RootState, useAppDispatch } from "../state/store"
-import { ErrorMessageType, setAppError } from "../model/appReducerReactRedux"
+import { ErrorMessageType, appActions } from "../model/appReducerRTK"
 
 export function ErrorSnackbar() {
   const error = useSelector<RootState, ErrorMessageType>(
@@ -11,7 +11,7 @@ export function ErrorSnackbar() {
   const dispatch = useAppDispatch()
 
   const handleClose = () => {
-    dispatch(setAppError(null))
+    dispatch(appActions.setAppError({ error: null }))
   }
 
   return (
