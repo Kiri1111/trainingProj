@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper"
 import {
   changeTodolistFilter,
   getTodolistsThunk,
-} from "./model/todolistReducer"
+} from "./model/todolistReducerReactRedux"
 import { Todolist } from "./Todolist"
 import { RootState, useAppDispatch } from "./state/store"
 import { FilterValue } from "./App"

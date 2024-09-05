@@ -11,7 +11,7 @@ import {
   deleteTodolistThunk,
   TodolistDomainType,
   updateTodolistThunk,
-} from "./model/todolistReducer"
+} from "./model/todolistReducerReactRedux"
 import { TasksState } from "./App"
 import { TaskStatuses } from "./api/tasksApi"
 
