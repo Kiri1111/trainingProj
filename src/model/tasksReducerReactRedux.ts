@@ -28,48 +28,7 @@ type ActionsTaskReducer =
   | RemoveTodolistType
   | SetTasks
 
-const initialState: TasksState = {
-  // [idTodolist1]: [
-  //   {
-  //     id: v1(),
-  //     title: 'HTML',
-  //     status: TaskStatuses.Completed,
-  //     addedDate: '',
-  //     deadline: null,
-  //     description: null,
-  //     order: 0,
-  //     priority: TaskPriority.Later,
-  //     startDate: null,
-  //     todoListId: idTodolist1,
-  //   },
-  //   {
-  //     id: v1(),
-  //     title: 'HTML',
-  //     status: TaskStatuses.Completed,
-  //     addedDate: '',
-  //     deadline: null,
-  //     description: null,
-  //     order: 0,
-  //     priority: TaskPriority.Later,
-  //     startDate: null,
-  //     todoListId: idTodolist1,
-  //   },
-  // ],
-  // [idTodolist2]: [
-  //   {
-  //     id: v1(),
-  //     title: 'HTML',
-  //     status: TaskStatuses.Completed,
-  //     addedDate: '',
-  //     deadline: null,
-  //     description: null,
-  //     order: 0,
-  //     priority: TaskPriority.Later,
-  //     startDate: null,
-  //     todoListId: idTodolist2,
-  //   },
-  // ],
-}
+const initialState: TasksState = {}
 
 export const tasksReducer = (
   state: TasksState = initialState,

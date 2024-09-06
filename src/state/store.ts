@@ -1,5 +1,5 @@
 import { combineReducers, UnknownAction } from "redux"
-import { tasksReducer } from "../model/tasksReducer"
+import { tasksReducer } from "../model/tasksReducerReactRedux"
 import { todolistReducer } from "../model/todolistReducerReactRedux"
 import { ThunkDispatch } from "redux-thunk"
 import { useDispatch } from "react-redux"

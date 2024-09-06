@@ -25,7 +25,7 @@ const slice = createSlice({
       state.unshift({ ...action.payload.todolist, filter: "all" })
     },
     changeTodolistTitle: (
-      state:InitialStateType,
+      state: InitialStateType,
       action: PayloadAction<{ idTodolist: string; title: string }>
     ) => {
       const todo = state.find((t) => t.id === action.payload.idTodolist)
@@ -39,6 +39,10 @@ const slice = createSlice({
     ) => {
       return action.payload.todolists.map((tl) => ({ ...tl, filter: "all" }))
     },
+    removeTodolist: (state, action: PayloadAction<{ todolistId: string }>) => {
+      const index = state.findIndex((t) => t.id === action.payload.todolistId)
+      state.splice(index, 1)
+    },
   },
   extraReducers: (builder) => {},
 })
@@ -46,3 +50,5 @@ const slice = createSlice({
 export const todolistReducer = slice.reducer
 
 export const todolistThunks = {}
+
+export const {removeTodolist,addTodolist,setTodolists} = slice.actions

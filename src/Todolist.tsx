@@ -12,7 +12,7 @@ import Box from "@mui/material/Box"
 import { TaskView } from "./Task"
 import { TaskStatuses, TaskType } from "./api/tasksApi"
 import { RootState, useAppDispatch } from "./state/store"
-import { getTasks } from "./model/tasksReducer"
+import { getTasks } from "./model/tasksReducerReactRedux"
 import { useSelector } from "react-redux"
 
 type TodolistProps = {

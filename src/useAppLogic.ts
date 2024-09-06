@@ -5,7 +5,7 @@ import {
   createNewTask,
   removeTask,
   updateTaskStatus,
-} from "./model/tasksReducer"
+} from "./model/tasksReducerReactRedux"
 import {
   addTodolistThunk,
   deleteTodolistThunk,

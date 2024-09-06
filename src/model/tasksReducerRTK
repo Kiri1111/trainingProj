@@ -1,0 +1,54 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { TasksState } from "../App"
+import { TaskForUpdateType, TaskType } from "../api/tasksApi"
+import { addTodolistAction } from "./todolistReducerReactRedux"
+
+const initialState: TasksState = {}
+
+const slice = createSlice({
+  name: "tasks",
+  initialState,
+  reducers: {
+    removeTask: (
+      state,
+      action: PayloadAction<{ taskId: string; todolistId: string }>
+    ) => {
+      const tasks = state[action.payload.todolistId]
+      const index = tasks.findIndex((t) => t.id === action.payload.taskId)
+      if (index !== -1) {
+        tasks.splice(index, 1)
+      }
+    },
+    addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
+      const tasks = state[action.payload.task.todoListId]
+      tasks.unshift(action.payload.task)
+    },
+    updateTask: (
+      state,
+      action: PayloadAction<{
+        taskId: string
+        model: TaskForUpdateType
+        todolistId: string
+      }>
+    ) => {
+      const tasks = state[action.payload.todolistId]
+      const index = tasks.findIndex((t) => t.id === action.payload.taskId)
+      if (index !== -1) {
+        tasks[index] = { ...tasks[index], ...action.payload.model }
+      }
+    },
+    setTasks: (
+      state,
+      action: PayloadAction<{ tasks: TaskType[]; todolistId: string }>
+    ) => {
+      state[action.payload.todolistId] = action.payload.tasks
+    },
+    },
+    extraReducers: builder =>
+        builder
+    .addCase(todolistActions)
+})
+
+export const tasksReducer = slice.reducer
+
+export const tasksThunks = {}
