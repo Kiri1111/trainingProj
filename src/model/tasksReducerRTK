@@ -1,9 +1,23 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { TasksState } from "../App"
-import { TaskForUpdateType, TaskType } from "../api/tasksApi"
+import { TaskForUpdateType, TaskType, tasksApi } from "../api/tasksApi"
 import { todolistsActions } from "./todolistReducerRTK"
+import { appActions } from "./appReducerRTK"
 
 const initialState: TasksState = {}
+
+const fetchTasks = createAsyncThunk(
+  "tasks/fetchTasks",
+  async (todolistId: string, thunkApi) => {
+    const { dispatch } = thunkApi
+    // dispatch(appActions.changeAppStatus({ status: "loading" }))
+    const res = await tasksApi.getTasks(todolistId)
+    const tasks = res.data.items
+    return { tasks, todolistId }
+    // dispatch(tasksActions.setTasks({ tasks, todolistId }))
+    // dispatch(appActions.changeAppStatus({ status: "succes" }))
+  }
+)
 
 const slice = createSlice({
   name: "tasks",
@@ -37,12 +51,12 @@ const slice = createSlice({
         tasks[index] = { ...tasks[index], ...action.payload.model }
       }
     },
-    setTasks: (
-      state,
-      action: PayloadAction<{ tasks: TaskType[]; todolistId: string }>
-    ) => {
-      state[action.payload.todolistId] = action.payload.tasks
-    },
+    // setTasks: (
+      // state,
+      // action: PayloadAction<{ tasks: TaskType[]; todolistId: string }>
+    // ) => {
+      // state[action.payload.todolistId] = action.payload.tasks
+    // },
   },
   extraReducers: (builder) =>
     builder
@@ -56,9 +70,14 @@ const slice = createSlice({
         action.payload.todolists.forEach((tl) => {
           state[tl.id] = []
         })
+      })
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state[action.payload.todolistId] = action.payload.tasks
       }),
 })
 
 export const tasksReducer = slice.reducer
 
 export const tasksThunks = {}
+
+export const tasksActions = slice.actions
