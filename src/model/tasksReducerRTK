@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { TasksState } from "../App"
 import { TaskForUpdateType, TaskType } from "../api/tasksApi"
-import { addTodolistAction } from "./todolistReducerReactRedux"
+import { todolistsActions } from "./todolistReducerRTK"
 
 const initialState: TasksState = {}
 
@@ -43,10 +43,20 @@ const slice = createSlice({
     ) => {
       state[action.payload.todolistId] = action.payload.tasks
     },
-    },
-    extraReducers: builder =>
-        builder
-    .addCase(todolistActions)
+  },
+  extraReducers: (builder) =>
+    builder
+      .addCase(todolistsActions.addTodolist, (state, action) => {
+        state[action.payload.todolist.id] = []
+      })
+      .addCase(todolistsActions.removeTodolist, (state, action) => {
+        delete state[action.payload.todolistId]
+      })
+      .addCase(todolistsActions.setTodolists, (state, action) => {
+        action.payload.todolists.forEach((tl) => {
+          state[tl.id] = []
+        })
+      }),
 })
 
 export const tasksReducer = slice.reducer

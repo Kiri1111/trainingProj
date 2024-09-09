@@ -51,4 +51,5 @@ export const todolistReducer = slice.reducer
 
 export const todolistThunks = {}
 
-export const {removeTodolist,addTodolist,setTodolists} = slice.actions
+export const todolistsActions = slice.actions
+// export const {removeTodolist,addTodolist,setTodolists} = slice.actions
