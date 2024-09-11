@@ -100,7 +100,9 @@ export const getTodolistsThunk = () => (dispatch: Dispatch) => {
       dispatch(setTodolists(res.data))
       dispatch(appActions.changeAppStatus({ status: "succes" }))
     })
-    .catch((e) => dispatch(appActions.setAppError({ error: e.toString() })))
+    .catch((e) => {
+      dispatch(appActions.setAppError({ error: e.toString() }))
+    })
     .finally(() => dispatch(appActions.changeAppStatus({ status: "succes" })))
 }
 

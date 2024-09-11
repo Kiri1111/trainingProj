@@ -33,12 +33,21 @@ const login = createAsyncThunk(
 const initializedApp = createAsyncThunk(
   "auth/initializedApp",
   async (initialState, thunkApi) => {
-    const { dispatch } = thunkApi
+    const { dispatch, rejectWithValue } = thunkApi
     dispatch(appActions.changeAppStatus({ status: "loading" }))
-    const res = await authApi.me()
-    const errorMessage = res.data.messages[0]
-    dispatch(appActions.changeAppStatus({ status: "succes" }))
-    return { res, errorMessage }
+    try {
+      const res = await authApi.me()
+      if (res.data.resultCode === 0) {
+        return { res }
+      } else {
+        dispatch(appActions.setAppError({ error: res.data.messages[0] }))
+      }
+    } catch (e: any) {
+      dispatch(appActions.setAppError({ error: e.toString() }))
+      return rejectWithValue(null)
+    } finally {
+      dispatch(appActions.changeAppStatus({ status: "succes" }))
+    }
   }
 )
 
@@ -50,12 +59,12 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(initializedApp.fulfilled, (state, action) => {
-        // if (action.payload.res.data.resultCode === 0) {
         state.isLoggedIn = true
         state.isInitialized = true
-        // }
       })
-      .addCase(initializedApp.rejected, (error, thunkApi) => {})
+      .addCase(initializedApp.rejected, (state, thunkApi) => {
+        state.isInitialized = true
+      })
       .addCase(login.fulfilled, (state, action) => {
         if (action.payload.res.data.resultCode === 0) {
           state.isLoggedIn = true

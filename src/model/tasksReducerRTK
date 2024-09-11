@@ -6,6 +6,8 @@ import { appActions } from "./appReducerRTK"
 
 const initialState: TasksState = {}
 
+//Thunks
+
 const fetchTasks = createAsyncThunk(
   "tasks/fetchTasks",
   async (todolistId: string, thunkApi) => {
