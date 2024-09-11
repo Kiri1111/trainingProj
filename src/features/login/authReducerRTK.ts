@@ -14,19 +14,37 @@ const initialState = {
 const logout = createAsyncThunk("auth/logout", async (data, thunkApi) => {
   const { dispatch } = thunkApi
   dispatch(appActions.changeAppStatus({ status: "loading" }))
-  const res = await authApi.logout()
-  dispatch(appActions.changeAppStatus({ status: "succes" }))
-  return { res }
+  try {
+    const res = await authApi.logout()
+    if (res.data.resultCode === 0) {
+      return { res }
+    } else {
+      dispatch(appActions.setAppError({ error: res.data.messages[0] }))
+    }
+  } catch (e: any) {
+    dispatch(appActions.setAppError({ error: e.toString() }))
+  } finally {
+    dispatch(appActions.changeAppStatus({ status: "succes" }))
+  }
 })
-
 const login = createAsyncThunk(
   "auth/login",
   async (data: AuthDataType, thunkApi) => {
-    const { dispatch } = thunkApi
+    const { dispatch, rejectWithValue } = thunkApi
     dispatch(appActions.changeAppStatus({ status: "loading" }))
-    const res = await authApi.login(data)
-    dispatch(appActions.changeAppStatus({ status: "succes" }))
-    return { res }
+    try {
+      const res = await authApi.login(data)
+      if (res.data.resultCode === 0) {
+        return { res }
+      } else {
+        dispatch(appActions.setAppError({ error: res.data.messages[0] }))
+      }
+    } catch (e: any) {
+      dispatch(appActions.setAppError({ error: e.toString() }))
+      return rejectWithValue(null)
+    } finally {
+      dispatch(appActions.changeAppStatus({ status: "succes" }))
+    }
   }
 )
 
@@ -65,15 +83,22 @@ const slice = createSlice({
       .addCase(initializedApp.rejected, (state, thunkApi) => {
         state.isInitialized = true
       })
+      .addCase(login.rejected, (state, thunkApi) => {
+        state.isInitialized = true
+        state.isLoggedIn = false
+      })
       .addCase(login.fulfilled, (state, action) => {
-        if (action.payload.res.data.resultCode === 0) {
-          state.isLoggedIn = true
-        }
+        if (action.payload?.res)
+          if (action.payload.res.data.resultCode === 0) {
+            state.isLoggedIn = true
+            state.isInitialized = true
+          } else {
+            state.isLoggedIn = false
+            state.isInitialized = true
+          }
       })
       .addCase(logout.fulfilled, (state, action) => {
-        if (action.payload.res.data.resultCode === 0) {
-          state.isLoggedIn = false
-        }
+        state.isLoggedIn = false
       })
   },
 })
