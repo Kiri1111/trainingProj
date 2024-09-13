@@ -8,11 +8,12 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import { useFormik } from "formik"
-import { RootState, useAppDispatch } from "../../state/store"
+import { RootState } from "../../state/store"
 import { AuthDataType } from "../../api/authApi"
 import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
 import { authThunks } from "./authReducerRTK"
+import { useAppDispatch } from "../../common/hooks/useAppDispatch"
 
 type FormikError = {
   email?: string

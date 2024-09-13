@@ -9,11 +9,11 @@ import Button from "@mui/material/Button"
 import ButtonGroup from "@mui/material/ButtonGroup"
 import List from "@mui/material/List"
 import Box from "@mui/material/Box"
-import { TaskView } from "../../todolist/ui/tasks/Task"
+import { TaskView } from "./tasks/Task"
 import { TaskStatuses, TaskType } from "../../../api/tasksApi"
-import { RootState, useAppDispatch } from "../../../state/store"
-import { getTasks } from "../../../model/tasksReducerReactRedux"
-import { useSelector } from "react-redux"
+import { useAppDispatch } from "../../../common/hooks/useAppDispatch"
+import { useAppSelector } from "../../../common/hooks/useAppSelector"
+import { getTasks } from "./tasks/tasksReducerReactRedux"
 
 type TodolistProps = {
   idTodolist: string
@@ -39,9 +39,7 @@ type TodolistProps = {
 export const Todolist = React.memo((props: TodolistProps) => {
   const dispatch = useAppDispatch()
 
-  const isLoggedIn = useSelector<RootState, boolean>(
-    (state) => state.auth.isLoggedIn
-  )
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
     if (!isLoggedIn) {

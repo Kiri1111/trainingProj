@@ -2,25 +2,23 @@ import { useAppLogic } from "../../../useAppLogic"
 import { AddItemForm } from "../../../common/components/AddItemForm"
 import Grid from "@mui/material/Unstable_Grid2"
 import Paper from "@mui/material/Paper"
+import { Todolist } from "./Todolist"
+import { FilterValue } from "../../../App"
+import { Link, Navigate, useParams } from "react-router-dom"
+import { useEffect } from "react"
+import { useAppDispatch } from "../../../common/hooks/useAppDispatch"
+import { useAppSelector } from "../../../common/hooks/useAppSelector"
 import {
   changeTodolistFilter,
   getTodolistsThunk,
-} from "../../../model/todolistReducerReactRedux"
-import { Todolist } from "./Todolist"
-import { RootState, useAppDispatch } from "../../../state/store"
-import { FilterValue } from "../../../App"
-import { Link, Navigate, useParams } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { useEffect } from "react"
+} from "../todolistReducerReactRedux"
 
 type TodolistsListPropsType = {}
 
 export const TodolistsList = ({}: TodolistsListPropsType) => {
   const dispatch = useAppDispatch()
 
-  const isLoggedIn = useSelector<RootState, boolean>(
-    (state) => state.auth.isLoggedIn
-  )
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
     dispatch(getTodolistsThunk())
@@ -52,7 +50,7 @@ export const TodolistsList = ({}: TodolistsListPropsType) => {
       </Grid>
 
       <Grid container spacing={4}>
-        {todolists.map((tl) => {
+        {todolists.map((tl: any) => {
           let tasksForTodolist = tasks[tl.id]
           const changeFilterStatus = (value: FilterValue, idTodolist: string) =>
             dispatch(changeTodolistFilter(value, idTodolist))

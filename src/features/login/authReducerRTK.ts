@@ -11,7 +11,7 @@ const initialState = {
 
 //thunks
 
-const logout = createAsyncThunk("auth/logout", async (data, thunkApi) => {
+const logout = createAsyncThunk("auth/logout", async (_data, thunkApi) => {
   const { dispatch } = thunkApi
   dispatch(appActions.changeAppStatus({ status: "loading" }))
   try {
@@ -50,7 +50,7 @@ const login = createAsyncThunk(
 
 const initializedApp = createAsyncThunk(
   "auth/initializedApp",
-  async (initialState, thunkApi) => {
+  async (_, thunkApi) => {
     const { dispatch, rejectWithValue } = thunkApi
     dispatch(appActions.changeAppStatus({ status: "loading" }))
     try {
@@ -76,14 +76,14 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(initializedApp.fulfilled, (state, action) => {
+      .addCase(initializedApp.fulfilled, (state, _action) => {
         state.isLoggedIn = true
         state.isInitialized = true
       })
-      .addCase(initializedApp.rejected, (state, thunkApi) => {
+      .addCase(initializedApp.rejected, (state, _thunkApi) => {
         state.isInitialized = true
       })
-      .addCase(login.rejected, (state, thunkApi) => {
+      .addCase(login.rejected, (state, _thunkApi) => {
         state.isInitialized = true
         state.isLoggedIn = false
       })
@@ -97,7 +97,7 @@ const slice = createSlice({
             state.isInitialized = true
           }
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state, _action) => {
         state.isLoggedIn = false
       })
   },

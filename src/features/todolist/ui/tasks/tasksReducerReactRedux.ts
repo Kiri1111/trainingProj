@@ -1,17 +1,14 @@
-import { TasksState } from "../App"
+import { Dispatch } from "redux"
+import { TasksState } from "../../../../App"
 import {
   TaskForUpdateType,
-  tasksApi,
   TaskStatuses,
   TaskType,
-} from "../api/tasksApi"
-import { Dispatch } from "redux"
-import { RootState } from "../state/store"
-import { appActions } from "./appReducerRTK"
-import {
-  AddTodolistType,
-  RemoveTodolistType,
-} from "./todolistReducerReactRedux"
+  tasksApi,
+} from "../../../../api/tasksApi"
+import { appActions } from "../../../../model/appReducerRTK"
+import { RootState } from "../../../../state/store"
+import { AddTodolistType, RemoveTodolistType } from "../../todolistReducerReactRedux"
 
 type AddTask = ReturnType<typeof addNewTask>
 type DeleteTask = ReturnType<typeof deleteTaskAction>

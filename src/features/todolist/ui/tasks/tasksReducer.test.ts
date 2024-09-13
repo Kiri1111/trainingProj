@@ -1,5 +1,4 @@
 import { v1 } from "uuid"
-import { TasksState } from "../App"
 import {
   addNewTask,
   changeTaskStatusAction,
@@ -8,7 +7,8 @@ import {
   tasksReducer,
 } from "./tasksReducerReactRedux"
 import { log } from "console"
-import { TaskPriority, TaskStatuses } from "../api/tasksApi"
+import { TasksState } from "../../../../App"
+import { TaskPriority, TaskStatuses } from "../../../../api/tasksApi"
 
 const idTodolist1 = v1()
 const idTodolist2 = v1()

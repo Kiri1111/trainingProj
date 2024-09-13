@@ -1,8 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { TodolistType, todolistsApi } from "../api/todolistsApi"
-import { FilterValue } from "../App"
 import { v1 } from "uuid"
-import { appActions } from "./appReducerRTK"
+import { TodolistType, todolistsApi } from "../../api/todolistsApi"
+import { FilterValue } from "../../App"
+import { appActions } from "../../model/appReducerRTK"
 
 export type TodolistDomainType = TodolistType & { filter: FilterValue }
 type InitialStateType = typeof initialState
@@ -60,7 +60,7 @@ export const deleteTodolist = createAsyncThunk(
     try {
       const res = await todolistsApi.deleteTodolist(todolistId)
       if (res.data.resultCode === 0) {
-        return { res,todolistId }
+        return { res, todolistId }
       }
     } catch (e: any) {
       dispatch(appActions.setAppError({ error: e.toString() }))
@@ -114,7 +114,7 @@ const slice = createSlice({
         const index = state.findIndex(
           (tl) => tl.id === action.payload?.todolistId
         )
-        state.splice(index,1)
+        state.splice(index, 1)
       })
   },
 })

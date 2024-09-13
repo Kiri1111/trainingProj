@@ -1,9 +1,9 @@
 import { v1 } from "uuid"
-import { FilterValue } from "../App"
-import { todolistsApi, TodolistType } from "../api/todolistsApi"
 import { Dispatch } from "redux"
-import { RootState } from "../state/store"
-import { appActions } from "./appReducerRTK"
+import { TodolistType, todolistsApi } from "../../api/todolistsApi"
+import { FilterValue } from "../../App"
+import { appActions } from "../../model/appReducerRTK"
+import { RootState } from "../../state/store"
 
 export type AddTodolistType = ReturnType<typeof addTodolistAction>
 export type RemoveTodolistType = ReturnType<typeof removeTodolist>
