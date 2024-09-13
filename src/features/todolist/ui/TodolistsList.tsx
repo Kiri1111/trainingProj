@@ -1,14 +1,14 @@
-import { useAppLogic } from "./useAppLogic"
-import { AddItemForm } from "./components/AddItemForm"
+import { useAppLogic } from "../../../useAppLogic"
+import { AddItemForm } from "../../../common/components/AddItemForm"
 import Grid from "@mui/material/Unstable_Grid2"
 import Paper from "@mui/material/Paper"
 import {
   changeTodolistFilter,
   getTodolistsThunk,
-} from "./model/todolistReducerReactRedux"
+} from "../../../model/todolistReducerReactRedux"
 import { Todolist } from "./Todolist"
-import { RootState, useAppDispatch } from "./state/store"
-import { FilterValue } from "./App"
+import { RootState, useAppDispatch } from "../../../state/store"
+import { FilterValue } from "../../../App"
 import { Link, Navigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useEffect } from "react"

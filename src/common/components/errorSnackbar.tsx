@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box"
 import Snackbar from "@mui/material/Snackbar"
 import { useSelector } from "react-redux"
-import { RootState, useAppDispatch } from "../state/store"
-import { ErrorMessageType, appActions } from "../model/appReducerRTK"
+import { RootState, useAppDispatch } from "../../state/store"
+import { ErrorMessageType, appActions } from "../../model/appReducerRTK"
 
 export function ErrorSnackbar() {
   const error = useSelector<RootState, ErrorMessageType>(
