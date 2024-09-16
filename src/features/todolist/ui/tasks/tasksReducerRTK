@@ -11,13 +11,20 @@ const initialState: TasksState = {}
 const fetchTasks = createAsyncThunk(
   "tasks/fetchTasks",
   async (todolistId: string, thunkApi) => {
-    const { dispatch } = thunkApi
-    // dispatch(appActions.changeAppStatus({ status: "loading" }))
-    const res = await tasksApi.getTasks(todolistId)
-    const tasks = res.data.items
-    return { tasks, todolistId }
-    // dispatch(tasksActions.setTasks({ tasks, todolistId }))
-    // dispatch(appActions.changeAppStatus({ status: "succes" }))
+    const { dispatch, rejectWithValue } = thunkApi
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
+    try {
+      const res = await tasksApi.getTasks(todolistId)
+      const tasks = res.data.items
+      if (res.data.resultCode === 0) {
+        return { tasks, todolistId }
+      }
+    } catch (e: any) {
+      dispatch(appActions.setAppError({ error: e.toString() }))
+      rejectWithValue(null)
+    } finally {
+      dispatch(appActions.changeAppStatus({ status: "succes" }))
+    }
   }
 )
 
@@ -54,10 +61,10 @@ const slice = createSlice({
       }
     },
     // setTasks: (
-      // state,
-      // action: PayloadAction<{ tasks: TaskType[]; todolistId: string }>
+    // state,
+    // action: PayloadAction<{ tasks: TaskType[]; todolistId: string }>
     // ) => {
-      // state[action.payload.todolistId] = action.payload.tasks
+    // state[action.payload.todolistId] = action.payload.tasks
     // },
   },
   extraReducers: (builder) =>
@@ -74,8 +81,9 @@ const slice = createSlice({
         })
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
-        state[action.payload.todolistId] = action.payload.tasks
-      }),
+        state[action.payload!.todolistId] = action.payload!.tasks
+      })
+  
 })
 
 export const tasksReducer = slice.reducer
