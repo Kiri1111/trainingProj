@@ -6,6 +6,7 @@ import { appActions } from "../../model/appReducerRTK"
 
 export type TodolistDomainType = TodolistType & { filter: FilterValue }
 type InitialStateType = typeof initialState
+type dataForUpdateTodolistType = { todolistId: string; newTitle: string }
 
 export const idTodolist1 = v1()
 export const idTodolist2 = v1()
@@ -16,7 +17,7 @@ const initialState: TodolistDomainType[] = []
 
 export const getTodolists = createAsyncThunk(
   "todolists/getTodolists",
-  async (state, thunkApi) => {
+  async (arg, thunkApi) => {
     const { dispatch, rejectWithValue } = thunkApi
     dispatch(appActions.changeAppStatus({ status: "loading" }))
     try {
@@ -61,6 +62,29 @@ export const deleteTodolist = createAsyncThunk(
       const res = await todolistsApi.deleteTodolist(todolistId)
       if (res.data.resultCode === 0) {
         return { res, todolistId }
+      }
+    } catch (e: any) {
+      dispatch(appActions.setAppError({ error: e.toString() }))
+      rejectWithValue(null)
+    } finally {
+      dispatch(appActions.changeAppStatus({ status: "succes" }))
+    }
+  }
+)
+
+export const updateTodolist = createAsyncThunk(
+  "todolist/updateTodolist",
+  async (arg: dataForUpdateTodolistType, thunkApi) => {
+    const { dispatch, rejectWithValue } = thunkApi
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
+    try {
+      const res = await todolistsApi.updateTodolist(
+        arg.todolistId,
+        arg.newTitle
+      )
+      if (res.data.resultCode === 0) {
+        arg.newTitle
+        return { arg }
       }
     } catch (e: any) {
       dispatch(appActions.setAppError({ error: e.toString() }))
@@ -116,12 +140,18 @@ const slice = createSlice({
         )
         state.splice(index, 1)
       })
+      .addCase(updateTodolist.fulfilled, (state, action) => {
+        const index = state.findIndex(
+          (tl) => tl.id === action.payload?.arg.todolistId
+        )
+        state[index].title != action.payload?.arg.newTitle
+      })
   },
 })
 
 export const todolistReducer = slice.reducer
 
-export const todolistThunks = { getTodolists, addTodolist }
+export const todolistThunks = { getTodolists, addTodolist, deleteTodolist }
 
 export const todolistsActions = slice.actions
 // export const {removeTodolist,addTodolist,setTodolists} = slice.actions

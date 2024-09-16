@@ -1,8 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { TasksState } from "../App"
-import { TaskForUpdateType, TaskType, tasksApi } from "../api/tasksApi"
-import { todolistsActions } from "./todolistReducerRTK"
-import { appActions } from "./appReducerRTK"
+import { TasksState } from "../../../../App"
+import { TaskForUpdateType, TaskType, tasksApi } from "../../../../api/tasksApi"
+import { todolistsActions } from "../../todolistReducerRTK"
+import { appActions } from "../../../../model/appReducerRTK"
 
 const initialState: TasksState = {}
 
