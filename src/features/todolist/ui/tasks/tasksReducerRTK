@@ -34,9 +34,27 @@ const addTask = createAsyncThunk(
     const { dispatch, rejectWithValue } = thunkApi
     try {
       const res = await tasksApi.createTask(arg.todolistId, arg.title)
-      const task=res.data.data.item[arg.todolistId]
+      const task = res.data.data.item[arg.todolistId]
       if (res.data.resultCode === 0) {
-        return {task}
+        return { task }
+      }
+    } catch (e: any) {
+      dispatch(appActions.setAppError({ error: e.toString() }))
+      rejectWithValue(null)
+    } finally {
+      dispatch(appActions.changeAppStatus({ status: "succes" }))
+    }
+  }
+)
+
+const deleteTask = createAsyncThunk(
+  "tasks/deleteTask",
+  async (arg: { taskId: string; todolistId: string }, thunkApi) => {
+    const { dispatch, rejectWithValue } = thunkApi
+    try {
+      const res = await tasksApi.deleteTask(arg.taskId, arg.todolistId)
+      if (res.data.resultCode === 0) {
+        return { arg }
       }
     } catch (e: any) {
       dispatch(appActions.setAppError({ error: e.toString() }))
@@ -105,7 +123,14 @@ const slice = createSlice({
       .addCase(addTask.fulfilled, (state, action) => {
         const tasks = state[action.payload?.task.todoListId]
         tasks.unshift(action.payload!.task)
-  })
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        const tasks = state[action.payload!.arg.todolistId]
+        const index = tasks.findIndex(
+          (t) => t.id === action.payload?.arg.taskId
+        )
+        state[action.payload!.arg.todolistId].splice(index, 1)
+      }),
 })
 
 export const tasksReducer = slice.reducer

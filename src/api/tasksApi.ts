@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from "axios"
 
 const instance = axios.create({
-  baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+  baseURL: "https://social-network.samuraijs.com/api/1.1/",
   withCredentials: true,
   headers: {
-    'API-KEY': '3f0bd518-e3ef-420a-b8dc-d517a6d5a7f7',
+    "API-KEY": "3f0bd518-e3ef-420a-b8dc-d517a6d5a7f7",
   },
 })
 
@@ -13,15 +13,21 @@ export const tasksApi = {
     return instance.get<ResponseGetTaskType>(`todo-lists/${idTodolist}/tasks`)
   },
   createTask(idTodolist: string, title: string) {
-    return instance.post<ResponseTaskType<{ item: TaskType }>>(`todo-lists/${idTodolist}/tasks`, {
-      title,
-    })
+    return instance.post<ResponseTaskType<{ item: TaskType }>>(
+      `todo-lists/${idTodolist}/tasks`,
+      {
+        title,
+      }
+    )
   },
   updateTask(idTodolist: string, idTask: string, task: TaskForUpdateType) {
-    return instance.put<ResponseGetTaskType>(`todo-lists/${idTodolist}/tasks/${idTask}`, task)
+    return instance.put<ResponseGetTaskType>(
+      `todo-lists/${idTodolist}/tasks/${idTask}`,
+      task
+    )
   },
   deleteTask(idTodolist: string, idTask: string) {
-    return instance.delete<AxiosResponse<ResponseTaskType>>(
+    return instance.delete<ResponseTaskType>(
       `todo-lists/${idTodolist}/tasks/${idTask}`
     )
   },
