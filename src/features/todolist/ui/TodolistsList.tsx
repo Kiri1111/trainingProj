@@ -8,10 +8,7 @@ import { Link, Navigate, useParams } from "react-router-dom"
 import { useEffect } from "react"
 import { useAppDispatch } from "../../../common/hooks/useAppDispatch"
 import { useAppSelector } from "../../../common/hooks/useAppSelector"
-import {
-  changeTodolistFilter,
-  getTodolistsThunk,
-} from "../todolistReducerReactRedux"
+import { todolistThunks, todolistsActions } from "../todolistReducerRTK"
 
 type TodolistsListPropsType = {}
 
@@ -21,7 +18,7 @@ export const TodolistsList = ({}: TodolistsListPropsType) => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
-    dispatch(getTodolistsThunk())
+    dispatch(todolistThunks.getTodolists())
   }, [])
 
   const {
@@ -53,7 +50,7 @@ export const TodolistsList = ({}: TodolistsListPropsType) => {
         {todolists.map((tl: any) => {
           let tasksForTodolist = tasks[tl.id]
           const changeFilterStatus = (value: FilterValue, idTodolist: string) =>
-            dispatch(changeTodolistFilter(value, idTodolist))
+            dispatch(todolistsActions.changeTodolistFilter({ idTodolist, filter:value }))
 
           return (
             <Grid key={tl.id}>

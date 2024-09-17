@@ -40,7 +40,7 @@ const addTask = createAsyncThunk(
     const { dispatch, rejectWithValue } = thunkApi
     try {
       const res = await tasksApi.createTask(arg.todolistId, arg.title)
-      const task = res.data.data.item[arg.todolistId]
+      const task = res.data.data.item
       if (res.data.resultCode === 0) {
         return { task }
       }
@@ -80,7 +80,7 @@ const updateTask = createAsyncThunk(
     const { dispatch, rejectWithValue, getState } = thunkApi
     const rootState: any = getState()
     const task = rootState.tasks[arg.todolistId].find(
-      (t) => t.id === arg.taskId
+      (t:any) => t.id === arg.taskId
     )
     const taskModel: TaskForUpdateType = {
       title: task.title,
@@ -173,7 +173,7 @@ const slice = createSlice({
         state[action.payload!.todolistId] = action.payload!.tasks
       })
       .addCase(addTask.fulfilled, (state, action) => {
-        const tasks = state[action.payload?.task.todoListId]
+        const tasks = state[action.payload!.task.todoListId]
         tasks.unshift(action.payload!.task)
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
@@ -187,6 +187,6 @@ const slice = createSlice({
 
 export const tasksReducer = slice.reducer
 
-export const tasksThunks = { fetchTasks, addTask, deleteTask }
+export const tasksThunks = { fetchTasks, addTask, deleteTask ,updateTask}
 
 export const tasksActions = slice.actions

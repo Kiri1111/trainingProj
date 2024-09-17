@@ -106,13 +106,13 @@ const slice = createSlice({
     ) => {
       state.unshift({ ...action.payload.todolist, filter: "all" })
     },
-    changeTodolistTitle: (
+    changeTodolistFilter: (
       state: InitialStateType,
-      action: PayloadAction<{ idTodolist: string; title: string }>
+      action: PayloadAction<{ idTodolist: string; filter: FilterValue }>
     ) => {
       const todo = state.find((t) => t.id === action.payload.idTodolist)
       if (todo) {
-        todo.title = action.payload.title
+        todo.filter = action.payload.filter
       }
     },
     setTodolists: (
@@ -159,4 +159,3 @@ export const todolistThunks = {
 }
 
 export const todolistsActions = slice.actions
-// export const {removeTodolist,addTodolist,setTodolists} = slice.actions

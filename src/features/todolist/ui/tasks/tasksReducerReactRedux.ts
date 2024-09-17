@@ -182,7 +182,7 @@ export const updateTaskStatus =
   (idTask: string, idTodolist: string, status: TaskStatuses) =>
   (dispatch: Dispatch, getState: () => RootState) => {
     const rootState = getState()
-    const task = rootState.tasks[idTodolist].find((t) => t.id === idTask)
+    const task = rootState.tasks[idTodolist].find((t:any) => t.id === idTask)
 
     if (task) {
       const taskForApi: TaskForUpdateType = {

@@ -1,48 +1,42 @@
 import { TaskStatuses } from "./api/tasksApi"
 import { useAppDispatch } from "./common/hooks/useAppDispatch"
 import { useAppSelector } from "./common/hooks/useAppSelector"
+import { todolistThunks } from "./features/todolist/todolistReducerRTK"
 import {
-  addTodolistThunk,
-  deleteTodolistThunk,
-  updateTodolistThunk,
-} from "./features/todolist/todolistReducerReactRedux"
-import {
-  changeTaskTitleAction,
-  createNewTask,
-  removeTask,
-  updateTaskStatus,
-} from "./features/todolist/ui/tasks/tasksReducerReactRedux"
+  tasksActions,
+  tasksThunks,
+} from "./features/todolist/ui/tasks/tasksReducerRTK"
 
 export const useAppLogic = () => {
   const tasks = useAppSelector((state) => state.tasks)
   const todolists = useAppSelector((state) => state.todolists)
   const dispatch = useAppDispatch()
 
-  const addTask = (title: string, idTodolist: string): any =>
-    dispatch(createNewTask(idTodolist, title))
+  const addTask = (title: string, todolistId: string): any =>
+    dispatch(tasksThunks.addTask({ title, todolistId }))
 
-  const deleteTask = (idTask: string, idTodolist: string): any => {
-    dispatch(removeTask(idTodolist, idTask))
+  const deleteTask = (taskId: string, todolistId: string): any => {
+    dispatch(tasksThunks.deleteTask({ taskId, todolistId }))
   }
 
   const changeTaskStatus = (
-    idTask: string,
+    taskId: string,
     status: TaskStatuses,
-    idTodolist: string
+    todolistId: string
   ) => {
-    dispatch(updateTaskStatus(idTask, idTodolist, status))
+    dispatch(tasksThunks.updateTask({ taskId, todolistId, status }))
   }
 
-  const deleteTodolist = (idTodolist: string) => {
-    dispatch(deleteTodolistThunk(idTodolist))
+  const deleteTodolist = (todolistId: string) => {
+    dispatch(todolistThunks.deleteTodolist(todolistId))
   }
 
   const addTodolist = (newTodolistTitle: string) => {
-    dispatch(addTodolistThunk(newTodolistTitle))
+    dispatch(todolistThunks.addTodolist(newTodolistTitle))
   }
 
-  const changeTitleTodolist = (editTitle: string, idTodolist: string) => {
-    dispatch(updateTodolistThunk(idTodolist, editTitle))
+  const changeTitleTodolist = (newTitle: string, todolistId: string) => {
+    dispatch(todolistThunks.updateTodolist({ todolistId, newTitle }))
   }
 
   const changeTaskTitle = (
@@ -50,7 +44,7 @@ export const useAppLogic = () => {
     idTodolist: string,
     idTask: string
   ) => {
-    dispatch(changeTaskTitleAction(editTitle, idTask, idTodolist))
+    // dispatch(tasksActions.updateTask(editTitle, idTask, idTodolist))
   }
 
   return {

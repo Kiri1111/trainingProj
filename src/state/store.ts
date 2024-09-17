@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux"
 import { configureStore } from "@reduxjs/toolkit"
 import { appReducer } from "../model/appReducerRTK"
 import { authReducer } from "../features/login/authReducerRTK"
-import { tasksReducer } from "../features/todolist/ui/tasks/tasksReducerReactRedux"
-import { todolistReducer } from "../features/todolist/todolistReducerReactRedux"
+import { tasksReducer } from "../features/todolist/ui/tasks/tasksReducerRTK"
+import { todolistReducer } from "../features/todolist/todolistReducerRTK"
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,

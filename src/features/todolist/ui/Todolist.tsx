@@ -13,7 +13,7 @@ import { TaskView } from "./tasks/Task"
 import { TaskStatuses, TaskType } from "../../../api/tasksApi"
 import { useAppDispatch } from "../../../common/hooks/useAppDispatch"
 import { useAppSelector } from "../../../common/hooks/useAppSelector"
-import { getTasks } from "./tasks/tasksReducerReactRedux"
+import { tasksThunks } from "./tasks/tasksReducerRTK"
 
 type TodolistProps = {
   idTodolist: string
@@ -42,10 +42,11 @@ export const Todolist = React.memo((props: TodolistProps) => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (
+      isLoggedIn) {
       return
     }
-    dispatch(getTasks(props.idTodolist))
+    dispatch(tasksThunks.fetchTasks(props.idTodolist))
   }, [])
 
   const changeAllFilter = () =>
