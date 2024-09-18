@@ -83,7 +83,6 @@ export const updateTodolist = createAsyncThunk(
         arg.newTitle
       )
       if (res.data.resultCode === 0) {
-        arg.newTitle
         return { arg }
       }
     } catch (e: any) {
@@ -144,7 +143,7 @@ const slice = createSlice({
         const index = state.findIndex(
           (tl) => tl.id === action.payload?.arg.todolistId
         )
-        state[index].title != action.payload?.arg.newTitle
+        state[index].title = action.payload!.arg.newTitle
       })
   },
 })

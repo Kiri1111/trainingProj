@@ -21,9 +21,9 @@ export const tasksApi = {
     )
   },
   updateTask(idTodolist: string, idTask: string, task: TaskForUpdateType) {
-    return instance.put<ResponseGetTaskType>(
+    return instance.put<ResponseTaskType>(
       `todo-lists/${idTodolist}/tasks/${idTask}`,
-      task
+      task 
     )
   },
   deleteTask(idTodolist: string, idTask: string) {
@@ -65,7 +65,6 @@ type ResponseGetTaskType = {
   items: TaskType[]
   totalCount: number
   error: null
-  resultCode: number
 }
 
 type ResponseTaskType<T = {}> = {

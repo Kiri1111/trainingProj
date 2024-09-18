@@ -42,8 +42,7 @@ export const Todolist = React.memo((props: TodolistProps) => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
-    if (
-      isLoggedIn) {
+    if (!isLoggedIn) {
       return
     }
     dispatch(tasksThunks.fetchTasks(props.idTodolist))

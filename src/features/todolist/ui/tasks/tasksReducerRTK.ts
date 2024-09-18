@@ -22,7 +22,7 @@ const fetchTasks = createAsyncThunk(
     try {
       const res = await tasksApi.getTasks(todolistId)
       const tasks = res.data.items
-      if (res.data.resultCode === 0) {
+      if (res.data.error === null) {
         return { tasks, todolistId }
       }
     } catch (e: any) {
@@ -80,7 +80,7 @@ const updateTask = createAsyncThunk(
     const { dispatch, rejectWithValue, getState } = thunkApi
     const rootState: any = getState()
     const task = rootState.tasks[arg.todolistId].find(
-      (t:any) => t.id === arg.taskId
+      (t: any) => t.id === arg.taskId
     )
     const taskModel: TaskForUpdateType = {
       title: task.title,
@@ -96,12 +96,13 @@ const updateTask = createAsyncThunk(
         arg.taskId,
         taskModel
       )
+
       if (res.data.resultCode === 0) {
         return { arg, taskModel }
       }
     } catch (e: any) {
       dispatch(appActions.setAppError({ error: e.toString() }))
-      rejectWithValue(null)
+      rejectWithValue(arg)
     } finally {
       dispatch(appActions.changeAppStatus({ status: "succes" }))
     }
@@ -111,49 +112,15 @@ const updateTask = createAsyncThunk(
 const slice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {
-    removeTask: (
-      state,
-      action: PayloadAction<{ taskId: string; todolistId: string }>
-    ) => {
-      const tasks = state[action.payload.todolistId]
-      const index = tasks.findIndex((t) => t.id === action.payload.taskId)
-      if (index !== -1) {
-        tasks.splice(index, 1)
-      }
-    },
-    addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
-      const tasks = state[action.payload.task.todoListId]
-      tasks.unshift(action.payload.task)
-    },
-    updateTask: (
-      state,
-      action: PayloadAction<{
-        taskId: string
-        model: TaskForUpdateType
-        todolistId: string
-      }>
-    ) => {
-      const tasks = state[action.payload.todolistId]
-      const index = tasks.findIndex((t) => t.id === action.payload.taskId)
-      if (index !== -1) {
-        tasks[index] = { ...tasks[index], ...action.payload.model }
-      }
-    },
-    // setTasks: (
-    // state,
-    // action: PayloadAction<{ tasks: TaskType[]; todolistId: string }>
-    // ) => {
-    // state[action.payload.todolistId] = action.payload.tasks
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) =>
     builder
       .addCase(updateTask.fulfilled, (state, action) => {
         const tasks = state[action.payload!.arg.todolistId]
         const index = tasks.findIndex(
-          (t) => t.id === action.payload?.arg.taskId
+          (t) => t.id === action.payload!.arg.taskId
         )
+
         if (index !== -1) {
           tasks[index] = { ...tasks[index], ...action.payload?.taskModel }
         }
@@ -177,16 +144,21 @@ const slice = createSlice({
         tasks.unshift(action.payload!.task)
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
+        console.log(action)
+
         const tasks = state[action.payload!.arg.todolistId]
         const index = tasks.findIndex(
           (t) => t.id === action.payload?.arg.taskId
         )
         state[action.payload!.arg.todolistId].splice(index, 1)
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
+        console.log(action)
       }),
 })
 
 export const tasksReducer = slice.reducer
 
-export const tasksThunks = { fetchTasks, addTask, deleteTask ,updateTask}
+export const tasksThunks = { fetchTasks, addTask, deleteTask, updateTask }
 
 export const tasksActions = slice.actions
