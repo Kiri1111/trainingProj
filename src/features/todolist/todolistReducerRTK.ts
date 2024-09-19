@@ -3,6 +3,7 @@ import { v1 } from "uuid"
 import { TodolistType, todolistsApi } from "../../api/todolistsApi"
 import { FilterValue } from "../../App"
 import { appActions } from "../../model/appReducerRTK"
+import { ResultCode } from "../../common/resultCodes"
 
 export type TodolistDomainType = TodolistType & { filter: FilterValue }
 type InitialStateType = typeof initialState
@@ -39,7 +40,7 @@ export const addTodolist = createAsyncThunk(
     dispatch(appActions.changeAppStatus({ status: "loading" }))
     try {
       const res = await todolistsApi.createTodolist(title)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { res }
       } else {
         dispatch(appActions.setAppError({ error: res.data.messages[0] }))
@@ -60,7 +61,7 @@ export const deleteTodolist = createAsyncThunk(
     dispatch(appActions.changeAppStatus({ status: "loading" }))
     try {
       const res = await todolistsApi.deleteTodolist(todolistId)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { res, todolistId }
       }
     } catch (e: any) {
@@ -82,7 +83,7 @@ export const updateTodolist = createAsyncThunk(
         arg.todolistId,
         arg.newTitle
       )
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { arg }
       }
     } catch (e: any) {

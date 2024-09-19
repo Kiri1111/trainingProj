@@ -1,4 +1,4 @@
-import { useAppLogic } from "../../../useAppLogic"
+import { useAppLogic } from "../../../common/hooks/useAppLogic"
 import { AddItemForm } from "../../../common/components/AddItemForm"
 import Grid from "@mui/material/Unstable_Grid2"
 import Paper from "@mui/material/Paper"
@@ -50,7 +50,12 @@ export const TodolistsList = ({}: TodolistsListPropsType) => {
         {todolists.map((tl: any) => {
           let tasksForTodolist = tasks[tl.id]
           const changeFilterStatus = (value: FilterValue, idTodolist: string) =>
-            dispatch(todolistsActions.changeTodolistFilter({ idTodolist, filter:value }))
+            dispatch(
+              todolistsActions.changeTodolistFilter({
+                idTodolist,
+                filter: value,
+              })
+            )
 
           return (
             <Grid key={tl.id}>

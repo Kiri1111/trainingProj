@@ -1,4 +1,5 @@
 import axios from "axios"
+import { ResultCode } from "../common/resultCodes"
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",
@@ -38,5 +39,5 @@ type MeResponseType = {
   data: { id: number; login: string; email: string }
   fieldsErrors: string[]
   messages: string[]
-  resultCode: number
+  resultCode: ResultCode
 }

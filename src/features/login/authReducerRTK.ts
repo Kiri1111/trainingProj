@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { AuthDataType, authApi } from "../../api/authApi"
 import { appActions } from "../../model/appReducerRTK"
+import { ResultCode } from "../../common/resultCodes"
 
 export type ErrorMessageType = string | null
 
@@ -16,7 +17,7 @@ const logout = createAsyncThunk("auth/logout", async (_data, thunkApi) => {
   dispatch(appActions.changeAppStatus({ status: "loading" }))
   try {
     const res = await authApi.logout()
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.Succes) {
       return { res }
     } else {
       dispatch(appActions.setAppError({ error: res.data.messages[0] }))
@@ -34,7 +35,7 @@ const login = createAsyncThunk(
     dispatch(appActions.changeAppStatus({ status: "loading" }))
     try {
       const res = await authApi.login(data)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { res }
       } else {
         dispatch(appActions.setAppError({ error: res.data.messages[0] }))
@@ -55,7 +56,7 @@ const initializedApp = createAsyncThunk(
     dispatch(appActions.changeAppStatus({ status: "loading" }))
     try {
       const res = await authApi.me()
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { res }
       } else {
         dispatch(appActions.setAppError({ error: res.data.messages[0] }))

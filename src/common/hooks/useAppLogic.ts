@@ -1,11 +1,11 @@
-import { TaskStatuses } from "./api/tasksApi"
-import { useAppDispatch } from "./common/hooks/useAppDispatch"
-import { useAppSelector } from "./common/hooks/useAppSelector"
-import { todolistThunks } from "./features/todolist/todolistReducerRTK"
+import { TaskStatuses } from "../../api/tasksApi"
+import { useAppDispatch } from "./useAppDispatch"
+import { useAppSelector } from "./useAppSelector"
+import { todolistThunks } from "../../features/todolist/todolistReducerRTK"
 import {
   tasksActions,
   tasksThunks,
-} from "./features/todolist/ui/tasks/tasksReducerRTK"
+} from "../../features/todolist/ui/tasks/tasksReducerRTK"
 
 export const useAppLogic = () => {
   const tasks = useAppSelector((state) => state.tasks)

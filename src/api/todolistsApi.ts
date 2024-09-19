@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios"
+import { ResultCode } from "../common/resultCodes"
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",
@@ -16,10 +17,9 @@ export const todolistsApi = {
     return instance.delete<ResponseTodolistType>(`todo-lists/${idTodolist}`)
   },
   updateTodolist(idTodolist: string, title: string) {
-    return instance.put<ResponseTodolistType>(
-      `todo-lists/${idTodolist}`,
-      { title }
-    )
+    return instance.put<ResponseTodolistType>(`todo-lists/${idTodolist}`, {
+      title,
+    })
   },
   createTodolist(title: string) {
     return instance.post<ResponseTodolistType<{ item: TodolistType }>>(
@@ -37,7 +37,7 @@ export type TodolistType = {
 }
 
 type ResponseTodolistType<T = {}> = {
-  resultCode: number
+  resultCode: ResultCode.Succes
   messages: string[]
   fieldsErrors: FieldErrorType[]
   data: T

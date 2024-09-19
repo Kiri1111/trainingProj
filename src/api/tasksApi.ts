@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios"
+import { ResultCode } from "../common/resultCodes"
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",
@@ -23,7 +24,7 @@ export const tasksApi = {
   updateTask(idTodolist: string, idTask: string, task: TaskForUpdateType) {
     return instance.put<ResponseTaskType>(
       `todo-lists/${idTodolist}/tasks/${idTask}`,
-      task 
+      task
     )
   },
   deleteTask(idTodolist: string, idTask: string) {
@@ -71,7 +72,7 @@ type ResponseTaskType<T = {}> = {
   data: T
   messages: string[]
   fieldsErrors: string[]
-  resultCode: number
+  resultCode: ResultCode.Succes
 }
 
 export type TaskForUpdateType = {

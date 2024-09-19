@@ -9,6 +9,7 @@ import {
 import { todolistsActions } from "../../todolistReducerRTK"
 import { appActions } from "../../../../model/appReducerRTK"
 import { RootState } from "../../../../state/store"
+import { ResultCode } from "../../../../common/resultCodes"
 
 const initialState: TasksState = {}
 
@@ -41,7 +42,7 @@ const addTask = createAsyncThunk(
     try {
       const res = await tasksApi.createTask(arg.todolistId, arg.title)
       const task = res.data.data.item
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { task }
       }
     } catch (e: any) {
@@ -59,7 +60,7 @@ const deleteTask = createAsyncThunk(
     const { dispatch, rejectWithValue } = thunkApi
     try {
       const res = await tasksApi.deleteTask(arg.taskId, arg.todolistId)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { arg }
       }
     } catch (e: any) {
@@ -97,7 +98,7 @@ const updateTask = createAsyncThunk(
         taskModel
       )
 
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.Succes) {
         return { arg, taskModel }
       }
     } catch (e: any) {
