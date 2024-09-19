@@ -21,13 +21,25 @@ export const tasksApi = {
       }
     )
   },
-  updateTask(idTodolist: string, idTask: string, task: TaskForUpdateType) {
+  updateTaskStatus(
+    idTodolist: string,
+    idTask: string,
+    task: TaskForUpdateType
+  ) {
+    return instance.put<ResponseTaskType>(
+      `todo-lists/${idTodolist}/tasks/${idTask}`,
+      task
+    )
+  },
+  updateTaskTitle(idTodolist: string, idTask: string, task: TaskForUpdateType) {
     return instance.put<ResponseTaskType>(
       `todo-lists/${idTodolist}/tasks/${idTask}`,
       task
     )
   },
   deleteTask(idTodolist: string, idTask: string) {
+    console.log(idTask, idTodolist)
+
     return instance.delete<ResponseTaskType>(
       `todo-lists/${idTodolist}/tasks/${idTask}`
     )

@@ -39,6 +39,8 @@ const addTask = createAsyncThunk(
   "tasks/addTask",
   async (arg: { title: string; todolistId: string }, thunkApi) => {
     const { dispatch, rejectWithValue } = thunkApi
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
+
     try {
       const res = await tasksApi.createTask(arg.todolistId, arg.title)
       const task = res.data.data.item
@@ -58,6 +60,8 @@ const deleteTask = createAsyncThunk(
   "tasks/deleteTask",
   async (arg: { taskId: string; todolistId: string }, thunkApi) => {
     const { dispatch, rejectWithValue } = thunkApi
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
+
     try {
       const res = await tasksApi.deleteTask(arg.taskId, arg.todolistId)
       if (res.data.resultCode === ResultCode.Succes) {
@@ -72,13 +76,15 @@ const deleteTask = createAsyncThunk(
   }
 )
 
-const updateTask = createAsyncThunk(
-  "tasks/updateTask",
+const updateTaskStatus = createAsyncThunk(
+  "tasks/updateTaskStatus",
   async (
     arg: { taskId: string; todolistId: string; status: TaskStatuses },
     thunkApi
   ) => {
     const { dispatch, rejectWithValue, getState } = thunkApi
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
+
     const rootState: any = getState()
     const task = rootState.tasks[arg.todolistId].find(
       (t: any) => t.id === arg.taskId
@@ -92,7 +98,47 @@ const updateTask = createAsyncThunk(
       status: arg.status,
     }
     try {
-      const res = await tasksApi.updateTask(
+      const res = await tasksApi.updateTaskStatus(
+        arg.todolistId,
+        arg.taskId,
+        taskModel
+      )
+
+      if (res.data.resultCode === ResultCode.Succes) {
+        return { arg, taskModel }
+      }
+    } catch (e: any) {
+      dispatch(appActions.setAppError({ error: e.toString() }))
+      rejectWithValue(arg)
+    } finally {
+      dispatch(appActions.changeAppStatus({ status: "succes" }))
+    }
+  }
+)
+
+const updateTaskTitle = createAsyncThunk(
+  "tasks/updateTaskTitle",
+  async (
+    arg: { taskId: string; todolistId: string; newTitle: string },
+    thunkApi
+  ) => {
+    const { dispatch, rejectWithValue, getState } = thunkApi
+    dispatch(appActions.changeAppStatus({ status: "loading" }))
+
+    const rootState: any = getState()
+    const task = rootState.tasks[arg.todolistId].find(
+      (t: any) => t.id === arg.taskId
+    )
+    const taskModel: TaskForUpdateType = {
+      title: arg.newTitle,
+      description: null,
+      priority: task.priority,
+      deadline: "",
+      startDate: "",
+      status: task.status,
+    }
+    try {
+      const res = await tasksApi.updateTaskTitle(
         arg.todolistId,
         arg.taskId,
         taskModel
@@ -116,7 +162,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
-      .addCase(updateTask.fulfilled, (state, action) => {
+      .addCase(updateTaskStatus.fulfilled, (state, action) => {
         const tasks = state[action.payload!.arg.todolistId]
         const index = tasks.findIndex(
           (t) => t.id === action.payload!.arg.taskId
@@ -145,21 +191,32 @@ const slice = createSlice({
         tasks.unshift(action.payload!.task)
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
-        console.log(action)
-
         const tasks = state[action.payload!.arg.todolistId]
         const index = tasks.findIndex(
           (t) => t.id === action.payload?.arg.taskId
         )
         state[action.payload!.arg.todolistId].splice(index, 1)
       })
-      .addCase(deleteTask.rejected, (state, action) => {
-        console.log(action)
+      .addCase(updateTaskTitle.fulfilled, (state, action) => {
+        const tasks = state[action.payload!.arg.todolistId]
+        const index = tasks.findIndex(
+          (t) => t.id === action.payload!.arg.taskId
+        )
+
+        if (index !== -1) {
+          tasks[index] = { ...tasks[index], ...action.payload?.taskModel }
+        }
       }),
 })
 
 export const tasksReducer = slice.reducer
 
-export const tasksThunks = { fetchTasks, addTask, deleteTask, updateTask }
+export const tasksThunks = {
+  fetchTasks,
+  addTask,
+  deleteTask,
+  updateTaskStatus,
+  updateTaskTitle,
+}
 
 export const tasksActions = slice.actions

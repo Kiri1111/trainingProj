@@ -1,11 +1,11 @@
 import { TaskStatuses } from "../../api/tasksApi"
-import { useAppDispatch } from "./useAppDispatch"
-import { useAppSelector } from "./useAppSelector"
 import { todolistThunks } from "../../features/todolist/todolistReducerRTK"
 import {
   tasksActions,
   tasksThunks,
 } from "../../features/todolist/ui/tasks/tasksReducerRTK"
+import { useAppDispatch } from "./useAppDispatch"
+import { useAppSelector } from "./useAppSelector"
 
 export const useAppLogic = () => {
   const tasks = useAppSelector((state) => state.tasks)
@@ -24,7 +24,7 @@ export const useAppLogic = () => {
     status: TaskStatuses,
     todolistId: string
   ) => {
-    dispatch(tasksThunks.updateTask({ taskId, todolistId, status }))
+    dispatch(tasksThunks.updateTaskStatus({ taskId, todolistId, status }))
   }
 
   const deleteTodolist = (todolistId: string) => {
@@ -40,11 +40,11 @@ export const useAppLogic = () => {
   }
 
   const changeTaskTitle = (
-    editTitle: string,
-    idTodolist: string,
-    idTask: string
+    newTitle: string,
+    todolistId: string,
+    taskId: string
   ) => {
-    // dispatch(tasksActions.updateTask(editTitle, idTask, idTodolist))
+    dispatch(tasksThunks.updateTaskTitle({ taskId, todolistId, newTitle }))
   }
 
   return {

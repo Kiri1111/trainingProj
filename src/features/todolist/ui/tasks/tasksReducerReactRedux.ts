@@ -8,7 +8,10 @@ import {
 } from "../../../../api/tasksApi"
 import { appActions } from "../../../../model/appReducerRTK"
 import { RootState } from "../../../../state/store"
-import { AddTodolistType, RemoveTodolistType } from "../../todolistReducerReactRedux"
+import {
+  AddTodolistType,
+  RemoveTodolistType,
+} from "../../todolistReducerReactRedux"
 
 type AddTask = ReturnType<typeof addNewTask>
 type DeleteTask = ReturnType<typeof deleteTaskAction>
@@ -182,7 +185,7 @@ export const updateTaskStatus =
   (idTask: string, idTodolist: string, status: TaskStatuses) =>
   (dispatch: Dispatch, getState: () => RootState) => {
     const rootState = getState()
-    const task = rootState.tasks[idTodolist].find((t:any) => t.id === idTask)
+    const task = rootState.tasks[idTodolist].find((t: any) => t.id === idTask)
 
     if (task) {
       const taskForApi: TaskForUpdateType = {
@@ -195,7 +198,7 @@ export const updateTaskStatus =
       }
       dispatch(appActions.changeAppStatus({ status: "loading" }))
       tasksApi
-        .updateTask(idTodolist, idTask, taskForApi)
+        .updateTaskStatus(idTodolist, idTask, taskForApi)
         .then((res) => {
           dispatch(changeTaskStatusAction(status, idTask, idTodolist))
         })
